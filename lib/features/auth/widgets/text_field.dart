@@ -1,4 +1,4 @@
-import 'package:church_clique/config/palette.dart';
+import 'package:church_clique/core/config/palette.dart';
 import 'package:church_clique/core/controls/obscure_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

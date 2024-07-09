@@ -1,4 +1,4 @@
-import 'package:church_clique/config/palette.dart';
+import 'package:church_clique/core/config/palette.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
 import 'package:church_clique/features/auth/widgets/submit_button.dart';

@@ -1,4 +1,4 @@
-import 'package:church_clique/config/palette.dart';
+import 'package:church_clique/core/config/palette.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
