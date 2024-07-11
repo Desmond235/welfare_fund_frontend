@@ -4,7 +4,6 @@ import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
 import 'package:church_clique/features/auth/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
-import 'package:icons_flutter/icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
