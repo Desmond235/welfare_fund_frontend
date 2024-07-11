@@ -21,6 +21,10 @@ class AuthProvider extends ChangeNotifier{
     _isMale =!_isMale;
     notifyListeners();
   }
+  void checkIsRememberMe(bool value){
+    _isRememberMe = value;
+    notifyListeners();
+  }
    bool get isSignUp => _isSignUp;
   bool get isRememberMe => _isRememberMe;
   bool get isMale => _isMale;

@@ -12,11 +12,13 @@ class SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: isSignupScreen ? 543 : 430,
+      top: isSignupScreen ? 543 : 445,
       right: 0,
       left: 0,
       child: Center(
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 700),
+          curve: Curves.bounceInOut,
           width: 90,
           height: 90,
           padding: const EdgeInsets.all(15),

@@ -1,8 +1,10 @@
 import 'package:church_clique/core/config/palette.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
+import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
 import 'package:church_clique/features/auth/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_flutter/icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
@@ -75,8 +77,44 @@ class AuthScreen extends StatelessWidget {
                   ),
                 ),
                 SubmitButton(isSignupScreen: isSignupScreen, isShadow: true),
-                BuildSignIn(isSignupScreen: isSignupScreen),
-                SubmitButton(isSignupScreen: isSignupScreen, isShadow: false,)
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 700),
+                  curve: Curves.bounceInOut,
+                  top: isSignupScreen ? 200 : 230,
+                  child: AnimatedContainer(
+                    duration: const Duration(microseconds: 700) ,
+                    curve: Curves.bounceInOut,
+                    width: MediaQuery.of(context).size.width - 40,
+                    height: isSignupScreen ? 390 : 260,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                        ),
+                      ],
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          if (isSignupScreen)
+                            SignUpWidget(isSignupScreen: isSignupScreen),
+                          if (!isSignupScreen)
+                            SignInWidget(isSignupScreen: isSignupScreen),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SubmitButton(
+                  isSignupScreen: isSignupScreen,
+                  isShadow: false,
+                )
               ],
             );
           },
@@ -85,4 +123,3 @@ class AuthScreen extends StatelessWidget {
     );
   }
 }
-
