@@ -6,9 +6,11 @@ class SubmitButton extends StatelessWidget {
     super.key,
     required this.isSignupScreen,
     required this.isShadow,
+    this.onTap
   });
   final bool isSignupScreen;
   final bool isShadow;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -35,7 +37,7 @@ class SubmitButton extends StatelessWidget {
           ),
           child: !isShadow
               ? InkWell(
-                  onTap: () {},
+                  onTap: onTap,
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),

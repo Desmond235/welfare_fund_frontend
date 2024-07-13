@@ -1,16 +1,24 @@
 import 'package:church_clique/core/config/palette.dart';
+import 'package:church_clique/core/controls/obscure_text.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
-import 'package:church_clique/features/auth/widgets/signup/pass_txt_field.dart';
-import 'package:church_clique/features/auth/widgets/text_field.dart';
+import 'package:church_clique/core/constants.dart/input_control.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-class SignInWidget extends StatelessWidget {
+class SignInWidget extends StatefulWidget {
   const SignInWidget({super.key, required bool isSignupScreen})
       : _isSignUpScreen = isSignupScreen;
   final bool _isSignUpScreen;
 
+  @override
+  State<SignInWidget> createState() => _SignInWidgetState();
+}
+
+class _SignInWidgetState extends State<SignInWidget> {
+  bool showPassword = true;
+    final passwordController = TextEditingController();
+    final obscureTextController = ObscuringTextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,12 +38,12 @@ class SignInWidget extends StatelessWidget {
                       "LOGIN",
                       style: TextStyle(
                         fontSize: 16,
-                        color: !_isSignUpScreen
+                        color: !widget._isSignUpScreen
                             ? Palette.activeColor
                             : Palette.textColor1,
                       ),
                     ),
-                    if (!_isSignUpScreen)
+                    if (!widget._isSignUpScreen)
                       Container(
                         height: 5,
                         width: 55,
@@ -58,12 +66,12 @@ class SignInWidget extends StatelessWidget {
                       'SIGNUP',
                       style: TextStyle(
                         fontSize: 16,
-                        color: _isSignUpScreen
+                        color: widget._isSignUpScreen
                             ? Palette.activeColor
                             : Palette.textColor1,
                       ),
                     ),
-                    if (_isSignUpScreen)
+                    if (widget._isSignUpScreen)
                       Container(
                         height: 5,
                         width: 55,
@@ -81,7 +89,43 @@ class SignInWidget extends StatelessWidget {
             isEmail: true,
             isPassword: false,
           ),
-          PassTxtField(hintText: '*************'),
+        TextFormField(
+      controller: showPassword ? passwordController : obscureTextController,
+      decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(10),
+          hintText: "Password",
+          hintStyle: TextStyle(color: Palette.textColor1),
+          prefixIcon: Icon(
+            MaterialCommunityIcons.lock,
+            color: Palette.textColor1,
+          ),
+          suffixIcon: IconButton(
+            onPressed: () {
+              if (showPassword) {
+                obscureTextController.text = passwordController.text;
+                obscureTextController.selection = TextSelection.collapsed(
+                    offset: obscureTextController.text.length);
+              } else {
+                passwordController.text = obscureTextController.text;
+                passwordController.selection = TextSelection.collapsed(
+                    offset: passwordController.text.length);
+              }
+              setState(() {
+                showPassword = !showPassword;
+              });
+            },
+            icon: Icon(
+              showPassword ? Icons.visibility : Icons.visibility_off,
+              color: Palette.iconColor,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(35),
+              borderSide: const BorderSide(color: Palette.textColor1)),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(35),
+              borderSide: const BorderSide(color: Palette.textColor1))),
+    ),
           Consumer<AuthProvider>(
             builder: (context, ref, child) {
               final isRememberMe = ref.isRememberMe;

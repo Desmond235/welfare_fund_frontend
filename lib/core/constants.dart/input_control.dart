@@ -1,36 +1,10 @@
 import 'package:church_clique/core/config/palette.dart';
-import 'package:church_clique/features/auth/widgets/signup/pass_txt_field.dart';
+import 'package:church_clique/core/controls/obscure_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:icons_flutter/icons_flutter.dart';
-
-// ignore: must_be_immutable
-class TextFieldWidget extends StatelessWidget {
-   TextFieldWidget({
-    super.key,
-    required this.passwordController,
-    required this.obscureTextController,
-    required this.onSaved,
-    required this.enteredSignupUsername,
-    required this.enteredSignupEmail,
-    required this.enteredSignupPassword,
-  });
-  final TextEditingController passwordController;
-  final TextEditingController obscureTextController;
-  final void Function(String? value) onSaved;
-  String enteredSignupUsername;
-  String  enteredSignupEmail;
-  String  enteredSignupPassword;
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
 
 class BuildTextInput extends StatefulWidget {
-  const BuildTextInput({y
+  const BuildTextInput({
     super.key,
     required this.icon,
     this.isEmail,
@@ -39,8 +13,9 @@ class BuildTextInput extends StatefulWidget {
     this.validator,
     this.type,
     this.maxLength,
-    this.onSave,
-    this.controller,
+    this.passwordController,
+    this.obscurePasswordController,
+    this.onSaved
   });
 
   final bool? isPassword;
@@ -50,30 +25,37 @@ class BuildTextInput extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final TextInputType? type;
   final int? maxLength;
-  final TextEditingController? controller;
-  final void Function(String? value)? onSave;
-
+  final TextEditingController? passwordController;
+  final TextEditingController? obscurePasswordController;
+  final void Function(String? value)? onSaved;
+  
+  
   @override
   State<BuildTextInput> createState() => _BuildTextInputState();
 }
 
 class _BuildTextInputState extends State<BuildTextInput> {
+  var obscurePasswordController = ObscuringTextEditingController();
+  var passwordController = TextEditingController();
   bool showPassword = true;
 
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: TextFormField(
-        controller: widget.controller,
         inputFormatters: [
-          if (widget.type == TextInputType.phone)
-            FilteringTextInputFormatter.digitsOnly,
+          if(widget.type == TextInputType.phone)
+          FilteringTextInputFormatter.digitsOnly,
           LengthLimitingTextInputFormatter(
-              widget.type == TextInputType.phone ? 10 : widget.maxLength)
+            widget.type == TextInputType.phone ? 10: widget.maxLength
+          )
+          
         ],
         validator: widget.validator,
         maxLength: widget.maxLength,
+       onSaved: widget.onSaved,
         keyboardType: widget.isEmail == true
             ? TextInputType.emailAddress
             : TextInputType.text,
@@ -95,7 +77,6 @@ class _BuildTextInputState extends State<BuildTextInput> {
           ),
         ),
         maxLengthEnforcement: MaxLengthEnforcement.enforced,
-        onSaved: widget.onSave,
       ),
     );
   }
