@@ -28,7 +28,10 @@ class TextFieldWidget extends StatelessWidget {
               return null;
             },
           ),
-          PassTxtField(hintText: "Password",)
+          PassTxtField(hintText: "Password",
+          obscureTextController:  pass,
+          passwordController: ,
+          )
         ],
       ),
     );
