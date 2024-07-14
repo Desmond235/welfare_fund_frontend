@@ -3,13 +3,15 @@ import 'package:church_clique/features/auth/views/auth.dart';
 import 'package:church_clique/features/auth/views/juice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+ Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
+  await dotenv.load();
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => AuthProvider()),
