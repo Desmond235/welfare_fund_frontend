@@ -17,8 +17,8 @@ class SignInWidget extends StatefulWidget {
 
 class _SignInWidgetState extends State<SignInWidget> {
   bool showPassword = true;
-    final passwordController = TextEditingController();
-    final obscureTextController = ObscuringTextEditingController();
+  final passwordController = TextEditingController();
+  final obscureTextController = ObscuringTextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -89,43 +89,52 @@ class _SignInWidgetState extends State<SignInWidget> {
             isEmail: true,
             isPassword: false,
           ),
-        TextFormField(
-      controller: showPassword ? passwordController : obscureTextController,
-      decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(10),
-          hintText: "Password",
-          hintStyle: TextStyle(color: Palette.textColor1),
-          prefixIcon: Icon(
-            MaterialCommunityIcons.lock,
-            color: Palette.textColor1,
-          ),
-          suffixIcon: IconButton(
-            onPressed: () {
-              if (showPassword) {
-                obscureTextController.text = passwordController.text;
-                obscureTextController.selection = TextSelection.collapsed(
-                    offset: obscureTextController.text.length);
-              } else {
-                passwordController.text = obscureTextController.text;
-                passwordController.selection = TextSelection.collapsed(
-                    offset: passwordController.text.length);
-              }
-              setState(() {
-                showPassword = !showPassword;
-              });
-            },
-            icon: Icon(
-              showPassword ? Icons.visibility : Icons.visibility_off,
-              color: Palette.iconColor,
+          TextFormField(
+            controller:
+                showPassword ? passwordController : obscureTextController,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(10),
+              hintText: "Password",
+              hintStyle: TextStyle(color: Palette.textColor1),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(35),
+                borderSide: BorderSide(color: Palette.textColor1),
+              ),
+              prefixIcon: Icon(
+                MaterialCommunityIcons.lock,
+                color: Palette.textColor1,
+              ),
+              suffixIcon: IconButton(
+                onPressed: () {
+                  if (showPassword) {
+                    obscureTextController.text = passwordController.text;
+                    obscureTextController.selection = TextSelection.collapsed(
+                        offset: obscureTextController.text.length);
+                  } else {
+                    passwordController.text = obscureTextController.text;
+                    passwordController.selection = TextSelection.collapsed(
+                        offset: passwordController.text.length);
+                  }
+                  setState(() {
+                    showPassword = !showPassword;
+                  });
+                },
+                icon: Icon(
+                  showPassword ? Icons.visibility : Icons.visibility_off,
+                  color: Palette.iconColor,
+                ),
+              ),
+              
+              // enabledBorder: OutlineInputBorder(
+              //   borderRadius: BorderRadius.circular(35),
+              //   borderSide: const BorderSide(color: Palette.textColor1),
+              // ),
+              // focusedBorder: OutlineInputBorder(
+              //   borderRadius: BorderRadius.circular(35),
+              //   borderSide: const BorderSide(color: Palette.textColor1),
+              // ),
             ),
           ),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(35),
-              borderSide: const BorderSide(color: Palette.textColor1)),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(35),
-              borderSide: const BorderSide(color: Palette.textColor1))),
-    ),
           Consumer<AuthProvider>(
             builder: (context, ref, child) {
               final isRememberMe = ref.isRememberMe;

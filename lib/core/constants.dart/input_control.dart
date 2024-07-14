@@ -65,6 +65,10 @@ class _BuildTextInputState extends State<BuildTextInput> {
             widget.icon,
             color: Palette.iconColor,
           ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(35),
+            borderSide: BorderSide(color: Palette.textColor1)
+          ),
           hintText: widget.hintText,
           hintStyle: TextStyle(color: Palette.textColor1),
           enabledBorder: OutlineInputBorder(

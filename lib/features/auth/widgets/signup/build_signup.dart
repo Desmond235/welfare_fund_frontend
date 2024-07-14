@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:church_clique/core/config/palette.dart';
+import 'package:church_clique/core/controls/obscure_text.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/widgets/signup/gender.dart';
 import 'package:church_clique/features/auth/widgets/signup/terms_condition.dart';
 import 'package:church_clique/core/constants.dart/input_control.dart';
+import 'package:church_clique/features/auth/widgets/signup/user_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -11,9 +15,11 @@ class SignUpWidget extends StatefulWidget {
   SignUpWidget({
     super.key,
     required this.isSignupScreen,
+    required this.onPickedImage,
   });
 
   final bool isSignupScreen;
+  final void Function (File pickedImage) onPickedImage;
 
   @override
   State<SignUpWidget> createState() => _SignUpWidgetState();
@@ -22,7 +28,7 @@ class SignUpWidget extends StatefulWidget {
 class _SignUpWidgetState extends State<SignUpWidget> {
   bool showPassword = true;
   final passwordController = TextEditingController();
-  final obscureTextController = TextEditingController();
+  final obscureTextController = ObscuringTextEditingController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -84,8 +90,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             ),
           ],
         ),
+        UserImagePicker(onPickedImage: widget.onPickedImage),
         const SizedBox(
-          height: 20,
+          height: 10,
         ),
         Consumer<AuthProvider>(
           builder: (context,credentials, child) {
@@ -97,7 +104,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     icon: MaterialCommunityIcons.account_outline,
                     hintText: 'User Name',
                     onSaved: (value) {
-                      credentials.onSaveUsername = value!;
+                      credentials.saveUsername(value!);
                     },
                     // validation for username
                     validator: (value) {
@@ -107,14 +114,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       return null;
                     },
                   ),
-
                   // field for entering registration email
                   BuildTextInput(
                     icon: Icons.email_outlined,
                     hintText: 'Email',
                     isEmail: true,
                     onSaved: (value) {
-                      credentials.onSaveEmail = value!;
+                      credentials.saveEmail(value!);
                     },
                     // validation for email
                     validator: (value) {
@@ -132,7 +138,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         ? passwordController
                         : obscureTextController,
                     onSaved: (value) {
-                      credentials.onSavePassword = value!;
+                      credentials.savePassword(value!);
                     },
                     validator: (value) {
                       if (value!.trim().isEmpty || value.trim().length < 6) {
@@ -175,6 +181,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             color: Palette.iconColor,
                           ),
                         ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(35),
+                          borderSide:
+                              const BorderSide(color: Palette.textColor1),
+                        ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(35),
                             borderSide:
@@ -195,3 +206,5 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     );
   }
 }
+
+

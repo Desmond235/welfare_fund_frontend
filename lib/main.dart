@@ -31,7 +31,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: {
-        '/' : (context) => Juice()
+        '/' : (context) => AuthScreen(),
+        '/juice' : (context) => Juice()
       }
     );
   }
