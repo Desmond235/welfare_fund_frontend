@@ -1,4 +1,4 @@
-import 'package:church_clique/core/config/palette.dart';
+import 'package:church_clique/core/constants/palette.dart';
 import 'package:flutter/material.dart';
 
 class TermsAndConditions extends StatelessWidget {

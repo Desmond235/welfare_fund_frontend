@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:church_clique/core/config/palette.dart';
+import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/controls/obscure_text.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/widgets/signup/gender.dart';
 import 'package:church_clique/features/auth/widgets/signup/terms_condition.dart';
-import 'package:church_clique/core/constants.dart/input_control.dart';
+import 'package:church_clique/core/constants/input_control.dart';
 import 'package:church_clique/features/auth/widgets/signup/user_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
@@ -125,7 +125,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     // validation for email
                     validator: (value) {
                       if (value!.trim().isEmpty ||
-                          !RegExp(r'/S/+@/+/S+/.+/S').hasMatch(value.trim())) {
+                          !RegExp(r'\S\@\S+\.\S', caseSensitive: false).hasMatch(value.trim())) {
                         return 'Please enter a valid email address;';
                       }
                       return null;

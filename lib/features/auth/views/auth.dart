@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:church_clique/core/config/palette.dart';
+import 'package:church_clique/core/constants/palette.dart';
+import 'package:church_clique/core/service/http_service.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
@@ -20,13 +21,36 @@ class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
   File? pickedImageFile;
 
+// this function allows users to pick an image
+// and enter the enter their registration credentials
+// if the user does not pick an image, he or she will be prompted to pick an image
+// if the user enters a wrong or does or does not enter any information, the user will be prompted to do so
   void addCredentials() {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    if (pickedImageFile == null) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Please pick an image"),
+      ));
+      return;
+    }
+
     _formKey.currentState!.save();
+
+     Consumer<AuthProvider>(
+        builder: (context, value, child) {
+          return Http.post({
+            "username": value.onSaveUsername,
+            "email": value.onSaveEmail,
+            "password": value.onSaveEmail
+          });
+        },
+      );
     Navigator.of(context).pushReplacementNamed('/juice');
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +63,7 @@ class _AuthScreenState extends State<AuthScreen> {
             bool isSignupScreen = value.isSignUp;
             return SingleChildScrollView(
               child: Container(
-                height: MediaQuery.of(context).size.height ,
+                height: MediaQuery.of(context).size.height,
                 child: Form(
                   key: _formKey,
                   child: Stack(
@@ -50,6 +74,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         right: 0,
                         child: Container(
                           height: 355,
+                          // background image
                           decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: AssetImage(
@@ -100,6 +125,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                       SubmitButton(
                           isSignupScreen: isSignupScreen, isShadow: true),
+                          // this adds a submit button
                       AnimatedPositioned(
                         duration: const Duration(milliseconds: 700),
                         curve: Curves.bounceInOut,
@@ -128,7 +154,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 if (isSignupScreen)
                                   SignUpWidget(
                                     isSignupScreen: isSignupScreen,
-                                    onPickedImage: (pickedImage){
+                                    onPickedImage: (pickedImage) {
                                       pickedImageFile = pickedImage;
                                     },
                                   ),

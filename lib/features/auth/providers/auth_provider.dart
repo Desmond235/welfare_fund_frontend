@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class AuthProvider extends ChangeNotifier{
    bool _isSignUp = true;
   static bool _isRememberMe = false;
-  bool _isMale = false;
+  bool _isMale = true;
   String  onSaveUsername = '';
   String onSavePassword = '';
   String onSaveEmail = '';
+  String gender = '';
+  
 
   void toggleLogin(){
     _isSignUp = false;
@@ -33,6 +35,16 @@ class AuthProvider extends ChangeNotifier{
   }
   void savePassword(String? value){
     onSavePassword = value!;
+  }
+  void male(){
+      gender = "Male";
+      print(gender);
+      notifyListeners();
+  }
+  void female(){
+      gender = "Female";
+      print(gender);
+      notifyListeners();
   }
    bool get isSignUp => _isSignUp;
   bool get isRememberMe => _isRememberMe;

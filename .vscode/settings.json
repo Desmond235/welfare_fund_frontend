@@ -8,6 +8,9 @@
         "cupertino",
         "dotenv",
         "formkey",
-        "Signin"
+        "fullscreen",
+        "paystack",
+        "Signin",
+        "ussd"
     ]
 }

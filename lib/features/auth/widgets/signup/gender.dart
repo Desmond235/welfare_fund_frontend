@@ -1,12 +1,17 @@
-import 'package:church_clique/core/config/palette.dart';
+import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-class SignupGenderSelection extends StatelessWidget {
+class SignupGenderSelection extends StatefulWidget {
   const SignupGenderSelection({super.key});
 
+  @override
+  State<SignupGenderSelection> createState() => _SignupGenderSelectionState();
+}
+
+class _SignupGenderSelectionState extends State<SignupGenderSelection> {
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
@@ -21,6 +26,10 @@ class SignupGenderSelection extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       value.toggleGender();
+                      if(!isMale){
+                        value.male();
+                      }
+                      
                     },
                     child: Container(
                       height: 35,
@@ -52,6 +61,9 @@ class SignupGenderSelection extends StatelessWidget {
                    GestureDetector(
                     onTap: () {
                       value.toggleGender();
+                      if(isMale){
+                        value.female();
+                      }
                     },
                     child: Container(
                       height: 35,
