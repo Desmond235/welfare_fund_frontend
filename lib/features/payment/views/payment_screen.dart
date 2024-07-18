@@ -1,8 +1,10 @@
-import 'package:church_clique/core/constants/palette.dart';
+// import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/constants/input_control.dart';
+import 'package:church_clique/features/payment/paystack/pay_with_paystack.dart';
 import 'package:church_clique/features/payment/views/make_payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
+// import 'package:pay_with_paystack/pay_with_paystack.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
@@ -30,15 +32,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
     }
 
     _formKey.currentState!.save();
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => MakePaymentScreen(
-          amount: enteredAmount,
-          email: enteredEmail,
-          reference: enteredReference,
-        ),
-      ),
-    );
+    PayWithPaystack(
+      double.tryParse(enteredAmount)!,
+      enteredEmail,
+      context,
+    ).makePayment();
   }
 
   @override
@@ -92,13 +90,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 },
               ),
               const SizedBox(height: 15),
-              BuildTextInput(
-                icon: Icons.info,
-                hintText: "Reference",
-                onSaved: (value) {
-                  enteredReference = value!;
-                },
-              ),
+              // BuildTextInput(
+              //   icon: Icons.info,
+              //   hintText: "Reference",
+              //   onSaved: (value) {
+              //     enteredReference = value!;
+              //   },
+              // ),
               const SizedBox(height: 10),
               Column(
                 children: [
@@ -110,7 +108,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 30),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary.withOpacity(0.72),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.72),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Row(
@@ -120,21 +121,25 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 'Pay with Momo',
                                 style: TextStyle(color: Colors.white),
                               ),
-                              Icon(Icons.payment, color: Colors.white.withOpacity(0.7))
+                              Icon(Icons.payment,
+                                  color: Colors.white.withOpacity(0.7))
                             ],
                           ),
                         ),
                       )),
                   const SizedBox(height: 10),
                   SizedBox(
-                    height: 55,
-                    width: double.infinity,
-                    child: InkWell(
-                      onTap: (){},
-                      child: Container(
+                      height: 55,
+                      width: double.infinity,
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 30),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary.withOpacity(0.72),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.72),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Row(
@@ -144,12 +149,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 'Pay with bank Account / Card',
                                 style: TextStyle(color: Colors.white),
                               ),
-                              Icon(Icons.payment, color: Colors.white.withOpacity(0.7))
+                              Icon(Icons.payment,
+                                  color: Colors.white.withOpacity(0.7))
                             ],
                           ),
                         ),
-                    )
-                  )
+                      ))
                 ],
               )
             ],
