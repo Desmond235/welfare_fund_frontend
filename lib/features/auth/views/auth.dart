@@ -48,7 +48,7 @@ class _AuthScreenState extends State<AuthScreen> {
           });
         },
       );
-    Navigator.of(context).pushReplacementNamed('/juice');
+    Navigator.of(context).pushReplacementNamed('main');
   }
 
 
@@ -130,25 +130,25 @@ class _AuthScreenState extends State<AuthScreen> {
                         duration: const Duration(milliseconds: 700),
                         curve: Curves.bounceInOut,
                         top: isSignupScreen ? 200 : 230,
-                        child: AnimatedContainer(
-                          duration: const Duration(microseconds: 700),
-                          curve: Curves.bounceInOut,
-                          width: MediaQuery.of(context).size.width - 40,
-                          height: isSignupScreen ? 500 : 260,
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                              ),
-                            ],
-                          ),
-                          child: SingleChildScrollView(
+                        child: SingleChildScrollView(
+                          child: AnimatedContainer(
+                            duration: const Duration(microseconds: 700),
+                            curve: Curves.bounceInOut,
+                            width: MediaQuery.of(context).size.width - 40,
+                            height: isSignupScreen ? 500 : 260,
+                            margin: const EdgeInsets.symmetric(horizontal: 20),
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                ),
+                              ],
+                            ),
                             child: Column(
                               children: [
                                 if (isSignupScreen)

@@ -4,13 +4,20 @@
         "scrollbar.shadow": "#00000000"
     },
     "cSpell.words": [
+        "Adabe",
         "ARGB",
         "cupertino",
+        "curr",
         "dotenv",
         "formkey",
         "fullscreen",
+        "mainscreen",
         "paystack",
         "Signin",
         "ussd"
+    ],
+    "cSpell.enableFiletypes": [
+        "!vue",
+        "wat"
     ]
 }
