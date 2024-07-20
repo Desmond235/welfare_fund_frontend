@@ -1,5 +1,6 @@
 // import 'package:church_clique/core/constants/palette.dart';
-import 'package:church_clique/core/constants/input_control.dart';
+import 'package:church_clique/core/components/input_control.dart';
+import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/payment/paystack/pay_with_paystack.dart';
 import 'package:church_clique/features/payment/views/make_payment_screen.dart';
 import 'package:flutter/material.dart';
@@ -51,113 +52,113 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Make Payment"),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              BuildTextInput(
-                icon: Icons.payment,
-                hintText: "Amount",
-                onSaved: (value) {
-                  enteredAmount = value!;
-                },
-                validator: (value) {
-                  if (value!.trim().isEmpty || !RegExp(r'\d').hasMatch(value)) {
-                    return 'Please enter a valid amount';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 15),
-              BuildTextInput(
-                icon: MaterialCommunityIcons.email_outline,
-                hintText: 'info@example.com',
-                onSaved: (value) {
-                  enteredEmail = value!;
-                },
-                validator: (value) {
-                  if (value == null ||
-                      value.trim().isEmpty ||
-                      !RegExp(r'\S\@\S+\.\S').hasMatch(value)) {
-                    return "Please enter a valid email address";
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 15),
-              // BuildTextInput(
-              //   icon: Icons.info,
-              //   hintText: "Reference",
-              //   onSaved: (value) {
-              //     enteredReference = value!;
-              //   },
-              // ),
-              const SizedBox(height: 10),
-              Column(
-                children: [
-                  SizedBox(
-                      width: double.infinity,
-                      height: 55,
-                      child: InkWell(
-                        onTap: makePayment,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withOpacity(0.72),
-                            borderRadius: BorderRadius.circular(30),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                BuildTextInput(
+                  icon: Icons.payment,
+                  hintText: "Amount",
+                  onSaved: (value) {
+                    enteredAmount = value!;
+                  },
+                  validator: (value) {
+                    if (value!.trim().isEmpty || !RegExp(r'\d').hasMatch(value)) {
+                      return 'Please enter a valid amount';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 15),
+                BuildTextInput(
+                  icon: MaterialCommunityIcons.email_outline,
+                  hintText: 'info@example.com',
+                  onSaved: (value) {
+                    enteredEmail = value!;
+                  },
+                  validator: (value) {
+                    if (value == null ||
+                        value.trim().isEmpty ||
+                        !RegExp(r'\S\@\S+\.\S').hasMatch(value)) {
+                      return "Please enter a valid email address";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 15),
+                // BuildTextInput(
+                //   icon: Icons.info,
+                //   hintText: "Reference",
+                //   onSaved: (value) {
+                //     enteredReference = value!;
+                //   },
+                // ),
+                const SizedBox(height: 10),
+                Column(
+                  children: [
+                    SizedBox(
+                        width: double.infinity,
+                        height: 55,
+                        child: InkWell(
+                          onTap: makePayment,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.72),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Pay with Momo',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                Icon(Icons.payment,
+                                    color: Colors.white.withOpacity(0.7))
+                              ],
+                            ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Pay with Momo',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              Icon(Icons.payment,
-                                  color: Colors.white.withOpacity(0.7))
-                            ],
+                        )),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                        height: 55,
+                        width: double.infinity,
+                        child: InkWell(
+                          onTap: () {},
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.72),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Pay with bank Account / Card',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                Icon(Icons.payment,
+                                    color: Colors.white.withOpacity(0.7))
+                              ],
+                            ),
                           ),
-                        ),
-                      )),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                      height: 55,
-                      width: double.infinity,
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withOpacity(0.72),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Pay with bank Account / Card',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              Icon(Icons.payment,
-                                  color: Colors.white.withOpacity(0.7))
-                            ],
-                          ),
-                        ),
-                      ))
-                ],
-              )
-            ],
+                        ))
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
