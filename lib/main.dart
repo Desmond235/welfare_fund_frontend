@@ -1,7 +1,10 @@
+import 'package:church_clique/core/base/main/main_page_provider.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
 import 'package:church_clique/features/auth/views/juice.dart';
-import 'package:church_clique/features/payment/views/make_payment_screen.dart';
+import 'package:church_clique/core/base/main/mainscreen.dart';
+import 'package:church_clique/features/form/views/form_screen.dart';
+import 'package:church_clique/features/home/screens/home_screeb.dart';
 import 'package:church_clique/features/payment/views/payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +20,7 @@ import 'package:provider/provider.dart';
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ChangeNotifierProvider(create: (context) => MainPageProvider()),
     ], child: const MyApp()),
   );
 }
@@ -34,9 +38,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  const PaymentScreen() ,
+      home:  const FormScreen(),
       routes: {
         'juice' : (context) => Juice(),
+        'payment' : (context) => PaymentScreen(),
+        'main': (context) => MainScreen()
       }
     );
   }
