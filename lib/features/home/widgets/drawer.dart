@@ -1,5 +1,5 @@
 import 'package:church_clique/features/payment/views/payment_screen.dart';
-import 'package:church_clique/features/profile/views/profile_screen.dart';
+import 'package:church_clique/features/settings/views/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:icons_flutter/icons_flutter.dart';
