@@ -18,8 +18,13 @@ class _MainScreenState extends State<MainScreen> {
 
   void _handleMenuButtonPressed() {
     _drawerController.showDrawer();
-  }
+  } 
 
+  @override
+  void dispose() {
+    _drawerController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return HomeDrawer(

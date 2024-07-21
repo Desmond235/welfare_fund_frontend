@@ -6,28 +6,25 @@ import 'package:flutter/services.dart';
 class BuildTextInput extends StatefulWidget {
   const BuildTextInput({
     super.key,
-    this.icon,
+    required this.icon,
     this.isEmail,
-    this.isPassword,
     required this.hintText,
     this.validator,
     this.type,
+    this.controller,
     this.maxLength,
-    this.passwordController,
-    this.obscurePasswordController,
-    this.onSaved
+    this.onSaved,
   });
 
-  final bool? isPassword;
   final bool? isEmail;
-  final IconData? icon;
+  final IconData icon;
   final String hintText;
   final FormFieldValidator<String>? validator;
   final TextInputType? type;
+  final TextEditingController? controller;
   final int? maxLength;
-  final TextEditingController? passwordController;
-  final TextEditingController? obscurePasswordController;
   final void Function(String? value)? onSaved;
+  
   
   
   @override
@@ -35,24 +32,26 @@ class BuildTextInput extends StatefulWidget {
 }
 
 class _BuildTextInputState extends State<BuildTextInput> {
-  var obscurePasswordController = ObscuringTextEditingController();
-  var passwordController = TextEditingController();
-  bool showPassword = true;
 
-  
   @override
   Widget build(BuildContext context) {
+    final dd  = TextEditingController();
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: TextFormField(
+        controller: widget.controller,
+        autocorrect: false,
         inputFormatters: [
+          if(widget.type == TextInputType.text)
+          FilteringTextInputFormatter.allow(RegExp(r'\w( )?')),
+          FilteringTextInputFormatter.deny(RegExp(r'\d')),
           if(widget.type == TextInputType.phone)
           FilteringTextInputFormatter.digitsOnly,
           LengthLimitingTextInputFormatter(
             widget.type == TextInputType.phone ? 10: widget.maxLength
-          )
-          
+          ),
         ],
+      
         validator: widget.validator,
         maxLength: widget.maxLength,
        onSaved: widget.onSaved,
@@ -60,6 +59,7 @@ class _BuildTextInputState extends State<BuildTextInput> {
             ? TextInputType.emailAddress
             : TextInputType.text,
         decoration: InputDecoration(
+          
           contentPadding: const EdgeInsets.all(10),
           prefixIcon: Icon(
             widget.icon,

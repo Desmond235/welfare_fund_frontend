@@ -11,10 +11,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
- Future main() async{
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      
+    ),
   );
   await dotenv.load(fileName: '.env');
   runApp(
@@ -32,18 +39,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home:  const FormScreen(),
-      routes: {
-        'juice' : (context) => Juice(),
-        'payment' : (context) => PaymentScreen(),
-        'main': (context) => MainScreen()
-      }
-    );
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const FormScreen(),
+        routes: {
+          'juice': (context) => Juice(),
+          'payment': (context) => PaymentScreen(),
+          'main': (context) => MainScreen()
+        });
   }
 }

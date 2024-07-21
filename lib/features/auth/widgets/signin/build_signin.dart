@@ -87,7 +87,6 @@ class _SignInWidgetState extends State<SignInWidget> {
             icon: MaterialCommunityIcons.account_outline,
             hintText: "info@example.com",
             isEmail: true,
-            isPassword: false,
           ),
           TextFormField(
             controller:

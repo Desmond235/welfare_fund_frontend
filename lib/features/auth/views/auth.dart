@@ -39,18 +39,17 @@ class _AuthScreenState extends State<AuthScreen> {
 
     _formKey.currentState!.save();
 
-     Consumer<AuthProvider>(
-        builder: (context, value, child) {
-          return Http.post({
-            "username": value.onSaveUsername,
-            "email": value.onSaveEmail,
-            "password": value.onSaveEmail
-          });
-        },
-      );
-    Navigator.of(context).pushReplacementNamed('main');
+    Consumer<AuthProvider>(
+      builder: (context, value, child) {
+        return Http.post({
+          "username": value.onSaveUsername,
+          "email": value.onSaveEmail,
+          "password": value.onSaveEmail
+        });
+      },
+    );
+    // Navigator.of(context).pushReplacementNamed('main');
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -124,8 +123,10 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                       ),
                       SubmitButton(
-                          isSignupScreen: isSignupScreen, isShadow: true),
-                          // this adds a submit button
+                        isSignupScreen: isSignupScreen,
+                        isShadow: true,
+                      ),
+                      // this adds a submit button
                       AnimatedPositioned(
                         duration: const Duration(milliseconds: 700),
                         curve: Curves.bounceInOut,

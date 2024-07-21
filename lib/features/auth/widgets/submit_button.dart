@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-
 class SubmitButton extends StatelessWidget {
   const SubmitButton({
     super.key,
     required this.isSignupScreen,
     required this.isShadow,
-    this.onTap
+    this.onTap,
   });
   final bool isSignupScreen;
   final bool isShadow;
@@ -30,9 +29,10 @@ class SubmitButton extends StatelessWidget {
             boxShadow: [
               if (isShadow)
                 BoxShadow(
-                    spreadRadius: 1.5,
-                    blurRadius: 15,
-                    color: Colors.black.withOpacity(0.3)),
+                  spreadRadius: 1.5,
+                  blurRadius: 15,
+                  color: Colors.black.withOpacity(0.3),
+                ),
             ],
           ),
           child: !isShadow
@@ -49,10 +49,7 @@ class SubmitButton extends StatelessWidget {
                                 .colorScheme
                                 .primary
                                 .withOpacity(0.6),
-                            Theme.of(context)
-                                .colorScheme
-                                .primary
-                                ,
+                            Theme.of(context).colorScheme.primary,
                           ],
                         ),
                         boxShadow: [
