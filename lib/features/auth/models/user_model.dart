@@ -5,6 +5,7 @@ class User {
     required this.password,
     required this.id,
   });
+  
 
   int id;
   final String username;
