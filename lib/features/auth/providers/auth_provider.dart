@@ -1,3 +1,5 @@
+import 'package:church_clique/features/auth/domain/sign_cache.dart';
+import 'package:church_clique/features/auth/models/user_signin_model.dart';
 import 'package:flutter/material.dart';
 
 class AuthProvider extends ChangeNotifier{
@@ -8,7 +10,38 @@ class AuthProvider extends ChangeNotifier{
   String onSavePassword = '';
   String onSaveEmail = '';
   String gender = '';
+
+  String signInUsername = '';
   
+  // Signin Providers
+
+  void saveUsernameSignIn(String value) {
+    signInUsername = value;
+    notifyListeners();
+  }
+   
+void checkIsRememberMe(bool value){
+    _isRememberMe = value;
+    notifyListeners();
+  }
+
+  // void saveUserLoginDetails() {
+  //   SignInCache.setUser(
+  //     SignIn(username: signInUsername , rememberMe: _isRememberMe),
+  //   );
+  //   print(signInUsername);
+  //   notifyListeners();
+  // }
+  
+  // void getUserLoginDetails() {
+  //   SignInCache.getUser();
+  //   notifyListeners();
+  // }
+
+  
+
+  
+  // General provider
 
   void toggleLogin(){
     _isSignUp = false;
@@ -19,14 +52,13 @@ class AuthProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  // sign up providers
+
   void toggleGender(){
     _isMale =!_isMale;
     notifyListeners();
   }
-  void checkIsRememberMe(bool value){
-    _isRememberMe = value;
-    notifyListeners();
-  }
+  
   void saveUsername(String? value){
     onSaveUsername = value!;
   }

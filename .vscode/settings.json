@@ -13,6 +13,7 @@
         "fullscreen",
         "mainscreen",
         "paystack",
+        "Prefs",
         "Signin",
         "ussd"
     ],

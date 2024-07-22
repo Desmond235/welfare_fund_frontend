@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/service/http_service.dart';
+import 'package:church_clique/features/auth/domain/sign_cache.dart';
+import 'package:church_clique/features/auth/models/user_signin_model.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
+import 'package:church_clique/features/auth/views/juice.dart';
 import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
 import 'package:church_clique/features/auth/widgets/submit_button.dart';
@@ -20,11 +24,51 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
   File? pickedImageFile;
+  String? username;
+  bool? isRememberMe;
+  TextEditingController usernameController(){
+    return TextEditingController(text: username);
+  }
+
+  void _loadPreferences() async{
+    final prefs = await sharedPrefs;
+    
+    setState(() {
+      username = prefs.getString('username') ?? '';
+      isRememberMe = prefs.getBool('isRememberMe') ?? false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferences();
+  }
+
+  // void _loadPreferences() async {
+  //   final prefs = await sharedPrefs;
+  //   setState(() {
+  //     username = prefs.getString('username');
+  //     isRememberMe = prefs.getBool('isRememberMe');
+  //   });
+  // }
+
+  // @override
+  // void initState() {
+  //   _loadPreferences();
+  //   super.initState();
+  // }
 
 // this function allows users to pick an image
 // and enter the enter their registration credentials
 // if the user does not pick an image, he or she will be prompted to pick an image
 // if the user enters a wrong or does or does not enter any information, the user will be prompted to do so
+  
+  @override
+  void dispose() {
+    usernameController().dispose();
+    super.dispose();
+  }
   void addCredentials() {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -125,6 +169,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       SubmitButton(
                         isSignupScreen: isSignupScreen,
                         isShadow: true,
+                        onTap: () {},
                       ),
                       // this adds a submit button
                       AnimatedPositioned(
@@ -160,14 +205,39 @@ class _AuthScreenState extends State<AuthScreen> {
                                     },
                                   ),
                                 if (!isSignupScreen)
-                                  SignInWidget(isSignupScreen: isSignupScreen),
+                                  SignInWidget(
+                                    controller: usernameController(),
+                                    isSignupScreen: isSignupScreen,
+                                    isRememberMe: isRememberMe,
+                                    
+                                    onChanged: (value) {
+                                      setState(() {
+                                        username = value;
+                                      });
+                                    },
+                                    chkOnchanged: (value) {
+                                      setState(() {
+                                        isRememberMe = value!;
+                                      });
+                                    },
+                                  ),
                               ],
                             ),
                           ),
                         ),
                       ),
                       SubmitButton(
-                        onTap: addCredentials,
+                        onTap: () async{
+                          if (isSignupScreen) {
+                            addCredentials();
+                          } 
+                        
+                        
+                          final prefs = await sharedPrefs;
+                         prefs.setString('username', username!);
+                         prefs.setBool('isRememberMe', isRememberMe!);
+                         
+                        },
                         isSignupScreen: isSignupScreen,
                         isShadow: false,
                       )

@@ -14,6 +14,7 @@ class BuildTextInput extends StatefulWidget {
     this.controller,
     this.maxLength,
     this.onSaved,
+    this.onChanged,
   });
 
   final bool? isEmail;
@@ -24,6 +25,7 @@ class BuildTextInput extends StatefulWidget {
   final TextEditingController? controller;
   final int? maxLength;
   final void Function(String? value)? onSaved;
+  final void Function(String value)? onChanged;
   
   
   
@@ -39,6 +41,7 @@ class _BuildTextInputState extends State<BuildTextInput> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: TextFormField(
+        onChanged: widget.onChanged ,
         controller: widget.controller,
         autocorrect: false,
         inputFormatters: [

@@ -15,4 +15,4 @@ Color priCol(BuildContext context){
   return Theme.of(context).colorScheme.primary;
 }
 
-final Future<SharedPreferences> prefs =   SharedPreferences.getInstance();
+final Future<SharedPreferences> sharedPrefs =   SharedPreferences.getInstance();

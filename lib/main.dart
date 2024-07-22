@@ -1,5 +1,6 @@
 import 'package:church_clique/core/base/main/main_page_provider.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
+import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
 import 'package:church_clique/features/auth/views/juice.dart';
 import 'package:church_clique/core/base/main/mainscreen.dart';
@@ -28,6 +29,7 @@ Future main() async {
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => AuthProvider()),
       ChangeNotifierProvider(create: (context) => MainPageProvider()),
+      ChangeNotifierProvider(create: (context) => SignInProvider()),
     ], child: const MyApp()),
   );
 }
@@ -45,7 +47,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const FormScreen(),
+        home: const AuthScreen(),
         routes: {
           'juice': (context) => Juice(),
           'payment': (context) => PaymentScreen(),
