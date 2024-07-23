@@ -5,4 +5,9 @@ enum MaritalStatus {
   separated,
 }
 
+enum Life{
+  alive,
+  deceased,
+}
+
 
