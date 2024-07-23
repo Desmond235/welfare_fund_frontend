@@ -1,11 +1,8 @@
-import 'package:church_clique/core/base/main/main_page_provider.dart';
-import 'package:church_clique/features/auth/providers/auth_provider.dart';
-import 'package:church_clique/features/auth/providers/sign_provider.dart';
+import 'package:church_clique/core/constants/constants.dart';
+import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
 import 'package:church_clique/features/auth/views/juice.dart';
 import 'package:church_clique/core/base/main/mainscreen.dart';
-import 'package:church_clique/features/form/views/form_screen.dart';
-import 'package:church_clique/features/home/screens/home_screeb.dart';
 import 'package:church_clique/features/payment/views/payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,19 +15,13 @@ Future main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      
-    ),
-  );
+   systemNavBarColor;
   await dotenv.load(fileName: '.env');
   runApp(
-    MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => AuthProvider()),
-      ChangeNotifierProvider(create: (context) => MainPageProvider()),
-      ChangeNotifierProvider(create: (context) => SignInProvider()),
-    ], child: const MyApp()),
+    MultiProvider(
+      providers: multiProviders,
+      child: const MyApp(),
+    ),
   );
 }
 

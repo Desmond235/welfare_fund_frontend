@@ -39,7 +39,6 @@ class _SignInWidgetState extends State<SignInWidget> {
     return Container(
       child: Consumer<AuthProvider>(
         builder: (_, ref, __) {
-          final rememberMe = ref.isRememberMe;
           return Column(
             children: [
               Row(
@@ -106,6 +105,21 @@ class _SignInWidgetState extends State<SignInWidget> {
                 hintText: "info@example.com",
                 isEmail: true,
               ),
+
+              /// A TextFormField widget for password input with show/hide functionality.
+              /// It uses two TextEditingControllers: [passwordController] for showing the password and
+              /// [obscureTextController] for hiding the password. The [showPassword] boolean flag is used to
+              /// toggle between the two controllers.
+              ///
+              /// The [contentPadding], [hintText], [hintStyle], [border], [prefixIcon], and [suffixIcon]
+              /// properties are used to customize the appearance of the TextFormField.
+              ///
+              /// The [suffixIcon] contains an IconButton that toggles the visibility of the password.
+              /// When the password is visible, the [suffixIcon] displays an [Icons.visibility] icon.
+              /// When the password is hidden, the [suffixIcon] displays an [Icons.visibility_off] icon.
+              ///
+              /// The [enabledBorder] and [focusedBorder] properties are used to customize the border of the
+              /// TextFormField when it is not focused and when it is focused, respectively.
               TextFormField(
                 controller:
                     showPassword ? passwordController : obscureTextController,
@@ -142,15 +156,14 @@ class _SignInWidgetState extends State<SignInWidget> {
                       color: Palette.iconColor,
                     ),
                   ),
-
-                  // enabledBorder: OutlineInputBorder(
-                  //   borderRadius: BorderRadius.circular(35),
-                  //   borderSide: const BorderSide(color: Palette.textColor1),
-                  // ),
-                  // focusedBorder: OutlineInputBorder(
-                  //   borderRadius: BorderRadius.circular(35),
-                  //   borderSide: const BorderSide(color: Palette.textColor1),
-                  // ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(35),
+                    borderSide: const BorderSide(color: Palette.textColor1),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(35),
+                    borderSide: const BorderSide(color: Palette.textColor1),
+                  ),
                 ),
               ),
               Row(
@@ -158,7 +171,6 @@ class _SignInWidgetState extends State<SignInWidget> {
                 children: [
                   Row(
                     children: [
-                    
                       Checkbox(
                         tristate: false,
                         value: widget.isRememberMe ?? false,

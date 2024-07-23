@@ -10,10 +10,11 @@ class SubmitButton extends StatelessWidget {
   final bool isSignupScreen;
   final bool isShadow;
   final void Function()? onTap;
+  
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: isSignupScreen ? 650 : 445,
+      top: isSignupScreen ? 690 : 440,
       right: 0,
       left: 0,
       child: Center(
