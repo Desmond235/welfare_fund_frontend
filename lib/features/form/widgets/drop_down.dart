@@ -1,12 +1,18 @@
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
+
 class DateTimePickerWidget extends StatelessWidget {
-  const DateTimePickerWidget(
-      {super.key, this.onPressed, required this.hintText});
+  const DateTimePickerWidget({
+    super.key,
+    this.onPressed,
+    required this.hintText,
+    required this.controller,
+  });
 
   final void Function()? onPressed;
   final String hintText;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +22,9 @@ class DateTimePickerWidget extends StatelessWidget {
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.67,
           child: TextFormField(
+            
             readOnly: true,
+            controller: controller,
             decoration: InputDecoration(
               hintText: hintText,
               hintStyle: TextStyle(

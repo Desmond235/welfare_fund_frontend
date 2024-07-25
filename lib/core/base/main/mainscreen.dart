@@ -3,6 +3,7 @@ import 'package:church_clique/core/components/bottom_nav_bar.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/features/home/widgets/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -15,29 +16,35 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final _drawerController = AdvancedDrawerController();
+  bool canPop = true;
 
   void _handleMenuButtonPressed() {
     _drawerController.showDrawer();
-  } 
+  }
+
+  
 
   @override
   void dispose() {
     _drawerController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return HomeDrawer(
       controller: _drawerController,
       child: Consumer(
         builder: (context, MainPageProvider pageState, child) {
-          return Scaffold(
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: mainSystemUiOverlayStyle,
+            child: Scaffold(
               appBar: AppBar(
                 title: Text(pageState.currentPage == 0
                     ? "Home"
                     : pageState.currentPage == 1
                         ? 'Make Payment'
-                        : 'Profile'),
+                        : 'Membership Form'),
                 leading: IconButton(
                   onPressed: _handleMenuButtonPressed,
                   icon: ValueListenableBuilder<AdvancedDrawerValue>(
@@ -54,8 +61,16 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ),
               ),
-              body: KMainPages[pageState.currentPage],
-              bottomNavigationBar: const BottomNavBar());
+              body: PopScope(
+                canPop: false,
+                onPopInvoked: (value) async{
+                  return dialogBox(context);
+                },
+                child: KMainPages[pageState.currentPage],
+              ),
+              bottomNavigationBar: const BottomNavBar(),
+            ),
+          );
         },
       ),
     );

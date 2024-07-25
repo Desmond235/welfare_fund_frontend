@@ -59,9 +59,12 @@ class HomeDrawer extends StatelessWidget {
                   title: const Text('Home'),
                 ),
                 ListTile(
-                  onTap: () {},
-                  leading: const Icon(MaterialCommunityIcons.file_document),
-                  title: const Text("Report"),
+                  onTap:(){
+                    controller.hideDrawer();
+                    Navigator.of(context).pushNamed('settings');
+                  },
+                  leading: const Icon(MaterialCommunityIcons.settings),
+                  title: const Text("Settings"),
                 ),
                 // ListTile(
                 //   onTap: () {

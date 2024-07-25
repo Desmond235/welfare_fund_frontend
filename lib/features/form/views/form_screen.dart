@@ -8,6 +8,7 @@ import 'package:church_clique/features/home/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:icons_flutter/icons_flutter.dart';
+import 'package:intl/intl.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -17,10 +18,29 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
+  final formatter = DateFormat.yMMMd();
+  final _formKey = GlobalKey<FormState>();
   final date = DateTime.now();
   final firstDate = DateTime(1900);
   AdvancedDrawerController controller = AdvancedDrawerController();
-  MaritalStatus initialValue = MaritalStatus.married;
+  String? initialValue;
+  String? aliveValue;
+  TextEditingController dateController() {
+    return DoBDate == null
+        ? TextEditingController(
+            text: "Date of Birth",
+          )
+        : TextEditingController(text: formatter.format(DoBDate!));
+  }
+
+  TextEditingController registrationController() {
+    return regisDate == null
+        ? TextEditingController(text: 'Date of Registration')
+        : TextEditingController(
+            text: formatter.format(regisDate!),
+          );
+  }
+
   DateTime toDayDate() {
     return DateTime(date.year, date.month, date.day);
   }
@@ -43,13 +63,13 @@ class _FormScreenState extends State<FormScreen> {
     });
 
     value!(_pickedDate);
-
-    print(regisDate!.toIso8601String());
   }
 
   @override
   void dispose() {
     controller.dispose();
+    registrationController().dispose();
+    dateController().dispose();
     super.dispose();
   }
 
@@ -57,32 +77,24 @@ class _FormScreenState extends State<FormScreen> {
   Widget build(BuildContext context) {
     return HomeDrawer(
       child: Scaffold(
-        appBar: AppBar(),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Form(
+              key: _formKey,
               child: Padding(
                 padding: const EdgeInsets.all(15),
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      BuildTextInput(
-                        controller: TextEditingController(),
-                        icon: MaterialCommunityIcons.account_outline,
-                        hintText: "Full Name",
-                        validator: (value) {
-                          if (value!.trim().isEmpty ||
-                              !RegExp(r'/S').hasMatch(value)) {
-                            return "Invalid name";
-                          }
-                          return null;
-                        },
+                      inputText(
+                        MaterialCommunityIcons.account_outline,
+                        'Full Name',
+                        TextInputType.text,
                       ),
-
-                      // TODO: display date chosen in text field
                       DateTimePickerWidget(
+                        controller: dateController(),
                         hintText: 'Date of Birth',
                         onPressed: () {
                           chosenDate(
@@ -94,6 +106,7 @@ class _FormScreenState extends State<FormScreen> {
                       ),
                       // TODO:Dispaly date chosen in text box
                       DateTimePickerWidget(
+                        controller: registrationController(),
                         onPressed: () {
                           chosenDate(
                             (pickedDate) {
@@ -145,7 +158,7 @@ class _FormScreenState extends State<FormScreen> {
                         type: TextInputType.phone,
                         validator: (value) {
                           if (value!.trim().isEmpty) {
-                            return 'required filed';
+                            return 'required field';
                           }
                           return null;
                         },
@@ -154,15 +167,13 @@ class _FormScreenState extends State<FormScreen> {
                       ),
                       const SizedBox(height: 7),
                       BuildTextInput(
-                        type: TextInputType.phone,
-                        // validator: (value) {
-                        //   if (value!.trim().isEmpty ||
-                        //       value.trim().length > 6 ||
-                        //       !RegExp(r'\d').hasMatch(value)) {
-                        //     return 'Invalid phone number';
-                        //   }
-                        //   return null;
-                        // },
+                        type: TextInputType.text,
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return 'Please enter a correct house number';
+                          }
+                          return null;
+                        },
                         icon: MaterialCommunityIcons.home_outline,
                         hintText: 'H/No./Digital Address',
                       ),
@@ -170,7 +181,8 @@ class _FormScreenState extends State<FormScreen> {
                       BuildTextInput(
                         type: TextInputType.text,
                         validator: (value) {
-                          if (value!.trim().isEmpty) {
+                          if (value!.trim().isEmpty ||
+                              !RegExp(r'/S').hasMatch(value)) {
                             return 'Please enter a valid house address';
                           }
                           return null;
@@ -209,7 +221,8 @@ class _FormScreenState extends State<FormScreen> {
                       BuildTextInput(
                         type: TextInputType.text,
                         validator: (value) {
-                          if (value!.trim().isEmpty) {
+                          if (value!.trim().isEmpty ||
+                              !RegExp(r'/S').hasMatch(value)) {
                             return 'required field';
                           }
                           return null;
@@ -222,8 +235,11 @@ class _FormScreenState extends State<FormScreen> {
                         child: SizedBox(
                           // width: MediaQuery.of(context).size.width * 0.52,
                           child: DropdownButtonFormField(
-                            hint: Text('Choose marital status'),
-                            value: initialValue.name,
+                            hint: Text(
+                              'Choose marital status',
+                              style: TextStyle(color: Palette.textColor1),
+                            ),
+                            value: initialValue,
                             items: MaritalStatus.values
                                 .map((status) => DropdownMenuItem(
                                       value: status.name,
@@ -235,7 +251,9 @@ class _FormScreenState extends State<FormScreen> {
                                       ),
                                     ))
                                 .toList(),
-                            onChanged: (value) {},
+                            onChanged: (value) {
+                              initialValue = value!;
+                            },
                             decoration: inputDecoration(),
                           ),
                         ),
@@ -249,11 +267,74 @@ class _FormScreenState extends State<FormScreen> {
                         icon: Icons.person_outline_outlined,
                         hintText: 'Name of Spouse (IF MARRIED)',
                         validator: (value) {
-                          if (value!.trim().isEmpty) {
+                          if (value!.trim().isEmpty ||
+                              !RegExp(r'/S').hasMatch(value)) {
                             return "Please enter the name of your spouse";
                           }
                           return null;
                         },
+                      ),
+                      dropDownButton(),
+                      const SizedBox(height: 15),
+                      BuildTextInput(
+                        type: TextInputType.number,
+                        icon: Icons.boy,
+                        hintText: "Number of children",
+                      ),
+                      const SizedBox(height: 10),
+                      BuildTextInput(
+                        maxLines: null,
+                        type: TextInputType.multiline,
+                        icon: MaterialCommunityIcons.alphabetical,
+                        hintText: 'Names of Children',
+                      ),
+                      BuildTextInput(
+                        type: TextInputType.text,
+                        validator: (value) {
+                          if (value!.trim().isEmpty ||
+                              !RegExp(r'\S( )?').hasMatch(value)) {
+                            return "Please enter letters only";
+                          }
+                          return null;
+                        },
+                        icon: MaterialCommunityIcons.worker,
+                        hintText: 'Occupation',
+                      ),
+                      inputText(
+                        Icons.man_outlined,
+                        'Biological Father\'s name',
+                        TextInputType.text,
+                      ),
+                      dropDownButton(),
+
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: BuildTextInput(
+                          type: TextInputType.text,
+                          validator: (value) {
+                            if (value!.trim().isEmpty ||
+                                !RegExp(r'\S( )?').hasMatch(value)) {
+                              return "Please enter letters only";
+                            }
+                            return null;
+                          },
+                          icon: Icons.woman_outlined,
+                          hintText: 'Biological Mother\'s name',
+                        ),
+                      ),
+                      dropDownButton(),
+                      const SizedBox(height: 10),
+                      kinClassLeader('Next of Kin'),
+                      kinClassLeader('Class Leader'),
+                      inputText(
+                        Icons.person,
+                        'Organization of Member (if applicable)',
+                        TextInputType.phone,
+                      ),
+                      inputText(
+                        Icons.phone,
+                        'Org. Leader\'s Contact',
+                        TextInputType.phone,
                       )
                     ],
                   ),
@@ -264,6 +345,81 @@ class _FormScreenState extends State<FormScreen> {
         ),
       ),
       controller: controller,
+    );
+  }
+
+  BuildTextInput inputText(IconData icon, String text, TextInputType type) {
+    return BuildTextInput(
+      type: type,
+      validator: (value) {
+        if (value!.trim().isEmpty || !RegExp(r'\S( )?').hasMatch(value)) {
+          return "Please enter letters only";
+        }
+        return null;
+      },
+      icon: icon,
+      hintText: text,
+    );
+  }
+
+  Row kinClassLeader(
+    String text,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Expanded(
+          child: BuildTextInput(
+            type: TextInputType.text,
+            validator: (value) {
+              if (value!.trim().isEmpty || !RegExp(r'\S( )?').hasMatch(value)) {
+                return "Please enter letters only";
+              }
+              return null;
+            },
+            icon: Icons.person,
+            hintText: text,
+          ),
+        ),
+        Expanded(
+          child: BuildTextInput(
+            type: TextInputType.phone,
+            validator: (value) {
+              if (value!.trim().isEmpty) {
+                return "Please enter contact of next of kin";
+              }
+              return null;
+            },
+            icon: Icons.phone,
+            hintText: 'Contact',
+          ),
+        ),
+      ],
+    );
+  }
+
+  DropdownButtonFormField<String> dropDownButton() {
+    return DropdownButtonFormField(
+      value: aliveValue,
+      hint: Text(
+        'Alive or Deceased',
+        style: TextStyle(color: Palette.textColor1),
+      ),
+      items: Life.values
+          .map(
+            (life) => DropdownMenuItem(
+              value: life.name,
+              child: Text(
+                life.name,
+                style: TextStyle(color: Palette.textColor1),
+              ),
+            ),
+          )
+          .toList(),
+      onChanged: (value) {
+        aliveValue = value!;
+      },
+      decoration: inputDecoration(),
     );
   }
 }

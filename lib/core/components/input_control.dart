@@ -15,6 +15,8 @@ class BuildTextInput extends StatefulWidget {
     this.maxLength,
     this.onSaved,
     this.onChanged,
+    this.textInputAction,
+    this.maxLines,
   });
 
   final bool? isEmail;
@@ -24,8 +26,10 @@ class BuildTextInput extends StatefulWidget {
   final TextInputType? type;
   final TextEditingController? controller;
   final int? maxLength;
+  final int? maxLines;
   final void Function(String? value)? onSaved;
   final void Function(String value)? onChanged;
+  final TextInputAction? textInputAction;
   
   
   
@@ -41,15 +45,18 @@ class _BuildTextInputState extends State<BuildTextInput> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: TextFormField(
+
+        maxLines: widget.maxLines ,
         onChanged: widget.onChanged ,
         controller: widget.controller,
+        textInputAction: widget.textInputAction ,
         autocorrect: false,
         inputFormatters: [
-          if(widget.type == TextInputType.text)
-          FilteringTextInputFormatter.allow(RegExp(r'\w( )?')),
-          FilteringTextInputFormatter.deny(RegExp(r'\d')),
+          // if(widget.type == TextInputType.text)
+          // FilteringTextInputFormatter.allow(RegExp(r'\w( )?')),
+          // FilteringTextInputFormatter.deny(RegExp(r'\d')),
           if(widget.type == TextInputType.phone)
-          FilteringTextInputFormatter.digitsOnly,
+          FilteringTextInputFormatter.allow(RegExp(r'\d')),
           LengthLimitingTextInputFormatter(
             widget.type == TextInputType.phone ? 10: widget.maxLength
           ),

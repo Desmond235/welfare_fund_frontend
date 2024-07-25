@@ -15,7 +15,7 @@ class NavItem extends StatefulWidget {
       case 1:
         return "Pay";
       case 2:
-        return 'Profile';
+        return 'Form';
       default:
         return "Home";
     }

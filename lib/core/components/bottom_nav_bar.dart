@@ -31,7 +31,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       destinations:  [
         NavItem(icon: MaterialCommunityIcons.home, index: 0),
         NavItem(icon: Icons.payment, index: 1),
-        NavItem(icon: MaterialCommunityIcons.account, index: 2)
+        NavItem(icon: MaterialCommunityIcons.file_document, index: 2)
       ],
     );
   }

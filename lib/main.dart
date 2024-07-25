@@ -3,7 +3,9 @@ import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
 import 'package:church_clique/features/auth/views/juice.dart';
 import 'package:church_clique/core/base/main/mainscreen.dart';
+import 'package:church_clique/features/form/views/form_screen.dart';
 import 'package:church_clique/features/payment/views/payment_screen.dart';
+import 'package:church_clique/features/settings/views/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -38,11 +40,13 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const AuthScreen(),
+        home: const MainScreen(),
         routes: {
           'juice': (context) => Juice(),
           'payment': (context) => PaymentScreen(),
-          'main': (context) => MainScreen()
+          'main': (context) => MainScreen(),
+          'settings': (context) => SettingsScreen(),
+          'auth': (context) => AuthScreen(),
         });
   }
 }
