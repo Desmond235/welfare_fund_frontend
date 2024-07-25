@@ -1,5 +1,6 @@
 // import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/components/input_control.dart';
+import 'package:church_clique/core/components/send_button.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/payment/paystack/pay_with_paystack.dart';
 import 'package:church_clique/features/payment/views/make_payment_screen.dart';
@@ -67,7 +68,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     enteredAmount = value!;
                   },
                   validator: (value) {
-                    if (value!.trim().isEmpty || !RegExp(r'\d').hasMatch(value)) {
+                    if (value!.trim().isEmpty ||
+                        !RegExp(r'\d').hasMatch(value)) {
                       return 'Please enter a valid amount';
                     }
                     return null;
@@ -100,61 +102,41 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 const SizedBox(height: 10),
                 Column(
                   children: [
-                    SizedBox(
-                        width: double.infinity,
-                        height: 55,
-                        child: InkWell(
-                          onTap: makePayment,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(0.72),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Pay with Momo',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                Icon(Icons.payment,
-                                    color: Colors.white.withOpacity(0.7))
-                              ],
-                            ),
-                          ),
-                        )),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                        height: 55,
-                        width: double.infinity,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(0.72),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Pay with bank Account / Card',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                Icon(Icons.payment,
-                                    color: Colors.white.withOpacity(0.7))
-                              ],
-                            ),
-                          ),
-                        ))
+                    sendButton(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      context: context,
+                      onTap: makePayment,
+                      text: "Proceed to make payment",
+                      icon: Icons.payment,
+                    ),
+                    // const SizedBox(height: 10),
+                    // SizedBox(
+                    //     height: 55,
+                    //     width: double.infinity,
+                    //     child: InkWell(
+                    //       onTap: () {},
+                    //       child: Container(
+                    //         padding: const EdgeInsets.symmetric(horizontal: 30),
+                    //         decoration: BoxDecoration(
+                    //           color: Theme.of(context)
+                    //               .colorScheme
+                    //               .primary
+                    //               .withOpacity(0.72),
+                    //           borderRadius: BorderRadius.circular(30),
+                    //         ),
+                    //         child: Row(
+                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //           children: [
+                    //             Text(
+                    //               'Pay with bank Account / Card',
+                    //               style: TextStyle(color: Colors.white),
+                    //             ),
+                    //             Icon(Icons.payment,
+                    //                 color: Colors.white.withOpacity(0.7))
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ))
                   ],
                 )
               ],

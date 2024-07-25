@@ -1,4 +1,5 @@
 import 'package:church_clique/core/components/input_control.dart';
+import 'package:church_clique/core/components/send_button.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/form/views/enum/category.dart';
 import 'package:church_clique/features/form/widgets/drop_down.dart';
@@ -335,6 +336,14 @@ class _FormScreenState extends State<FormScreen> {
                         Icons.phone,
                         'Org. Leader\'s Contact',
                         TextInputType.phone,
+                      ),
+                      const SizedBox(height: 10),
+                      sendButton(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        context: context,
+                        onTap: () {},
+                        text: "Submit",
+                        icon: Icons.send,
                       )
                     ],
                   ),

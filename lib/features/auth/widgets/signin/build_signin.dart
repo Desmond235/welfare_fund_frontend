@@ -17,6 +17,7 @@ class SignInWidget extends StatefulWidget {
     required this.chkOnchanged,
     required this.onChanged,
     required this.controller,
+    required this.passwordController
   }) : _isSignUpScreen = isSignupScreen;
   final bool _isSignUpScreen;
   final void Function(String name)? username;
@@ -24,6 +25,7 @@ class SignInWidget extends StatefulWidget {
   final void Function(String onChanged) onChanged;
   final void Function(bool? value) chkOnchanged;
   final TextEditingController? controller;
+  final TextEditingController passwordController;
 
   @override
   State<SignInWidget> createState() => _SignInWidgetState();
@@ -31,7 +33,6 @@ class SignInWidget extends StatefulWidget {
 
 class _SignInWidgetState extends State<SignInWidget> {
   bool showPassword = true;
-  final passwordController = TextEditingController();
   final obscureTextController = ObscuringTextEditingController();
 
   @override
@@ -99,7 +100,9 @@ class _SignInWidgetState extends State<SignInWidget> {
               ),
               const SizedBox(height: 20),
               BuildTextInput(
+                maxLines: 1,
                 controller: widget.controller,
+                type: TextInputType.emailAddress,
                 onChanged: widget.onChanged,
                 icon: MaterialCommunityIcons.account_outline,
                 hintText: "info@example.com",
@@ -122,7 +125,7 @@ class _SignInWidgetState extends State<SignInWidget> {
               /// TextFormField when it is not focused and when it is focused, respectively.
               TextFormField(
                 controller:
-                    showPassword ? passwordController : obscureTextController,
+                    showPassword ? widget.passwordController : obscureTextController,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(10),
                   hintText: "Password",
@@ -138,14 +141,14 @@ class _SignInWidgetState extends State<SignInWidget> {
                   suffixIcon: IconButton(
                     onPressed: () {
                       if (showPassword) {
-                        obscureTextController.text = passwordController.text;
+                        obscureTextController.text = widget.passwordController.text;
                         obscureTextController.selection =
                             TextSelection.collapsed(
                                 offset: obscureTextController.text.length);
                       } else {
-                        passwordController.text = obscureTextController.text;
-                        passwordController.selection = TextSelection.collapsed(
-                            offset: passwordController.text.length);
+                        widget.passwordController.text = obscureTextController.text;
+                        widget.passwordController.selection = TextSelection.collapsed(
+                            offset: widget.passwordController.text.length);
                       }
                       setState(() {
                         showPassword = !showPassword;

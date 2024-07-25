@@ -24,6 +24,7 @@ class _AuthScreenState extends State<AuthScreen> {
   File? pickedImageFile;
   String? username;
   bool? isRememberMe;
+  final passwordController = TextEditingController();
   TextEditingController usernameController() {
     return TextEditingController(text: username);
   }
@@ -73,7 +74,7 @@ class _AuthScreenState extends State<AuthScreen> {
         return Http.post({
           "username": value.onSaveUsername,
           "email": value.onSaveEmail,
-          "password": value.onSaveEmail
+          "password": value.onSavePassword
         });
       },
     );
@@ -83,157 +84,177 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Palette.backgroundColor,
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: systemUiOverlayStyle,
-        child: SingleChildScrollView(
-          child: KeyboardDismissOnTap(
-            child: Consumer<AuthProvider>(
-              builder: (context, value, child) {
-                bool isSignupScreen = value.isSignUp;
-                return Container(
-                  height: MediaQuery.of(context).size.height / 0.96,
-                  child: Form(
-                    key: _formKey,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          child: Container(
-                            height: 355,
-                            // background image
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                    'assets/images/background.jpg',
-                                  ),
-                                  fit: BoxFit.cover),
-                            ),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (value) {
+        dialogBox(context);
+      },
+      child: Scaffold(
+        backgroundColor: Palette.backgroundColor,
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: systemUiOverlayStyle,
+          child: SingleChildScrollView(
+            child: KeyboardDismissOnTap(
+              child: Consumer<AuthProvider>(
+                builder: (context, value, child) {
+                  bool isSignupScreen = value.isSignUp;
+                  return Container(
+                    height: MediaQuery.of(context).size.height / 0.96,
+                    child: Form(
+                      key: _formKey,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            right: 0,
                             child: Container(
-                              padding: const EdgeInsets.only(top: 40, left: 20),
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(0.75),
-                              child: SafeArea(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    RichText(
-                                      text: TextSpan(
-                                        text: "Welcome to",
-                                        style: TextStyle(
-                                          color: Colors.yellow[700],
-                                          fontSize: width < 600 ? 20 : 25,
-                                          letterSpacing: 2,
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                              text: " Welfare Fund,",
-                                              style: TextStyle(
-                                                  color: Colors.yellow[600],
-                                                  fontSize: width < 600 ? 20 : 25,
-                                                  fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
+                              height: 355,
+                              // background image
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                      'assets/images/background.jpg',
                                     ),
-                                    const SizedBox(height: 6),
-                                    Text(
-                                      isSignupScreen
-                                          ? 'Signup to continue'
-                                          : 'Signin to continue',
-                                      style: TextStyle(color: Colors.white),
-                                    )
-                                  ],
+                                    fit: BoxFit.cover),
+                              ),
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.only(top: 40, left: 20),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.75),
+                                child: SafeArea(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      RichText(
+                                        text: TextSpan(
+                                          text: "Welcome to",
+                                          style: TextStyle(
+                                            color: Colors.yellow[700],
+                                            fontSize: width < 600 ? 20 : 25,
+                                            letterSpacing: 2,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                                text: " Welfare Fund,",
+                                                style: TextStyle(
+                                                    color: Colors.yellow[600],
+                                                    fontSize:
+                                                        width < 600 ? 20 : 25,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      Text(
+                                        isSignupScreen
+                                            ? 'Signup to continue'
+                                            : 'Signin to continue',
+                                        style: TextStyle(color: Colors.white),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        SubmitButton(
-                          isSignupScreen: isSignupScreen,
-                          isShadow: true,
-                          onTap: () {},
-                        ),
-                        // this adds a submit button
-                        AnimatedPositioned(
-                          duration: const Duration(milliseconds: 700),
-                          curve: Curves.bounceInOut,
-                          top: isSignupScreen ? 180 : 230,
-                          child: AnimatedContainer(
-                            duration: const Duration(microseconds: 700),
+                          SubmitButton(
+                            isSignupScreen: isSignupScreen,
+                            isShadow: true,
+                            onTap: () {},
+                          ),
+                          // this adds a submit button
+                          AnimatedPositioned(
+                            duration: const Duration(milliseconds: 700),
                             curve: Curves.bounceInOut,
-                            width: MediaQuery.of(context).size.width - 40,
-                            height: isSignupScreen ? 565 : 260,
-                            margin: const EdgeInsets.symmetric(horizontal: 20),
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                if (isSignupScreen)
-                                  SignUpWidget(
-                                    isSignupScreen: isSignupScreen,
-                                    onPickedImage: (pickedImage) {
-                                      pickedImageFile = pickedImage;
-                                    },
+                            top: isSignupScreen ? 180 : 230,
+                            child: AnimatedContainer(
+                              duration: const Duration(microseconds: 700),
+                              curve: Curves.bounceInOut,
+                              width: MediaQuery.of(context).size.width - 40,
+                              height: isSignupScreen ? 565 : 260,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.3),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
                                   ),
-                                if (!isSignupScreen)
-                                  SignInWidget(
-                                    controller: usernameController(),
-                                    isSignupScreen: isSignupScreen,
-                                    isRememberMe: isRememberMe,
-                                    onChanged: (value) async {
-                                      setState(() {
-                                        username = value;
-                                      });                                  },
-                                    chkOnchanged: (value) async {
-                                      setState(() {
-                                        isRememberMe = value!;
-                                      });
-                                       if (value == true) {
-                                        final prefs = await sharedPrefs;
-                                        prefs.setString('username', username!);
-                                        prefs.setBool(
-                                            'isRememberMe', isRememberMe!);
-                                      }else{
-                                        final prefs = await sharedPrefs;
-                                        prefs.remove('username');
-                                        prefs.remove('isRememberMe');
-                                      }
-        
-                                    },
-                                  ),
-                              ],
+                                ],
+                              ),
+                              child: Column(
+                                children: [
+                                  if (isSignupScreen)
+                                    SignUpWidget(
+                                      isSignupScreen: isSignupScreen,
+                                      onPickedImage: (pickedImage) {
+                                        pickedImageFile = pickedImage;
+                                      },
+                                    ),
+                                  if (!isSignupScreen)
+                                    SignInWidget(
+                                      // FIXME: getTextBefore on inactive input connection issue 
+                                      passwordController: passwordController,
+                                      controller: usernameController(),
+                                      isSignupScreen: isSignupScreen,
+                                      isRememberMe: isRememberMe,
+                                      onChanged: (value) async {
+                                        setState(() {
+                                          username = value;
+                                        });
+                                      },
+                                      chkOnchanged: (value) async {
+                                        setState(() {
+                                          isRememberMe = value!;
+                                        });
+                                        if (value == true) {
+                                          final prefs = await sharedPrefs;
+                                          prefs.setString(
+                                              'username', username!);
+                                          prefs.setBool(
+                                              'isRememberMe', isRememberMe!);
+                                        } else {
+                                          final prefs = await sharedPrefs;
+                                          prefs.remove('username');
+                                          prefs.remove('isRememberMe');
+                                        }
+                                      },
+                                    ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        SubmitButton(
-                          onTap: () async {
-                            if (isSignupScreen) {
-                              addCredentials();
-                            }
-                          },
-                          isSignupScreen: isSignupScreen,
-                          isShadow: false,
-                        )
-                      ],
+                          SubmitButton(
+                            onTap: () async {
+                              if (isSignupScreen) {
+                                addCredentials();
+                              } else {
+                                if (usernameController().text == "" ||
+                                    passwordController.text == "") {
+                                      return;
+                                    }
+                                    Navigator.of(context).pushReplacementNamed('main');
+                              }
+                            },
+                            isSignupScreen: isSignupScreen,
+                            isShadow: false,
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ),

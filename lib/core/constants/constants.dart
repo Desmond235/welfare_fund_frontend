@@ -12,11 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final KMainPages = [
-  HomeScreen(),
-  PaymentScreen(),
-  FormScreen()
-];
+final KMainPages = [HomeScreen(), PaymentScreen(), FormScreen()];
 
 Color priCol(BuildContext context) {
   return Theme.of(context).colorScheme.primary;
@@ -49,29 +45,32 @@ final mainSystemUiOverlayStyle = SystemUiOverlayStyle(
     systemNavigationBarIconBrightness: Brightness.dark,
     systemNavigationBarDividerColor: Colors.transparent);
 
-    
-    dialogBox( BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            icon: Icon(Icons.exit_to_app),
-            content: Text("Are you sure you want to exit"),
-            actions: [
-              TextButton(
-                onPressed: () {
-                    Navigator.pop(context);
-                },
-                child: Text('No'),
-              ),
-              TextButton(
-                onPressed: () {
-                  SystemNavigator.pop();
-                  // canPop = true;
-                },
-                child: Text('Yes'),
-              ),
-            ],
-          );
-        });
-  }
+dialogBox(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          icon: Icon(Icons.exit_to_app),
+          content: Text(
+            "Are you sure you want to exit?",
+            style: TextStyle(fontSize: 15),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('No'),
+            ),
+            TextButton(
+              onPressed: () {
+                SystemNavigator.pop();
+                // canPop = true;
+              },
+              child: Text('Yes'),
+            ),
+          ],
+        );
+      });
+}
+
