@@ -93,6 +93,7 @@ class SettingsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               SettingsCard(
+                
                 label: 'About',
                 children: [
                   SettingsListItem(

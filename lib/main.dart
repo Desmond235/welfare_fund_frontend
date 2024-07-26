@@ -5,6 +5,7 @@ import 'package:church_clique/features/auth/views/juice.dart';
 import 'package:church_clique/core/base/main/mainscreen.dart';
 import 'package:church_clique/features/form/views/form_screen.dart';
 import 'package:church_clique/features/payment/views/payment_screen.dart';
+import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:church_clique/features/settings/views/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,6 +37,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
+        darkTheme: ThemeData.dark(),
+        themeMode: Provider.of<ThemeProvider>(context, listen: false).themeMode,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,

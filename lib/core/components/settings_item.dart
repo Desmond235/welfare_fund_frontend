@@ -1,5 +1,7 @@
 import 'package:church_clique/core/constants/palette.dart';
+import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SettingsCard extends StatelessWidget {
   const SettingsCard({
@@ -113,9 +115,7 @@ class _SettingsListItemState extends State<SettingsListItem> {
                     inactiveThumbColor: Palette.textColor1,
                     inactiveTrackColor: Colors.white,
                     activeColor: Theme.of(context).colorScheme.primary,
-                    onChanged: (value) {
-                      change(value);
-                    })
+                    onChanged:(value) => Provider.of<ThemeProvider>(context, listen:  false).toggleThemeMode(),)
                 : Icon(
                     Icons.arrow_forward_ios_rounded,
                     color: widget.txtColor ??

@@ -5,6 +5,7 @@ import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/form/views/form_screen.dart';
 import 'package:church_clique/features/home/screens/home_screeb.dart';
 import 'package:church_clique/features/payment/views/payment_screen.dart';
+import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:church_clique/features/settings/views/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +25,7 @@ List<SingleChildWidget> multiProviders = [
   ChangeNotifierProvider(create: (context) => AuthProvider()),
   ChangeNotifierProvider(create: (context) => MainPageProvider()),
   ChangeNotifierProvider(create: (context) => SignInProvider()),
+  ChangeNotifierProvider(create: (context )=> ThemeProvider())
 ];
 
 final systemNavBarColor = SystemChrome.setSystemUIOverlayStyle(
