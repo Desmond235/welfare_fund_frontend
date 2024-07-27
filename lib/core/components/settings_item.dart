@@ -111,7 +111,7 @@ class _SettingsListItemState extends State<SettingsListItem> {
             ),
             widget.toggle == true
                 ? Switch(
-                    value: isActive,
+                    value: Provider.of<ThemeProvider>(context,listen: false).isDarkMode,
                     inactiveThumbColor: Palette.textColor1,
                     inactiveTrackColor: Colors.white,
                     activeColor: Theme.of(context).colorScheme.primary,

@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         darkTheme: ThemeData.dark(),
-        themeMode: Provider.of<ThemeProvider>(context, listen: false).themeMode,
+        themeMode: Provider.of<ThemeProvider>(context).themeMode,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
