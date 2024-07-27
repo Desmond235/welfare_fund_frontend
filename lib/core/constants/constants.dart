@@ -25,7 +25,7 @@ List<SingleChildWidget> multiProviders = [
   ChangeNotifierProvider(create: (context) => AuthProvider()),
   ChangeNotifierProvider(create: (context) => MainPageProvider()),
   ChangeNotifierProvider(create: (context) => SignInProvider()),
-  ChangeNotifierProvider(create: (context )=> ThemeProvider())
+  ChangeNotifierProvider(create: (context) => ThemeProvider())
 ];
 
 final systemNavBarColor = SystemChrome.setSystemUIOverlayStyle(
@@ -42,10 +42,18 @@ final systemUiOverlayStyle = SystemUiOverlayStyle(
     systemNavigationBarIconBrightness: Brightness.dark,
     systemNavigationBarDividerColor: Colors.transparent);
 
-final mainSystemUiOverlayStyle = SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.white,
-    systemNavigationBarIconBrightness: Brightness.dark,
-    systemNavigationBarDividerColor: Colors.transparent);
+SystemUiOverlayStyle mainSystemUiOverlayStyle(BuildContext context) {
+  return SystemUiOverlayStyle(
+      systemNavigationBarColor:
+          Provider.of<ThemeProvider>(context, listen: false).isDarkMode
+              ? Colors.black.withOpacity(0.85)
+              : Colors.white,
+      systemNavigationBarIconBrightness:
+          Provider.of<ThemeProvider>(context, listen: false).isDarkMode
+              ? Brightness.light
+              : Brightness.dark,
+      systemNavigationBarDividerColor: Colors.transparent);
+}
 
 dialogBox(BuildContext context) {
   showDialog(
@@ -75,4 +83,3 @@ dialogBox(BuildContext context) {
         );
       });
 }
-

@@ -34,7 +34,9 @@ class SettingsCard extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
-            color: Colors.white,
+            color: Provider.of<ThemeProvider>(context, listen: false).isDarkMode
+                ? Colors.grey.shade900
+                : Colors.white,
           ),
           child: Column(
             children: children,
@@ -73,9 +75,9 @@ class _SettingsListItemState extends State<SettingsListItem> {
     setState(() {
       isActive = value;
     });
-    if (widget.onTap != null) {
-      widget.onTap!();
-    }
+    // if (widget.onTap != null) {
+    //   widget.onTap!();
+    // }
   }
 
   @override
@@ -93,7 +95,9 @@ class _SettingsListItemState extends State<SettingsListItem> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: widget.bgColor,
+          color: Provider.of<ThemeProvider>(context, listen: false).isDarkMode
+              ? Colors.grey.shade900
+              : widget.bgColor,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
@@ -107,15 +111,19 @@ class _SettingsListItemState extends State<SettingsListItem> {
                   style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
-                      color: widget.txtColor)),
+                      color: Palette.textColor1)),
             ),
             widget.toggle == true
                 ? Switch(
-                    value: Provider.of<ThemeProvider>(context,listen: false).isDarkMode,
+                    value: Provider.of<ThemeProvider>(context, listen: false)
+                        .isDarkMode,
                     inactiveThumbColor: Palette.textColor1,
                     inactiveTrackColor: Colors.white,
                     activeColor: Theme.of(context).colorScheme.primary,
-                    onChanged:(value) => Provider.of<ThemeProvider>(context, listen:  false).toggleThemeMode(),)
+                    onChanged: (value) =>
+                        Provider.of<ThemeProvider>(context, listen: false)
+                            .toggleThemeMode(),
+                  )
                 : Icon(
                     Icons.arrow_forward_ios_rounded,
                     color: widget.txtColor ??

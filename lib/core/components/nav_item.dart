@@ -1,5 +1,6 @@
 import 'package:church_clique/core/base/main/main_page_provider.dart';
 import 'package:church_clique/core/constants/palette.dart';
+import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +45,10 @@ class _NavItemState extends State<NavItem> {
               Icon(widget.icon,
                   color: currPage == widget.index
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.black45),
+                      : Provider.of<ThemeProvider>(context, listen: false)
+                              .isDarkMode
+                          ? Colors.white.withOpacity(0.8)
+                          : Colors.black45),
               currPage == widget.index
                   ? Container(
                       margin: const EdgeInsets.only(top: 5),

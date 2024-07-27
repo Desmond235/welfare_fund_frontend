@@ -9,22 +9,20 @@ import 'package:icons_flutter/icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SignInWidget extends StatefulWidget {
-  const SignInWidget({
-    super.key,
-    required bool isSignupScreen,
-    this.isRememberMe,
-    this.username,
-    required this.chkOnchanged,
-    required this.onChanged,
-    required this.controller,
-    required this.passwordController
-  }) : _isSignUpScreen = isSignupScreen;
+  const SignInWidget(
+      {super.key,
+      required bool isSignupScreen,
+      this.isRememberMe,
+      this.username,
+      required this.chkOnchanged,
+      required this.onChanged,
+      required this.passwordController})
+      : _isSignUpScreen = isSignupScreen;
   final bool _isSignUpScreen;
   final void Function(String name)? username;
   final bool? isRememberMe;
   final void Function(String onChanged) onChanged;
   final void Function(bool? value) chkOnchanged;
-  final TextEditingController? controller;
   final TextEditingController passwordController;
 
   @override
@@ -101,7 +99,6 @@ class _SignInWidgetState extends State<SignInWidget> {
               const SizedBox(height: 20),
               BuildTextInput(
                 maxLines: 1,
-                controller: widget.controller,
                 type: TextInputType.emailAddress,
                 onChanged: widget.onChanged,
                 icon: MaterialCommunityIcons.account_outline,
@@ -124,8 +121,9 @@ class _SignInWidgetState extends State<SignInWidget> {
               /// The [enabledBorder] and [focusedBorder] properties are used to customize the border of the
               /// TextFormField when it is not focused and when it is focused, respectively.
               TextFormField(
-                controller:
-                    showPassword ? widget.passwordController : obscureTextController,
+                controller: showPassword
+                    ? widget.passwordController
+                    : obscureTextController,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(10),
                   hintText: "Password",
@@ -141,14 +139,19 @@ class _SignInWidgetState extends State<SignInWidget> {
                   suffixIcon: IconButton(
                     onPressed: () {
                       if (showPassword) {
-                        obscureTextController.text = widget.passwordController.text;
+                        obscureTextController.text =
+                            widget.passwordController.text;
                         obscureTextController.selection =
                             TextSelection.collapsed(
-                                offset: obscureTextController.text.length);
+                          offset: obscureTextController.text.length,
+                        );
                       } else {
-                        widget.passwordController.text = obscureTextController.text;
-                        widget.passwordController.selection = TextSelection.collapsed(
-                            offset: widget.passwordController.text.length);
+                        widget.passwordController.text =
+                            obscureTextController.text;
+                        widget.passwordController.selection =
+                            TextSelection.collapsed(
+                          offset: widget.passwordController.text.length,
+                        );
                       }
                       setState(() {
                         showPassword = !showPassword;
@@ -172,21 +175,21 @@ class _SignInWidgetState extends State<SignInWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Checkbox(
-                        tristate: false,
-                        value: widget.isRememberMe ?? false,
-                        activeColor: Palette.textColor2,
-                        onChanged: widget.chkOnchanged,
-                      ),
-                      const Text(
-                        "Remember me",
-                        style:
-                            TextStyle(fontSize: 12, color: Palette.textColor1),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Checkbox(
+                  //       tristate: false,
+                  //       value: widget.isRememberMe ?? false,
+                  //       activeColor: Palette.textColor2,
+                  //       onChanged: widget.chkOnchanged,
+                  //     ),
+                  //     const Text(
+                  //       "Remember me",
+                  //       style:
+                  //           TextStyle(fontSize: 12, color: Palette.textColor1),
+                  //     ),
+                  //   ],
+                  // ),
                   TextButton(
                     onPressed: () {},
                     child: const Text("Forgot Password?",

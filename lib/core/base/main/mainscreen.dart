@@ -37,7 +37,7 @@ class _MainScreenState extends State<MainScreen> {
       child: Consumer(
         builder: (context, MainPageProvider pageState, child) {
           return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: mainSystemUiOverlayStyle,
+            value: mainSystemUiOverlayStyle(context),
             child: Scaffold(
               appBar: AppBar(
                 title: Text(pageState.currentPage == 0

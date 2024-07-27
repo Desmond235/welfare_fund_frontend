@@ -25,9 +25,6 @@ class _AuthScreenState extends State<AuthScreen> {
   String? username;
   bool? isRememberMe;
   final passwordController = TextEditingController();
-  TextEditingController usernameController() {
-    return TextEditingController(text: username);
-  }
 
   void _loadPreferences() async {
     final prefs = await sharedPrefs;
@@ -44,16 +41,15 @@ class _AuthScreenState extends State<AuthScreen> {
     _loadPreferences();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    passwordController.dispose();
+  }
 // this function allows users to pick an image
 // and enter the enter their registration credentials
 // if the user does not pick an image, he or she will be prompted to pick an image
 // if the user enters a wrong or does or does not enter any information, the user will be prompted to do so
-
-  @override
-  void dispose() {
-    usernameController().dispose();
-    super.dispose();
-  }
 
   void addCredentials() {
     if (!_formKey.currentState!.validate()) {
@@ -203,9 +199,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                     ),
                                   if (!isSignupScreen)
                                     SignInWidget(
-                                      // FIXME: getTextBefore on inactive input connection issue 
+                                      // FIXME: getTextBefore on inactive input connection issue
                                       passwordController: passwordController,
-                                      controller: usernameController(),
                                       isSignupScreen: isSignupScreen,
                                       isRememberMe: isRememberMe,
                                       onChanged: (value) async {
@@ -239,11 +234,8 @@ class _AuthScreenState extends State<AuthScreen> {
                               if (isSignupScreen) {
                                 addCredentials();
                               } else {
-                                if (usernameController().text == "" ||
-                                    passwordController.text == "") {
-                                      return;
-                                    }
-                                    Navigator.of(context).pushReplacementNamed('main');
+                                Navigator.of(context)
+                                    .pushReplacementNamed('main');
                               }
                             },
                             isSignupScreen: isSignupScreen,
