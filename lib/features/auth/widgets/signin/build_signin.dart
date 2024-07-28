@@ -9,15 +9,16 @@ import 'package:icons_flutter/icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SignInWidget extends StatefulWidget {
-  const SignInWidget(
-      {super.key,
-      required bool isSignupScreen,
-      this.isRememberMe,
-      this.username,
-      required this.chkOnchanged,
-      required this.onChanged,
-      required this.passwordController})
-      : _isSignUpScreen = isSignupScreen;
+  const SignInWidget({
+    super.key,
+    required bool isSignupScreen,
+    this.isRememberMe,
+    this.username,
+    required this.chkOnchanged,
+    required this.onChanged,
+    required this.passwordController,
+  }) : _isSignUpScreen = isSignupScreen;
+  
   final bool _isSignUpScreen;
   final void Function(String name)? username;
   final bool? isRememberMe;
@@ -121,6 +122,7 @@ class _SignInWidgetState extends State<SignInWidget> {
               /// The [enabledBorder] and [focusedBorder] properties are used to customize the border of the
               /// TextFormField when it is not focused and when it is focused, respectively.
               TextFormField(
+                style: TextStyle(color: Colors.black),
                 controller: showPassword
                     ? widget.passwordController
                     : obscureTextController,

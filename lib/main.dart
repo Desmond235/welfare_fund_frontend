@@ -7,6 +7,8 @@ import 'package:church_clique/features/form/views/form_screen.dart';
 import 'package:church_clique/features/payment/views/payment_screen.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:church_clique/features/settings/views/settings_screen.dart';
+import 'package:church_clique/features/theme/dark_theme.dart';
+import 'package:church_clique/features/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -18,7 +20,7 @@ Future main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-   systemNavBarColor;
+  systemNavBarColor;
   await dotenv.load(fileName: '.env');
   runApp(
     MultiProvider(
@@ -34,10 +36,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final themeState = Provider.of<ThemeProvider>(context);
+    themeState.getDarkTheme();
     return MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        darkTheme: ThemeData.dark(),
+        // themeMode: themeState.isDarkMode? ThemeMode.dark : ThemeMode.light,
+        darkTheme: darkMode,
+        themeMode: themeState.isDarkTheme
+            ? ThemeMode.dark
+            : !themeState.isDarkTheme
+                ? ThemeMode.light
+                : ThemeMode.system,
         theme: Provider.of<ThemeProvider>(context).themeData,
         home: const AuthScreen(),
         routes: {

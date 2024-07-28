@@ -29,18 +29,22 @@ class SettingsCard extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: Provider.of<ThemeProvider>(context, listen: false).isDarkMode
-                ? Colors.grey.shade900
-                : Colors.white,
-          ),
-          child: Column(
-            children: children,
-          ),
+        Consumer<ThemeProvider>(
+          builder: (_, ref, __) {
+            return Container(
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                color: ref.isDarkMode || ref.isDarkTheme
+                    ? Colors.grey.shade900
+                    : Colors.white,
+              ),
+              child: Column(
+                children: children,
+              ),
+            );
+          },
         )
       ],
     );
@@ -51,19 +55,23 @@ class SettingsListItem extends StatefulWidget {
   const SettingsListItem({
     super.key,
     this.onTap,
-    required this.icon,
+    this.icon,
     required this.label,
     this.toggle = false,
     this.bgColor = Colors.white,
+    this.child,
     this.txtColor = const Color.fromARGB(255, 165, 119, 238),
+    this.animatedIcon
   });
 
   final void Function()? onTap;
   final String label;
-  final IconData icon;
+  final IconData? icon;
+  final Widget? child;
   final bool toggle;
   final Color? bgColor;
   final Color? txtColor;
+  final Widget? animatedIcon;
   @override
   State<SettingsListItem> createState() => _SettingsListItemState();
 }
@@ -92,45 +100,47 @@ class _SettingsListItemState extends State<SettingsListItem> {
           }
         }
       },
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Provider.of<ThemeProvider>(context, listen: false).isDarkMode
-              ? Colors.grey.shade900
-              : widget.bgColor,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          children: [
-            Icon(widget.icon,
-                color:
-                    widget.txtColor ?? Theme.of(context).colorScheme.primary),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(widget.label,
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Palette.textColor1)),
+      child: Consumer<ThemeProvider>(
+        builder: (_, ref, __) {
+          return Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: ref.isDarkMode || ref.isDarkTheme
+                  ? Colors.grey.shade900
+                  : widget.bgColor,
+              borderRadius: BorderRadius.circular(10),
             ),
-            widget.toggle == true
-                ? Switch(
-                    value: Provider.of<ThemeProvider>(context, listen: false)
-                        .isDarkMode,
-                    inactiveThumbColor: Palette.textColor1,
-                    inactiveTrackColor: Colors.white,
-                    activeColor: Theme.of(context).colorScheme.primary,
-                    onChanged: (value) =>
-                        Provider.of<ThemeProvider>(context, listen: false)
-                            .toggleThemeMode(),
-                  )
-                : Icon(
-                    Icons.arrow_forward_ios_rounded,
+            child: Row(
+              children: [
+                widget.toggle == true ? widget.child! :
+                Icon( widget.icon,
                     color: widget.txtColor ??
-                        Theme.of(context).colorScheme.primary,
-                  ),
-          ],
-        ),
+                        Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(widget.label,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Palette.textColor1)),
+                ),
+                widget.toggle == true
+                    ? Switch(
+                        value: ref.isDarkTheme? true : ref.isDarkMode,
+                        inactiveThumbColor: Palette.textColor1,
+                        inactiveTrackColor: Colors.white,
+                        activeColor: Theme.of(context).colorScheme.primary,
+                        onChanged: (value) => ref.toggleThemeMode(),
+                      )
+                    : Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: widget.txtColor ??
+                            Theme.of(context).colorScheme.primary,
+                      ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

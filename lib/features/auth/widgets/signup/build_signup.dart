@@ -136,6 +136,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         
                       // field for entering registration password
                       TextFormField(
+                        style: TextStyle(
+                          color: Colors.black
+                        ),
                         controller: showPassword
                             ? passwordController
                             : obscureTextController,

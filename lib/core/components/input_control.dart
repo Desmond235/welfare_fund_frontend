@@ -61,7 +61,7 @@ class _BuildTextInputState extends State<BuildTextInput> {
             widget.type == TextInputType.phone ? 10: widget.maxLength
           ),
         ],
-      
+        style: TextStyle(color: Colors.black ),
         validator: widget.validator,
         maxLength: widget.maxLength,
        onSaved: widget.onSaved,

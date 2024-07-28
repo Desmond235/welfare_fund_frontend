@@ -43,15 +43,15 @@ final systemUiOverlayStyle = SystemUiOverlayStyle(
     systemNavigationBarDividerColor: Colors.transparent);
 
 SystemUiOverlayStyle mainSystemUiOverlayStyle(BuildContext context) {
+  final darkTheme =
+      Provider.of<ThemeProvider>(context, listen: false).isDarkTheme;
+  final darkMode =
+      Provider.of<ThemeProvider>(context, listen: false).isDarkMode;
   return SystemUiOverlayStyle(
       systemNavigationBarColor:
-          Provider.of<ThemeProvider>(context, listen: false).isDarkMode
-              ? Colors.black.withOpacity(0.85)
-              : Colors.white,
+          darkMode || darkTheme ? Colors.black.withOpacity(0.85) : Colors.white,
       systemNavigationBarIconBrightness:
-          Provider.of<ThemeProvider>(context, listen: false).isDarkMode
-              ? Brightness.light
-              : Brightness.dark,
+          darkMode || darkTheme ? Brightness.light : Brightness.dark,
       systemNavigationBarDividerColor: Colors.transparent);
 }
 

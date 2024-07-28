@@ -29,9 +29,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
       selectedIndex: context.watch<MainPageProvider>().currentPage,
       height: 60,
       surfaceTintColor: Colors.white,
-      backgroundColor: Provider.of<ThemeProvider>(context).isDarkMode ? Colors.black26: Colors.white
-       ,
-      destinations:  [
+      backgroundColor: Provider.of<ThemeProvider>(context).isDarkMode ||
+              Provider.of<ThemeProvider>(context).isDarkTheme
+          ? Colors.black26
+          : Colors.white,
+      destinations: [
         NavItem(icon: MaterialCommunityIcons.home, index: 0),
         NavItem(icon: Icons.payment, index: 1),
         NavItem(icon: MaterialCommunityIcons.file_document, index: 2)
