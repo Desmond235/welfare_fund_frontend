@@ -13,6 +13,7 @@ SizedBox sendButton({
       width: double.infinity,
       height: 55,
       child: InkWell(
+        borderRadius: BorderRadius.all(Radius.circular(30)),
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 30),

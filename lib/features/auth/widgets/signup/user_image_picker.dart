@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
@@ -16,13 +18,18 @@ class UserImagePicker extends StatefulWidget {
 
 class _UserImagePickerState extends State<UserImagePicker> {
   File? _pickedImageFile;
+  
+   Uint8List toByte( File? imageBytes){
+    return imageBytes!  as Uint8List; 
+  }
+  
 
   void _pickedImage() async {
     final pickedImage = await ImagePicker().pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
       maxWidth: 150,
     );
-
+    
     if (pickedImage == null) {
       return;
     }
@@ -39,12 +46,17 @@ class _UserImagePickerState extends State<UserImagePicker> {
         children: [
           CircleAvatar(
             radius: 40,
-            backgroundImage:
-                _pickedImageFile != null ? FileImage(_pickedImageFile!) : null,
+            backgroundColor: Colors.white,
+            backgroundImage: _pickedImageFile != null
+                ? FileImage(_pickedImageFile!) 
+                : AssetImage('assets/images/user-icon.png'),
           ),
           IconButton(
             onPressed: _pickedImage,
-            icon: Icon(Icons.image, color: Palette.textColor1,),
+            icon: Icon(
+              Icons.image,
+              color: Palette.textColor1,
+            ),
           )
         ],
       ),

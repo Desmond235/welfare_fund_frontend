@@ -1,14 +1,7 @@
 import 'package:church_clique/core/constants/constants.dart';
-import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
-import 'package:church_clique/features/auth/views/juice.dart';
-import 'package:church_clique/core/base/main/mainscreen.dart';
-import 'package:church_clique/features/form/views/form_screen.dart';
-import 'package:church_clique/features/payment/views/payment_screen.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
-import 'package:church_clique/features/settings/views/settings_screen.dart';
 import 'package:church_clique/features/theme/dark_theme.dart';
-import 'package:church_clique/features/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -39,23 +32,18 @@ class MyApp extends StatelessWidget {
     final themeState = Provider.of<ThemeProvider>(context);
     themeState.getDarkTheme();
     return MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        // themeMode: themeState.isDarkMode? ThemeMode.dark : ThemeMode.light,
-        darkTheme: darkMode,
-        themeMode: themeState.isDarkTheme
-            ? ThemeMode.dark
-            : !themeState.isDarkTheme
-                ? ThemeMode.light
-                : ThemeMode.system,
-        theme: Provider.of<ThemeProvider>(context).themeData,
-        home: const AuthScreen(),
-        routes: {
-          'juice': (context) => Juice(),
-          'payment': (context) => PaymentScreen(),
-          'main': (context) => MainScreen(),
-          'settings': (context) => SettingsScreen(),
-          'auth': (context) => AuthScreen(),
-        });
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      // themeMode: themeState.isDarkMode? ThemeMode.dark : ThemeMode.light,
+      darkTheme: darkMode,
+      themeMode: themeState.isDarkTheme
+          ? ThemeMode.dark
+          : !themeState.isDarkTheme
+              ? ThemeMode.light
+              : ThemeMode.system,
+      theme: Provider.of<ThemeProvider>(context).themeData,
+      home: const AuthScreen(),
+      routes: routes,
+    );
   }
 }

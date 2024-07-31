@@ -4,6 +4,7 @@ class User {
     required this.email,
     required this.password,
     required this.id,
+    required this.contact,
   });
   
 
@@ -11,12 +12,14 @@ class User {
   final String username;
   final String email;
   final String password;
+  final String contact;
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'] as int,
       username: json['username'] as String,
       email: json['email'] as String,
+      contact: json['contact'] as String,
       password: json['password'] as String,
     );
   }
@@ -26,6 +29,7 @@ class User {
       "id": id,
       "username": username,
       "email": email,
+      "contact": contact,
       "password": password
     };
     return data;
@@ -36,11 +40,13 @@ class User {
     String? username,
     String? email,
     String? password,
+    String? contact,
   }) {
     return User(
       id: id ?? this.id,
       username: username ?? this.username,
       email: email ?? this.email,
+      contact: contact?? this.contact,
       password: password ?? this.password,
     );
   }
@@ -51,6 +57,7 @@ class User {
       email: 'No Email',
       password: 'No Password',
       id: 0,
+      contact: 'No Contact'
     );
   }
 }

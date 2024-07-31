@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:church_clique/core/components/settings_item.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
@@ -6,7 +9,10 @@ import 'package:church_clique/features/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_flutter/icons_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+
+typedef List_int = List<int>;
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -19,6 +25,25 @@ class _SettingsScreenState extends State<SettingsScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  File? _userImage;
+
+  savedImage() {
+    userImage();
+  }
+
+  void userImage() async {
+    
+    final pickedUserImage = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 150,
+    );
+    if (pickedUserImage == null) {
+      return;
+    }
+    setState(() {
+      _userImage = File(pickedUserImage.path);
+    });
+  }
 
   @override
   void initState() {
@@ -83,93 +108,162 @@ class _SettingsScreenState extends State<SettingsScreen>
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
+                SizedBox(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundImage: AssetImage('assets/logo.png'),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // CachedNetworkImage(
+                            //   imageUrl: 'paystack\routes\routes.js',
+                            //   placeholder: (context, url) => const CircleAvatar(
+                            //     backgroundColor: Colors.amber,
+                            //     radius: 50,
+                            //   ),
+                            //   imageBuilder: (context, image) => CircleAvatar(
+                            //     backgroundImage: _userImage != null
+                            //       ? FileImage(_userImage!)
+                            //       : AssetImage(
+                            //           'assets/images/user-icon.png',
+                            //         ),
+                            //     radius: 50,
+                            //   ),
+                            // ),
+
+                            CircleAvatar(
+                              backgroundColor: Provider.of<ThemeProvider>(
+                                              context,
+                                              listen: false)
+                                          .isDarkMode ||
+                                      Provider.of<ThemeProvider>(context,
+                                              listen: false)
+                                          .isDarkTheme
+                                  ? const Color.fromARGB(31, 17, 17, 17)
+                                      .withOpacity(0.03)
+                                  : Colors.grey.shade200.withOpacity(0.4),
+                              radius: 50,
+                              backgroundImage: _userImage != null
+                                  ? FileImage(_userImage!)
+                                  : AssetImage(
+                                      'assets/images/user-icon.png',
+                                    ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              'Desmond Adabe',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              'adabedesmond@gmail.com',
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary),
+                            )
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 10),
-                      Text(
-                        'Desmond Adabe',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500),
+                      SettingsCard(
+                        label: 'General',
+                        children: [
+                          SettingsListItem(
+                            icon: MaterialCommunityIcons.account,
+                            label: 'Account',
+                          ),
+                          SettingsListItem(
+                            child: AnimatedSwitcher(
+                              duration: const Duration(
+                                milliseconds: 3000,
+                              ),
+                              key: ValueKey(_animation),
+                              child: Icon(
+                                color: Colors.deepPurple.shade300,
+                                Provider.of<ThemeProvider>(context,
+                                                listen: false)
+                                            .isDarkMode ||
+                                        Provider.of<ThemeProvider>(context,
+                                                listen: false)
+                                            .isDarkTheme
+                                    ? MaterialCommunityIcons
+                                        .moon_waning_crescent
+                                    : Icons.sunny,
+                              ),
+                            ),
+                            label: 'Theme',
+                            toggle: true,
+                          )
+                        ],
                       ),
-                      Text(
-                        'adabedesmond@gmail.com',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary),
+                      const SizedBox(height: 15),
+                      SettingsCard(
+                        label: 'About',
+                        children: [
+                          SettingsListItem(
+                            icon: MaterialCommunityIcons.information_outline,
+                            label: 'About us',
+                          ),
+                          SettingsListItem(
+                            icon: MaterialCommunityIcons.email_outline,
+                            label: 'Contact us',
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      SettingsCard(
+                        label: 'Logout',
+                        children: [
+                          SettingsListItem(
+                            onTap: () => _logoutDialog(context),
+                            icon: Icons.logout,
+                            label: 'Logout',
+                            txtColor: Colors.red,
+                          )
+                        ],
                       )
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
-                SettingsCard(
-                  label: 'General',
-                  children: [
-                    SettingsListItem(
-                      icon: MaterialCommunityIcons.account,
-                      label: 'Account',
-                    ),
-                    SettingsListItem(
-                      child: AnimatedSwitcher(
-                        duration: const Duration(
-                          milliseconds: 3000,
-                        ),
-                        key: ValueKey(_animation),
-                        child: Icon(
-                          color: Colors.deepPurple.shade300,
-                          Provider.of<ThemeProvider>(context, listen: false)
-                                      .isDarkMode ||
-                                  Provider.of<ThemeProvider>(context,
-                                          listen: false)
-                                      .isDarkTheme
-                              ? MaterialCommunityIcons.moon_waning_crescent
-                              : Icons.sunny,
-                        ),
-                      ),
-                      label: 'Theme',
-                      toggle: true,
-                    )
-                  ],
+                Positioned(
+                  left: MediaQuery.of(context).size.width * 0.5,
+                  top: 65,
+                  child: ProfileImage(
+                    onTap: savedImage,
+                  ),
                 ),
-                const SizedBox(height: 15),
-                SettingsCard(
-                  label: 'About',
-                  children: [
-                    SettingsListItem(
-                      icon: MaterialCommunityIcons.information_outline,
-                      label: 'About us',
-                    ),
-                    SettingsListItem(
-                      icon: MaterialCommunityIcons.email_outline,
-                      label: 'Contact us',
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                SettingsCard(
-                  label: 'Logout',
-                  children: [
-                    SettingsListItem(
-                      onTap: () => _logoutDialog(context),
-                      icon: Icons.logout,
-                      label: 'Logout',
-                      txtColor: Colors.red,
-                    )
-                  ],
-                )
               ],
             ),
           ),
         ),
       )),
+    );
+  }
+}
+
+class ProfileImage extends StatelessWidget {
+  const ProfileImage({
+    super.key,
+    required this.onTap,
+  });
+  final void Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(20)),
+        child: Icon(
+          Icons.edit,
+          color: Colors.black,
+        ),
+      ),
     );
   }
 }

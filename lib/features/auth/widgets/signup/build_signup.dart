@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/controls/obscure_text.dart';
+import 'package:church_clique/features/auth/models/user_model.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/widgets/signup/gender.dart';
 import 'package:church_clique/features/auth/widgets/signup/terms_condition.dart';
@@ -19,7 +20,7 @@ class SignUpWidget extends StatefulWidget {
   });
 
   final bool isSignupScreen;
-  final void Function (File pickedImage) onPickedImage;
+  final void Function(File pickedImage) onPickedImage;
 
   @override
   State<SignUpWidget> createState() => _SignUpWidgetState();
@@ -29,6 +30,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   bool showPassword = true;
   final passwordController = TextEditingController();
   final obscureTextController = ObscuringTextEditingController();
+
+  
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -40,7 +43,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Provider.of<AuthProvider>(context, listen: false).toggleLogin();
+                    Provider.of<AuthProvider>(context, listen: false)
+                        .toggleLogin();
                   },
                   child: Column(
                     children: [
@@ -97,7 +101,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               height: 10,
             ),
             Consumer<AuthProvider>(
-              builder: (context,credentials, child) {
+              builder: (context, credentials, child) {
                 return Container(
                   child: Column(
                     children: [
@@ -113,6 +117,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           if (value!.trim().isEmpty) {
                             return "Please enter username";
                           }
+                          
                           return null;
                         },
                       ),
@@ -127,18 +132,30 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         // validation for email
                         validator: (value) {
                           if (value!.trim().isEmpty ||
-                              !RegExp(r'\S\@\S+\.\S', caseSensitive: false).hasMatch(value.trim())) {
+                              !RegExp(r'\S\@\S+\.\S', caseSensitive: false)
+                                  .hasMatch(value.trim())) {
                             return 'Please enter a valid email address;';
                           }
                           return null;
                         },
                       ),
-        
+                      BuildTextInput(
+                        icon: Icons.phone,
+                        hintText: 'Contact',
+                        type: TextInputType.phone,
+                        onSaved: (value){
+                          credentials.saveContact(value);
+                        },
+                        validator: (value){
+                          if(value!.trim().isEmpty){
+                            return "Please your contact";
+                          }
+                          return null;
+                        },
+                      ),
                       // field for entering registration password
                       TextFormField(
-                        style: TextStyle(
-                          color: Colors.black
-                        ),
+                        style: TextStyle(color: Colors.black),
                         controller: showPassword
                             ? passwordController
                             : obscureTextController,
@@ -146,7 +163,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           credentials.savePassword(value!);
                         },
                         validator: (value) {
-                          if (value!.trim().isEmpty || value.trim().length < 6) {
+                          if (value!.trim().isEmpty ||
+                              value.trim().length < 6) {
                             return "Password must be at least 6 characters";
                           }
                           return null;
@@ -166,14 +184,15 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                       passwordController.text;
                                   obscureTextController.selection =
                                       TextSelection.collapsed(
-                                          offset:
-                                              obscureTextController.text.length);
+                                          offset: obscureTextController
+                                              .text.length);
                                 } else {
                                   passwordController.text =
                                       obscureTextController.text;
                                   passwordController.selection =
                                       TextSelection.collapsed(
-                                          offset: passwordController.text.length);
+                                          offset:
+                                              passwordController.text.length);
                                 }
                                 setState(() {
                                   showPassword = !showPassword;
@@ -193,12 +212,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             ),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(35),
-                                borderSide:
-                                    const BorderSide(color: Palette.textColor1)),
+                                borderSide: const BorderSide(
+                                    color: Palette.textColor1)),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(35),
-                                borderSide:
-                                    const BorderSide(color: Palette.textColor1))),
+                                borderSide: const BorderSide(
+                                    color: Palette.textColor1))),
                       )
                     ],
                   ),

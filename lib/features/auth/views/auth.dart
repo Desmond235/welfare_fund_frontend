@@ -1,16 +1,20 @@
 import 'dart:io';
 
+import 'package:church_clique/core/components/dialog_box.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/service/http_service.dart';
+import 'package:church_clique/core/service/upload_image.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
 import 'package:church_clique/features/auth/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:http/http.dart' as http;
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -50,6 +54,21 @@ class _AuthScreenState extends State<AuthScreen> {
 // and enter the enter their registration credentials
 // if the user does not pick an image, he or she will be prompted to pick an image
 // if the user enters a wrong or does or does not enter any information, the user will be prompted to do so
+ 
+ post(){
+
+ }
+  void addItem() async {
+    final data = {
+      "username": Provider.of<AuthProvider>(context,listen: false).onSaveUsername,
+      "email": Provider.of<AuthProvider>(context, listen: false).onSaveEmail,
+      "contact": Provider.of<AuthProvider>(context,listen: false).onSaveContact,
+      "password": Provider.of<AuthProvider>(context, listen: false).onSavePassword,
+      
+    };
+
+    Http.post(data, context);
+  }
 
   void addCredentials() {
     if (!_formKey.currentState!.validate()) {
@@ -60,20 +79,12 @@ class _AuthScreenState extends State<AuthScreen> {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Please pick an image"),
       ));
-      return;
     }
 
     _formKey.currentState!.save();
+    addItem();
+    
 
-    Consumer<AuthProvider>(
-      builder: (context, value, child) {
-        return Http.post({
-          "username": value.onSaveUsername,
-          "email": value.onSaveEmail,
-          "password": value.onSavePassword
-        });
-      },
-    );
     // Navigator.of(context).pushReplacementNamed('main');
   }
 
@@ -232,7 +243,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           SubmitButton(
                             onTap: () async {
                               if (isSignupScreen) {
-                                addCredentials();
+                                 addCredentials();
                               } else {
                                 Navigator.of(context)
                                     .pushReplacementNamed('main');

@@ -9,6 +9,7 @@ class AuthProvider extends ChangeNotifier{
   String  onSaveUsername = '';
   String onSavePassword = '';
   String onSaveEmail = '';
+  String onSaveContact = '';
   String gender = '';
 
   String signInUsername = '';
@@ -57,6 +58,10 @@ void checkIsRememberMe(bool value){
   void toggleGender(){
     _isMale =!_isMale;
     notifyListeners();
+  }
+
+  void saveContact(String? value){
+    onSaveContact = value!;
   }
   
   void saveUsername(String? value){
