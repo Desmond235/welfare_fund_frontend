@@ -25,22 +25,6 @@ void checkIsRememberMe(bool value){
     _isRememberMe = value;
     notifyListeners();
   }
-
-  // void saveUserLoginDetails() {
-  //   SignInCache.setUser(
-  //     SignIn(username: signInUsername , rememberMe: _isRememberMe),
-  //   );
-  //   print(signInUsername);
-  //   notifyListeners();
-  // }
-  
-  // void getUserLoginDetails() {
-  //   SignInCache.getUser();
-  //   notifyListeners();
-  // }
-
-  
-
   
   // General provider
 

@@ -6,11 +6,13 @@ class SubmitButton extends StatelessWidget {
     required this.isSignupScreen,
     required this.isShadow,
     this.onTap,
+    this.isSending,
   });
   final bool isSignupScreen;
   final bool isShadow;
   final void Function()? onTap;
-  
+  final bool? isSending;
+
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -60,10 +62,20 @@ class SubmitButton extends StatelessWidget {
                             color: Colors.black.withOpacity(0.3),
                           )
                         ]),
-                    child: const Icon(
-                      Icons.arrow_forward,
-                      color: Colors.white,
-                    ),
+                    child: !isSending!
+                        ? SizedBox( 
+                          // height:12,
+                          // width: 12,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: CircularProgressIndicator(color: Colors.white,),
+                            ),
+                            
+                          )
+                        : const Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                          ),
                   ),
                 )
               : const Center(),

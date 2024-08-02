@@ -4,6 +4,7 @@ import 'package:church_clique/features/auth/domain/sign_cache.dart';
 import 'package:church_clique/features/auth/models/user_signin_model.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/core/components/input_control.dart';
+import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,7 @@ class SignInWidget extends StatefulWidget {
     required this.onChanged,
     required this.passwordController,
   }) : _isSignUpScreen = isSignupScreen;
-  
+
   final bool _isSignUpScreen;
   final void Function(String name)? username;
   final bool? isRememberMe;
@@ -102,6 +103,10 @@ class _SignInWidgetState extends State<SignInWidget> {
                 maxLines: 1,
                 type: TextInputType.emailAddress,
                 onChanged: widget.onChanged,
+                onSaved: (value) {
+                  Provider.of<SignInProvider>(context, listen: false)
+                      .saveUsername(value!);
+                },
                 icon: MaterialCommunityIcons.account_outline,
                 hintText: "info@example.com",
                 isEmail: true,
@@ -126,6 +131,10 @@ class _SignInWidgetState extends State<SignInWidget> {
                 controller: showPassword
                     ? widget.passwordController
                     : obscureTextController,
+                onSaved: (value) {
+                  Provider.of<SignInProvider>(context, listen: false)
+                      .savePassword(value!);
+                },
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(10),
                   hintText: "Password",

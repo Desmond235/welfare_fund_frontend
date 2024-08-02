@@ -4,14 +4,14 @@ import 'package:church_clique/core/components/dialog_box.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/service/http_service.dart';
-import 'package:church_clique/core/service/upload_image.dart';
+import 'package:church_clique/core/service/signIn_service.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
+import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
 import 'package:church_clique/features/auth/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:http/http.dart' as http;
@@ -29,10 +29,16 @@ class _AuthScreenState extends State<AuthScreen> {
   String? username;
   bool? isRememberMe;
   final passwordController = TextEditingController();
+  bool _isSending = false;
+
+  http.Response? response;
 
   void _loadPreferences() async {
     final prefs = await sharedPrefs;
 
+    setState(() {
+      _isSending = true;
+    });
     setState(() {
       username = prefs.getString('username') ?? '';
       isRememberMe = prefs.getBool('isRememberMe') ?? false;
@@ -54,20 +60,49 @@ class _AuthScreenState extends State<AuthScreen> {
 // and enter the enter their registration credentials
 // if the user does not pick an image, he or she will be prompted to pick an image
 // if the user enters a wrong or does or does not enter any information, the user will be prompted to do so
- 
- post(){
 
- }
+  post() {}
   void addItem() async {
     final data = {
-      "username": Provider.of<AuthProvider>(context,listen: false).onSaveUsername,
-      "email": Provider.of<AuthProvider>(context, listen: false).onSaveEmail,
-      "contact": Provider.of<AuthProvider>(context,listen: false).onSaveContact,
-      "password": Provider.of<AuthProvider>(context, listen: false).onSavePassword,
-      
+      "username": Provider.of<AuthProvider>(context, listen: false)
+          .onSaveUsername
+          .trim(),
+      "email":
+          Provider.of<AuthProvider>(context, listen: false).onSaveEmail.trim(),
+      "contact": Provider.of<AuthProvider>(context, listen: false)
+          .onSaveContact
+          .trim(),
+      "password": Provider.of<AuthProvider>(context, listen: false)
+          .onSavePassword
+          .trim(),
     };
 
     Http.post(data, context);
+  }
+
+  void signIn() {
+    _formKey.currentState!.save();
+
+    final Map<String, dynamic> data = {
+      'username':
+          Provider.of<SignInProvider>(context, listen: false).username.trim(),
+      'password':
+          Provider.of<SignInProvider>(context, listen: false).password.trim(),
+    };
+    setState(() {
+      _isSending = true;
+    });
+    SigninService.post(data, context, (getRes) {
+      response = getRes;
+      if (response!.statusCode == 401 || response!.statusCode == 400) {
+        setState(() {
+          _isSending = true;
+        });
+      }
+    });
+    setState(() {
+      _isSending = false;
+    });
   }
 
   void addCredentials() {
@@ -83,7 +118,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
     _formKey.currentState!.save();
     addItem();
-    
 
     // Navigator.of(context).pushReplacementNamed('main');
   }
@@ -171,6 +205,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ),
                           SubmitButton(
+                            isSending: _isSending,
                             isSignupScreen: isSignupScreen,
                             isShadow: true,
                             onTap: () {},
@@ -241,12 +276,12 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ),
                           SubmitButton(
+                            isSending: _isSending,
                             onTap: () async {
                               if (isSignupScreen) {
-                                 addCredentials();
+                                addCredentials();
                               } else {
-                                Navigator.of(context)
-                                    .pushReplacementNamed('main');
+                                signIn();
                               }
                             },
                             isSignupScreen: isSignupScreen,

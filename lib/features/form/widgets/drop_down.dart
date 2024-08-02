@@ -8,9 +8,13 @@ class DateTimePickerWidget extends StatelessWidget {
     this.onPressed,
     required this.hintText,
     required this.controller,
+    this.validator,
+    this.onSaved
   });
 
   final void Function()? onPressed;
+  final String? Function(String?)? validator;
+  final void Function(String?)? onSaved;
   final String hintText;
   final TextEditingController controller;
 
@@ -22,7 +26,8 @@ class DateTimePickerWidget extends StatelessWidget {
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.67,
           child: TextFormField(
-            
+            onSaved: onSaved,
+            validator: validator ,
             readOnly: true,
             controller: controller,
             decoration: InputDecoration(

@@ -4,19 +4,13 @@ import 'package:flutter/material.dart';
 
 class SignInProvider extends ChangeNotifier {
   String username = '';
-  bool rememberMe = false;
-  bool isSignUp = true;
-
-
-  void checkIsRememberMe(bool value){
-    rememberMe = value;
-    notifyListeners();
-  }
-
-  void toggleLogin(){
-    isSignUp = false;
-    notifyListeners();
-  }
-
+ String password = '';
   
+  void saveUsername(String? value){
+    username = value!;
+  }
+  
+  void savePassword(String? value){
+    password = value!;
+  }
 }

@@ -16,7 +16,8 @@ snackBar(BuildContext context, String message) {
 
 class Http {
   static post(Map<String, dynamic> data, BuildContext context) async {
-    final response = await http.post(
+    try {
+       final response = await http.post(
       Uri.parse(dotenv.env["URL"]!),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(data),
@@ -25,7 +26,14 @@ class Http {
       snackBar(
           context, 'Email or username already in use, use a different one');
     }
-  }
+    if(response.statusCode == 400){
+      snackBar(context, "Something went wrong");
+    }
+
+    } on Exception {
+      snackBar(context, "An error occurred while logging in!");
+    }
+     }
 
   static Future<void> uploadImage(String imagePath, String url) async {}
 }
