@@ -1,4 +1,6 @@
-class GetData {
+import 'package:flutter/material.dart';
+
+class GetData extends ChangeNotifier {
   String fullName = '';
   String dateOfBirth = '';
   String dateOfRegistration = '';

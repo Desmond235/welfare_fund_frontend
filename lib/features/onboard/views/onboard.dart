@@ -62,54 +62,31 @@ class _OnboardScreenState extends State<OnboardScreen> {
               ),
               body: Padding(
                 padding: const EdgeInsets.all(16),
-                child: SingleChildScrollView(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: AnimatedBuilder(
-                            animation: ref,
-                            builder: (context, child) {
-                              return PageView.builder(
-                                controller: controller,
-                                scrollDirection: Axis.horizontal,
-                                physics: AlwaysScrollableScrollPhysics(),
-                                itemCount: kOnboardPage.length,
-                                itemBuilder: (context, index) {
-                                  return kOnboardPage[index];
-                                },
-                                onPageChanged: (value) {
-                                  ref.setCurrentPage(value);
-                                },
-                              );
-                            },
-                          ),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: AnimatedBuilder(
+                          animation: ref,
+                          builder: (context, child) {
+                            return PageView.builder(
+                              controller: controller,
+                              scrollDirection: Axis.horizontal,
+                              physics: AlwaysScrollableScrollPhysics(),
+                              itemCount: kOnboardPage.length,
+                              itemBuilder: (context, index) {
+                                return kOnboardPage[index];
+                              },
+                              onPageChanged: (value) {
+                                ref.setCurrentPage(value);
+                              },
+                            );
+                          },
                         ),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(
-                            4,
-                            (index) => Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 300),
-                                height: 10,
-                                width: 10,
-                                decoration: BoxDecoration(
-                                    color: ref.currentPage == index
-                                        ? priCol(context).withOpacity(0.7)
-                                        : Palette.textColor1,
-                                    borderRadius: BorderRadius.circular(10)),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
+                      ),
+                     
+                    ],
                   ),
                 ),
               ),
