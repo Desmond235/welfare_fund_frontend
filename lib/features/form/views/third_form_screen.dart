@@ -56,7 +56,8 @@ class _ThirdFormScreenState extends State<ThirdFormScreen> {
                           },
                         ),
                         const SizedBox(height: 10),
-                        dropDownButton((value) {
+                        dropDownButton(
+                          (value) {
                           data.saveLifeStatus(value);
                         }),
                         const SizedBox(height: 20),
@@ -65,7 +66,7 @@ class _ThirdFormScreenState extends State<ThirdFormScreen> {
                             data.saveNoChildren(value);
                           },
                           validator: (value) {
-                            if (RegExp(r'\d').hasMatch(value!)) {
+                            if (!RegExp(r'\d').hasMatch(value!)) {
                               return "Please enter digits only ";
                             }
                             return null;
@@ -77,8 +78,8 @@ class _ThirdFormScreenState extends State<ThirdFormScreen> {
                         const SizedBox(height: 10),
                         BuildTextInput(
                           validator: (value) {
-                            if (!RegExp(r'\d').hasMatch(value!)) {
-                              return 'Please enter numbers only';
+                            if (RegExp(r'\d').hasMatch(value!)) {
+                              return 'Please enter alphabets only';
                             }
                             return null;
                           },

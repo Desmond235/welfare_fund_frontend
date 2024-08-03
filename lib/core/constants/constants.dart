@@ -17,7 +17,6 @@ import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:church_clique/features/settings/views/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +35,7 @@ List<SingleChildWidget> multiProviders = [
   ChangeNotifierProvider(create: (context) => SignInProvider()),
   ChangeNotifierProvider(create: (context) => ThemeProvider()),
   ChangeNotifierProvider(create: (context) => OnboardStatePage()),
+  ChangeNotifierProvider(create: (context) => GetData()),
 ];
 
 final systemNavBarColor = SystemChrome.setSystemUIOverlayStyle(
@@ -84,38 +84,4 @@ List<Widget> kOnboardPage = [
   FourthFormScreen()
 ];
  
-  GetData membership = GetData();
- Map<String, dynamic> membershipData = {
-    'fullName': membership.fullName,
-    'dateOfBirth': membership.dateOfBirth,
-    'dateOfRegistration': membership.dateOfRegistration,
-    'amountPaid': membership.amountPaid,
-    'amountPaidInWords': membership.amountInWords,
-    'receiptNo': membership.receiptNumber,
-    'contact': membership.contact,
-    'houseNo': membership.houseNo,
-    'PlaceOfAbode' : membership.placeOfAbode,
-    'landmark': membership.landmark,
-    'homeTown': membership.homeTown,
-    'region': membership.region,
-    'MaritalStatus': membership.maritalStatus,
-    'others': membership.others,
-    'nameOfSpouse': membership.nameOfSpouse,
-    "LifeStatus": membership.lifeStatus,
-    'NumberOfChildren': membership.numberOfChildren,
-    'namesOfChildren': membership.namesOfChildren,
-    'occupation': membership.occupation,
-    'fatherName': membership.fatherName,
-    'fLifeStatus': membership.fLifeStatus,
-    'motherName': membership.motherName,
-    'mLifeStatus' : membership.mLifeStatus,
-    'nextOfKin' : membership.nameOfNextKin,
-    'nextOfKinContact' : membership.nextOfKinContact,
-    'classLeader' : membership.classLeader,
-    'classLeaderContact' : membership.classLeaderContact,
-    'orgOfMember' : membership.orgOfMember,
-    'orgLeaderContact' : membership.orgLeaderContact
- };
-
-
  

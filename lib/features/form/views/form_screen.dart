@@ -202,7 +202,7 @@ class _FormScreenState extends State<FormScreen> {
                               return null;
                             },
                             icon: MaterialCommunityIcons.numeric,
-                            hintText: 'receipt no',
+                            hintText: 'receipt number',
                           ),
                           const SizedBox(height: 10),
                           BuildTextInput(

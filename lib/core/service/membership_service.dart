@@ -8,24 +8,24 @@ import 'package:http/http.dart' as http;
 class MembershipService {
   static post(Map<String, dynamic> data, BuildContext context) async {
     try {
-      final serverEndpoint = 'http://10.0.2.2:6000/api/v1/';
+      final serverEndpoint = 'http://10.0.2P.2:6000/api/v1/';
       final response = await http.post(
         Uri.parse('${serverEndpoint}send-details'),
-        headers: {'ContentType': 'application/json'},
+        headers: {},
         body: jsonEncode(data)
       );
       if(response.statusCode == 200){
          snackBar(context, 'Records sent successfully.');
-         Future.delayed(const Duration(milliseconds: 100));
          Navigator.of(context).pushNamed('auth');
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final MembershipModel membership = MembershipModel.fromJson(data);
-        return membership;
+        // final Map<String, dynamic> data = jsonDecode(response.body);
+        // final MembershipModel membership = MembershipModel.fromJson(data);
+        // return membership;
       }
       if(response.statusCode == 422){
         throw Exception('dddddddd');
       }
-    } on Exception {
+    } catch(e) {
+      print(e.toString());
       snackBar(context, "Failed to send records, please try again later.");
     }
   }

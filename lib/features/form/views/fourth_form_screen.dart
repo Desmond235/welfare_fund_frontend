@@ -3,6 +3,7 @@ import 'package:church_clique/core/components/input_control.dart';
 import 'package:church_clique/core/components/input_text.dart';
 import 'package:church_clique/core/components/next-of-kin_class-leader.dart';
 import 'package:church_clique/core/components/send_button.dart';
+import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/service/membership_service.dart';
 import 'package:church_clique/features/form/data/data.dart';
 import 'package:flutter/material.dart';
@@ -51,19 +52,53 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-
+    _formKey.currentState!.save();
+    var membership = Provider.of<GetData>(context, listen: false);
     final data = {
+      'fullName': membership.fullName,
+      'dateOfBirth': membership.dateOfBirth,
+      'dateOfRegistration': membership.dateOfRegistration,
+      'amountPaid': membership.amountPaid,
+      'amountPaidInWords': membership.amountInWords,
+      'receiptNo': membership.receiptNumber,
+      'contact': membership.contact,
+      'houseNo': membership.houseNo,
+      'PlaceOfAbode': membership.placeOfAbode,
+      'landmark': membership.landmark,
+      'homeTown': membership.homeTown,
+      'region': membership.region,
+      'MaritalStatus': membership.maritalStatus,
+      'others': membership.others,
+      'nameOfSpouse': membership.nameOfSpouse,
+      "LifeStatus": membership.lifeStatus,
+      'NumberOfChildren': membership.numberOfChildren,
+      'namesOfChildren': membership.namesOfChildren,
+      'occupation': membership.occupation,
+      'fatherName': membership.fatherName,
+      'fLifeStatus': membership.fLifeStatus,
+      'motherName': membership.motherName,
+      'mLifeStatus': membership.mLifeStatus,
+      'nextOfKin': membership.nameOfNextKin,
+      'nextOfKinContact': membership.nextOfKinContact,
+      'classLeader': membership.classLeader,
+      'classLeaderContact': membership.classLeaderContact,
+      'orgOfMember': membership.orgOfMember,
+      'orgLeaderContact': membership.orgLeaderContact
+    };
+
+    final dataM = {
       "fullName": "Adabe Desmond",
       "dateOfBirth": "July, 19th 1995",
       "dateOfRegistration": "1 August, 2018",
       "amountPaid": "34"
     };
+
+    print(data);
     MembershipService.post(data, context);
   }
 
   @override
   Widget build(BuildContext context) {
-    final bottomInsets = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       body: SafeArea(
         child: KeyboardDismissOnTap(
@@ -80,6 +115,9 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
                           padding: const EdgeInsets.only(top: 20),
                           child: BuildTextInput(
                             type: TextInputType.text,
+                            onSaved: (value) {
+                              data.saveMotherName(value);
+                            },
                             validator: (value) {
                               if (value!.trim().isEmpty ||
                                   !RegExp(r'\S( )?').hasMatch(value)) {
@@ -92,7 +130,8 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        dropDownButton((value) {
+                        dropDownButton(
+                          (value) {
                           data.saveMLifeStatus(value);
                         }, (value) {
                           if (value == null) {
@@ -101,9 +140,23 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
                           return null;
                         }),
                         const SizedBox(height: 10),
-                        kinClassLeader('Next of Kin'),
+                        kinClassLeader(
+                          'Next of Kin',
+                          context,
+                          isClassLeader: false,
+                          onSaved: (value){
+                            data.saveNextOfKin(value);
+                          }
+                        ),
                         const SizedBox(height: 10),
-                        kinClassLeader('Class Leader'),
+                        kinClassLeader(
+                          'Class Leader',
+                          isClassLeader: true,
+                          context,
+                          onSaved: (value){
+                            data.saveClassLeader(value);
+                          }
+                        ),
                         const SizedBox(height: 10),
                         inputText(
                             Icons.person,
