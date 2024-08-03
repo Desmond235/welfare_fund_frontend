@@ -16,7 +16,7 @@ class WelcomeScreen extends StatelessWidget {
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
               priCol(context).withOpacity(0.8),
-              priCol(context).withOpacity(0.7),
+              priCol(context).withOpacity(0.75),
               priCol(context),
             ])),
             child: ShaderMask(
@@ -27,7 +27,7 @@ class WelcomeScreen extends StatelessWidget {
                     end: Alignment.topLeft,
                     colors: [
                       Colors.white,
-                      Colors.white.withOpacity(0.2),
+                      Colors.white.withOpacity(0.3),
                       Colors.white.withOpacity(0.0),
                     ]).createShader(rect);
               },
@@ -58,18 +58,18 @@ class WelcomeScreen extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 35,
                             fontWeight: FontWeight.bold,
-                            color: priCol(context)),
+                            color: Colors.white.withOpacity(0.95)),
                       ),
                       TextSpan(
                         text: '\nClique',
                         style: TextStyle(
                             fontSize: 35,
                             fontWeight: FontWeight.bold,
-                            color: priCol(context)),
+                            color: Colors.white.withOpacity(0.95)),
                       ),
                       TextSpan(
                         text: '\n\nCreate a new account or login to access .',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, ),
                       ),
                       TextSpan(
                         text: '\n your personalized welfare management app.',

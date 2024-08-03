@@ -1,7 +1,9 @@
+import 'package:church_clique/core/base/main/mainscreen.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
 import 'package:church_clique/features/form/views/fourth_form_screen.dart';
 import 'package:church_clique/features/form/views/third_form_screen.dart';
+import 'package:church_clique/features/onboard/provider/onboarding_provider.dart';
 import 'package:church_clique/features/onboard/views/onboard.dart';
 import 'package:church_clique/features/onboard/views/welcome_screen.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
@@ -35,6 +37,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeState = Provider.of<ThemeProvider>(context);
     themeState.getDarkTheme();
+
+    final onboardState = Provider.of<OnboardingPage>(context);
+    onboardState.getOnboardingState();
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -47,7 +52,7 @@ class MyApp extends StatelessWidget {
               : ThemeMode.system,
       theme: Provider.of<ThemeProvider>(context).themeData,
       // home:  const FourthFormScreen(),
-      home: const WelcomeScreen(),
+      home: onboardState.onboarded ? const AuthScreen() : const WelcomeScreen(),
       // home: const ThirdFormScreen(),
       routes: routes,
     );

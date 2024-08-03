@@ -10,6 +10,7 @@ import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
 import 'package:church_clique/features/auth/widgets/submit_button.dart';
+import 'package:church_clique/features/onboard/provider/onboarding_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -258,17 +259,6 @@ class _AuthScreenState extends State<AuthScreen> {
                                         setState(() {
                                           isRememberMe = value!;
                                         });
-                                        if (value == true) {
-                                          final prefs = await sharedPrefs;
-                                          prefs.setString(
-                                              'username', username!);
-                                          prefs.setBool(
-                                              'isRememberMe', isRememberMe!);
-                                        } else {
-                                          final prefs = await sharedPrefs;
-                                          prefs.remove('username');
-                                          prefs.remove('isRememberMe');
-                                        }
                                       },
                                     ),
                                 ],

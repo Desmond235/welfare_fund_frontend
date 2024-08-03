@@ -12,6 +12,7 @@ import 'package:church_clique/features/form/views/second_form.dart';
 import 'package:church_clique/features/form/views/third_form_screen.dart';
 import 'package:church_clique/features/home/screens/home_screeb.dart';
 import 'package:church_clique/features/onboard/provider/onboard_state_page.dart';
+import 'package:church_clique/features/onboard/provider/onboarding_provider.dart';
 import 'package:church_clique/features/onboard/views/onboard.dart';
 import 'package:church_clique/features/onboard/views/welcome_screen.dart';
 import 'package:church_clique/features/payment/views/payment_screen.dart';
@@ -38,6 +39,7 @@ List<SingleChildWidget> multiProviders = [
   ChangeNotifierProvider(create: (context) => ThemeProvider()),
   ChangeNotifierProvider(create: (context) => OnboardStatePage()),
   ChangeNotifierProvider(create: (context) => GetData()),
+  ChangeNotifierProvider(create: (context) => OnboardingPage())
 ];
 
 final systemNavBarColor = SystemChrome.setSystemUIOverlayStyle(
