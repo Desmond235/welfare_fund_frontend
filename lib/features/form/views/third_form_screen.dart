@@ -66,7 +66,7 @@ class _ThirdFormScreenState extends State<ThirdFormScreen> {
                             data.saveNoChildren(value);
                           },
                           validator: (value) {
-                            if (!RegExp(r'\d').hasMatch(value!)) {
+                            if (RegExp(r'\d').hasMatch(value!)) {
                               return "Please enter digits only ";
                             }
                             return null;

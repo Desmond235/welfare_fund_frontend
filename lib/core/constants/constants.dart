@@ -12,6 +12,8 @@ import 'package:church_clique/features/form/views/second_form.dart';
 import 'package:church_clique/features/form/views/third_form_screen.dart';
 import 'package:church_clique/features/home/screens/home_screeb.dart';
 import 'package:church_clique/features/onboard/provider/onboard_state_page.dart';
+import 'package:church_clique/features/onboard/views/onboard.dart';
+import 'package:church_clique/features/onboard/views/welcome_screen.dart';
 import 'package:church_clique/features/payment/views/payment_screen.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:church_clique/features/settings/views/settings_screen.dart';
@@ -71,6 +73,7 @@ Map<String, Widget Function(BuildContext)> routes = {
   'main': (context) => MainScreen(),
   'settings': (context) => SettingsScreen(),
   'auth': (context) => AuthScreen(),
+  'onboard': (context) => OnboardScreen(),
   'second_form': (context) => SecondForm(),
   'third_form': (context) => ThirdFormScreen(),
   'fourth_form': (context) => FourthFormScreen(),

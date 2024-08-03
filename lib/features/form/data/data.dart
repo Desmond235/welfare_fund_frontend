@@ -15,10 +15,10 @@ class GetData extends ChangeNotifier {
   String region = '';
   String maritalStatus = '';
   String others = '';
-  String nameOfSpouse ='';
-  String lifeStatus = '';
-  String numberOfChildren = '';
-  String namesOfChildren = '';
+  String? nameOfSpouse;
+  String? lifeStatus;
+  String? numberOfChildren;
+  String?namesOfChildren;
   String occupation = '';
   String fatherName = '';
   String fLifeStatus = '';
@@ -80,17 +80,17 @@ class GetData extends ChangeNotifier {
   others = value!;
  }
  void saveNameOfSpouse(String? value){
-  nameOfSpouse = value!;
+  nameOfSpouse = value;
  }
  void saveLifeStatus(String? value){
-  lifeStatus = value!;
+  lifeStatus = value;
  }
  void saveNoChildren(String? value){
-  numberOfChildren = value!;
+  numberOfChildren = value;
  }
 
 void saveNameOfChildren(String? value){
-  namesOfChildren = value!;
+  namesOfChildren = value;
 }
  void saveOccupation(String? value){
   occupation = value!;
