@@ -45,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
                     ? "Home"
                     : pageState.currentPage == 1
                         ? 'Make Payment'
-                        : 'Membership Form'),
+                        : 'Transactions'),
                 leading: IconButton(
                   onPressed: _handleMenuButtonPressed,
                   icon: ValueListenableBuilder<AdvancedDrawerValue>(

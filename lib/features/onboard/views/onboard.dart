@@ -42,52 +42,39 @@ class _OnboardScreenState extends State<OnboardScreen> {
     return Consumer<OnboardStatePage>(
       builder: (_, ref, __) {
         int currentPage = ref.currentPage;
-        return PopScope(
-          canPop: true,
-          onPopInvoked: (value) {
-            final provider =
-                Provider.of<OnboardStatePage>(context, listen: false);
-            ref.decrementPage();
-            controller.animateToPage(
-              provider.currentPage,
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.easeIn,
-            );
-          },
-          child: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: mainSystemUiOverlayStyle(context),
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text('Membership Form'),
-              ),
-              body: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: AnimatedBuilder(
-                          animation: ref,
-                          builder: (context, child) {
-                            return PageView.builder(
-                              controller: controller,
-                              scrollDirection: Axis.horizontal,
-                              physics: AlwaysScrollableScrollPhysics(),
-                              itemCount: kOnboardPage.length,
-                              itemBuilder: (context, index) {
-                                return kOnboardPage[index];
-                              },
-                              onPageChanged: (value) {
-                                ref.setCurrentPage(value);
-                              },
-                            );
-                          },
-                        ),
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: mainSystemUiOverlayStyle(context),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text('Membership Form'),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.8,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: AnimatedBuilder(
+                        animation: ref,
+                        builder: (context, child) {
+                          return PageView.builder(
+                            controller: controller,
+                            scrollDirection: Axis.horizontal,
+                            physics: AlwaysScrollableScrollPhysics(),
+                            itemCount: kOnboardPage.length,
+                            itemBuilder: (context, index) {
+                              return kOnboardPage[index];
+                            },
+                            onPageChanged: (value) {
+                              ref.setCurrentPage(value);
+                            },
+                          );
+                        },
                       ),
-                     
-                    ],
-                  ),
+                    ),
+                   
+                  ],
                 ),
               ),
             ),

@@ -1,23 +1,24 @@
+import 'package:church_clique/features/auth/models/user_model.dart';
+
 class SignIn {
   final String? username;
-  final bool rememberMe;
+  final int? userId;
+  
 
   SignIn({
-    required this.username,
-    required this.rememberMe,
+     this.username,
+     this.userId
+
   });
 
   factory SignIn.fromJson(Map<String,dynamic> json){
     return SignIn(
       username: json['username'] as String?,
-      rememberMe: json['rememberMe'] as bool,
+      userId:   json['userId'] as int?  ?? null
+
     );
   }
   
-  Map<String, dynamic> toJson() {
-    return {
-      'username': username,
-     'rememberMe': rememberMe,
-    };
-  }
 }
+
+

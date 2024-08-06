@@ -1,5 +1,6 @@
 import 'package:church_clique/core/base/main/mainscreen.dart';
 import 'package:church_clique/core/constants/constants.dart';
+import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
 import 'package:church_clique/features/form/views/fourth_form_screen.dart';
 import 'package:church_clique/features/form/views/third_form_screen.dart';
@@ -40,6 +41,9 @@ class MyApp extends StatelessWidget {
 
     final onboardState = Provider.of<OnboardingPage>(context);
     onboardState.getOnboardingState();
+
+    final signinPageState = Provider.of<SignInProvider>(context);
+    signinPageState.getSigninState();
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -51,8 +55,14 @@ class MyApp extends StatelessWidget {
               ? ThemeMode.light
               : ThemeMode.system,
       theme: Provider.of<ThemeProvider>(context).themeData,
-      // home:  const FourthFormScreen(),
-      home: onboardState.onboarded ? const AuthScreen() : const WelcomeScreen(),
+      // home: signinPageState.isSignin ? MainScreen() : AuthScreen(),
+      home:  const WelcomeScreen(),
+      // home: onboardState.onboarded
+      //     ? const AuthScreen()
+      //     // : signinPageState.isSignin
+      //     //     ? MainScreen()
+      //     //     : !signinPageState.isSignin
+      //             : const WelcomeScreen(),
       // home: const ThirdFormScreen(),
       routes: routes,
     );

@@ -1,6 +1,8 @@
+import 'package:church_clique/features/auth/models/user_signin_model.dart';
 import 'package:flutter/material.dart';
 
 class GetData extends ChangeNotifier {
+  int? userId = SignIn().userId; 
   String fullName = '';
   String dateOfBirth = '';
   String dateOfRegistration = '';
@@ -28,8 +30,8 @@ class GetData extends ChangeNotifier {
   String nextOfKinContact = '';
   String classLeader = '';
   String classLeaderContact = '';
-  String orgOfMember = '';
-  String orgLeaderContact = '';
+  String ?orgOfMember = '';
+  String? orgLeaderContact = '';
  
 
   void saveFullName(String? value){

@@ -18,13 +18,18 @@ import 'package:church_clique/features/onboard/views/welcome_screen.dart';
 import 'package:church_clique/features/payment/views/payment_screen.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:church_clique/features/settings/views/settings_screen.dart';
+import 'package:church_clique/features/transation_details/views/transaction_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final KMainPages = [HomeScreen(), PaymentScreen(), FormScreen()];
+final KMainPages = [
+  HomeScreen(),
+  PaymentScreen(),
+  TransactionDetailsScreen()
+];
 
 Color priCol(BuildContext context) {
   return Theme.of(context).colorScheme.primary;
@@ -88,5 +93,4 @@ List<Widget> kOnboardPage = [
   ThirdFormScreen(),
   FourthFormScreen()
 ];
- 
- 
+

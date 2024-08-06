@@ -90,7 +90,7 @@ class WelcomeScreen extends StatelessWidget {
                     backgroundColor: priCol(context),
                     padding: const EdgeInsets.all(20)),
                 onPressed: () {
-                  Navigator.of(context).pushNamed('onboard');
+                  Navigator.of(context).pushReplacementNamed('auth');
                 },
                 child: Text(
                   'GET STARTED',

@@ -1,4 +1,7 @@
+import 'package:church_clique/features/auth/models/user_model.dart';
+
 class MembershipModel {
+  final int userId;
   final String fullName;
   final String dateOfBirth;
   final String dateOfRegistration;
@@ -30,6 +33,7 @@ class MembershipModel {
   final String orgLeaderContact;
 
   MembershipModel({
+    required this.userId,
     required this.fullName,
     required this.dateOfBirth,
     required this.dateOfRegistration,
@@ -63,7 +67,8 @@ class MembershipModel {
 
   factory MembershipModel.fromJson(Map<String, dynamic> json) {
     return MembershipModel(
-      fullName: json['fullName'],
+      userId: User.fromJson (json['id']) as int,
+      fullName: json['fullName'] as String,
       dateOfBirth: json['dateOfBirth'],
       dateOfRegistration: json['dateOfRegistration'],
       amountPaid: json['amountPaid'],

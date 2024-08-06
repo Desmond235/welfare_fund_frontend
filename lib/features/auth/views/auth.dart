@@ -5,6 +5,8 @@ import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/service/http_service.dart';
 import 'package:church_clique/core/service/signIn_service.dart';
+import 'package:church_clique/features/auth/models/user_model.dart';
+import 'package:church_clique/features/auth/models/user_signin_model.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
@@ -81,29 +83,38 @@ class _AuthScreenState extends State<AuthScreen> {
     Http.post(data, context);
   }
 
-  void signIn() {
+  void signIn() async {
     _formKey.currentState!.save();
 
-    final Map<String, dynamic> data = {
-      'username':
-          Provider.of<SignInProvider>(context, listen: false).username.trim(),
-      'password':
-          Provider.of<SignInProvider>(context, listen: false).password.trim(),
-    };
+    final provider = Provider.of<SignInProvider>(context, listen: false);
+    final signIn = SignIn();
+
     setState(() {
       _isSending = true;
     });
-    SigninService.post(data, context, (getRes) {
+     SigninService.login(
+        provider.username.trim(), provider.password.trim(),signIn.userId, context, (
+      getRes,
+    ) {
+
       response = getRes;
       if (response!.statusCode == 401 || response!.statusCode == 400) {
+
         setState(() {
           _isSending = true;
         });
+      }
+
+      if (response!.statusCode == 200) {
+        Navigator.of(context).pushReplacementNamed('onboard');
       }
     });
     setState(() {
       _isSending = false;
     });
+
+    // Provider.of<OnboardingPage>(context,listen: false).removeOnboardingState();
+    Provider.of<SignInProvider>(context, listen: false).setSignIn(true);
   }
 
   void addCredentials() {

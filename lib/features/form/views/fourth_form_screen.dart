@@ -5,6 +5,9 @@ import 'package:church_clique/core/components/next-of-kin_class-leader.dart';
 import 'package:church_clique/core/components/send_button.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/service/membership_service.dart';
+import 'package:church_clique/features/auth/domain/sign_cache.dart';
+import 'package:church_clique/features/auth/models/user_model.dart';
+import 'package:church_clique/features/auth/models/user_signin_model.dart';
 import 'package:church_clique/features/form/data/data.dart';
 import 'package:church_clique/features/onboard/provider/onboarding_provider.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +23,8 @@ class FourthFormScreen extends StatefulWidget {
 
 class _FourthFormScreenState extends State<FourthFormScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  final 
   GetData data = GetData();
   showDialogBox() {
     return showDialog(
@@ -49,13 +54,19 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
         });
   }
 
-  void sendForm() {
+  void sendForm() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+
     _formKey.currentState!.save();
     var membership = Provider.of<GetData>(context, listen: false);
+    final prefs = await sharedPrefs;
+    int userId = prefs.getInt('userId') ?? 0;
+    
+    // SignIn user = SignIn();
     final data = {
+      "userId": userId,
       'fullName': membership.fullName,
       'dateOfBirth': membership.dateOfBirth,
       'dateOfRegistration': membership.dateOfRegistration,
@@ -87,12 +98,6 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
       'orgLeaderContact': membership.orgLeaderContact
     };
 
-    final dataM = {
-      "fullName": "Adabe Desmond",
-      "dateOfBirth": "July, 19th 1995",
-      "dateOfRegistration": "1 August, 2018",
-      "amountPaid": "34"
-    };
 
     print(data);
     MembershipService.post(data, context);
