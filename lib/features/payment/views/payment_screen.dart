@@ -1,7 +1,6 @@
 // import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/components/input_control.dart';
 import 'package:church_clique/core/components/send_button.dart';
-import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/payment/paystack/pay_with_paystack.dart';
 import 'package:church_clique/features/payment/views/make_payment_screen.dart';
 import 'package:flutter/material.dart';

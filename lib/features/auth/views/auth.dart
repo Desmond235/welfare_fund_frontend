@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:church_clique/core/components/dialog_box.dart';
 import 'package:church_clique/core/constants/constants.dart';
@@ -32,26 +33,14 @@ class _AuthScreenState extends State<AuthScreen> {
   String? username;
   bool? isRememberMe;
   final passwordController = TextEditingController();
-  bool _isSending = false;
+  bool _isSending = true;
 
   http.Response? response;
 
-  void _loadPreferences() async {
-    final prefs = await sharedPrefs;
-
-    setState(() {
-      _isSending = true;
-    });
-    setState(() {
-      username = prefs.getString('username') ?? '';
-      isRememberMe = prefs.getBool('isRememberMe') ?? false;
-    });
-  }
-
+ 
   @override
   void initState() {
     super.initState();
-    _loadPreferences();
   }
 
   @override
@@ -80,7 +69,10 @@ class _AuthScreenState extends State<AuthScreen> {
           .trim(),
     };
 
-    Http.post(data, context);
+    Http.post(data, context,file: pickedImageFile!);
+    if(pickedImageFile == null){
+      return ;
+    }
   }
 
   void signIn() async {
@@ -88,27 +80,31 @@ class _AuthScreenState extends State<AuthScreen> {
 
     final provider = Provider.of<SignInProvider>(context, listen: false);
     final signIn = SignIn();
-
+    
     setState(() {
       _isSending = true;
     });
-     SigninService.login(
-        provider.username.trim(), provider.password.trim(),signIn.userId, context, (
-      getRes,
-    ) {
+    SigninService.login(
+      provider.username.trim(),
+      provider.password.trim(),
 
-      response = getRes;
-      if (response!.statusCode == 401 || response!.statusCode == 400) {
+      signIn.userId,
+      context,
+      (
+        getRes,
+      ) {
+        response = getRes;
+        if (response!.statusCode == 401 || response!.statusCode == 400) {
+          setState(() {
+            _isSending = true;
+          });
+        }
 
-        setState(() {
-          _isSending = true;
-        });
-      }
-
-      if (response!.statusCode == 200) {
-        Navigator.of(context).pushReplacementNamed('onboard');
-      }
-    });
+        if (response!.statusCode == 200) {
+          Navigator.of(context).pushReplacementNamed('onboard');
+        }
+      },
+    );
     setState(() {
       _isSending = false;
     });
@@ -161,56 +157,67 @@ class _AuthScreenState extends State<AuthScreen> {
                             top: 0,
                             left: 0,
                             right: 0,
-                            child: Container(
-                              height: 355,
-                              // background image
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                      'assets/images/background.jpg',
-                                    ),
-                                    fit: BoxFit.cover),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
                               ),
                               child: Container(
-                                padding:
-                                    const EdgeInsets.only(top: 40, left: 20),
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primary
-                                    .withOpacity(0.75),
-                                child: SafeArea(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      RichText(
-                                        text: TextSpan(
-                                          text: "Welcome to",
-                                          style: TextStyle(
-                                            color: Colors.yellow[700],
-                                            fontSize: width < 600 ? 20 : 25,
-                                            letterSpacing: 2,
-                                          ),
-                                          children: [
-                                            TextSpan(
-                                                text: " Welfare Fund,",
-                                                style: TextStyle(
-                                                    color: Colors.yellow[600],
-                                                    fontSize:
-                                                        width < 600 ? 20 : 25,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ],
-                                        ),
+                                height: 355,
+                                // background image
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                        'assets/logo.png',
                                       ),
-                                      const SizedBox(height: 6),
-                                      Text(
-                                        isSignupScreen
-                                            ? 'Signup to continue'
-                                            : 'Signin to continue',
-                                        style: TextStyle(color: Colors.white),
-                                      )
-                                    ],
+                                      fit: BoxFit.cover),
+                                ),
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.only(top: 40, left: 20),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.8),
+                                  child: SafeArea(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          // color: priCol(context).withOpacity(0.4),
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text: "Welcome to",
+                                              style: TextStyle(
+                                                color: Colors.yellow[700],
+                                                fontSize: width < 600 ? 20 : 25,
+                                                letterSpacing: 2,
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                    text: " Welfare Fund,",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Colors.yellow[600],
+                                                        fontSize: width < 600
+                                                            ? 20
+                                                            : 25,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 6),
+                                        Text(
+                                          isSignupScreen
+                                              ? 'Signup to continue'
+                                              : 'Signin to continue',
+                                          style: TextStyle(color: Colors.white),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

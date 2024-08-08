@@ -1,3 +1,4 @@
+import 'package:church_clique/core/base/main/mainscreen.dart';
 import 'package:church_clique/core/components/drop_down.dart';
 import 'package:church_clique/core/components/input_control.dart';
 import 'package:church_clique/core/components/input_text.dart';
@@ -5,10 +6,8 @@ import 'package:church_clique/core/components/next-of-kin_class-leader.dart';
 import 'package:church_clique/core/components/send_button.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/service/membership_service.dart';
-import 'package:church_clique/features/auth/domain/sign_cache.dart';
-import 'package:church_clique/features/auth/models/user_model.dart';
-import 'package:church_clique/features/auth/models/user_signin_model.dart';
 import 'package:church_clique/features/form/data/data.dart';
+import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:church_clique/features/onboard/provider/onboarding_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -24,36 +23,29 @@ class FourthFormScreen extends StatefulWidget {
 class _FourthFormScreenState extends State<FourthFormScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  late MemFormState provider;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//   }
+
+//  @override
+//   void didChangeDependencies() {
+//     super.didChangeDependencies();
+
+//      provider = Provider.of<MemFormState>(context);
+//     provider.getFormState();
+
+//     if (provider.isFillMemFrom) {
+//       WidgetsBinding.instance.addPostFrameCallback((_){
+//         Navigator.of(context).pushReplacementNamed('main');
+//       });
+//     }
+//   }
   final 
   GetData data = GetData();
-  showDialogBox() {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Are you sure you want to cancel operation?'),
-            content: Text("All details will be cleared"),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'Cancel',
-                  )),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, 'main', (route) => false);
-                },
-                child: Text('Ok'),
-              )
-            ],
-          );
-        });
-  }
-
+  
   void sendForm() async {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -64,7 +56,6 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
     final prefs = await sharedPrefs;
     int userId = prefs.getInt('userId') ?? 0;
     
-    // SignIn user = SignIn();
     final data = {
       "userId": userId,
       'fullName': membership.fullName,

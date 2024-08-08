@@ -19,11 +19,6 @@ class UserImagePicker extends StatefulWidget {
 class _UserImagePickerState extends State<UserImagePicker> {
   File? _pickedImageFile;
   
-   Uint8List toByte( File? imageBytes){
-    return imageBytes!  as Uint8List; 
-  }
-  
-
   void _pickedImage() async {
     final pickedImage = await ImagePicker().pickImage(
       source: ImageSource.gallery,

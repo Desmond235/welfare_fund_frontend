@@ -5,6 +5,7 @@ import 'package:church_clique/core/components/settings_item.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
+import 'package:church_clique/features/settings/providers/image_provider.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:church_clique/features/theme/light_theme.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,8 @@ class _SettingsScreenState extends State<SettingsScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-  File? _userImage;
 
+  File? _userImage;
   savedImage() {
     userImage();
   }
@@ -103,6 +104,8 @@ class _SettingsScreenState extends State<SettingsScreen>
 
   @override
   Widget build(BuildContext context) {
+     String imagePath =context.read<ImagePathProvider>().imagePath;
+     print(imagePath);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: mainSystemUiOverlayStyle(context),
       child: Scaffold(
@@ -122,7 +125,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             // CachedNetworkImage(
-                            //   imageUrl: 'paystack\routes\routes.js',
+                            //   imageUrl: imagePath,
                             //   placeholder: (context, url) => const CircleAvatar(
                             //     backgroundColor: Colors.amber,
                             //     radius: 50,
@@ -234,7 +237,10 @@ class _SettingsScreenState extends State<SettingsScreen>
                   left: MediaQuery.of(context).size.width * 0.5,
                   top: 65,
                   child: ProfileImage(
-                    onTap: savedImage,
+                    onTap: () {
+                        print(imagePath);
+                      savedImage();
+                      },
                   ),
                 ),
               ],

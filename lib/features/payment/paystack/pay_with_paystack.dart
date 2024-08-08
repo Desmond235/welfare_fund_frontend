@@ -9,14 +9,15 @@ class PayWithPaystack {
   String email;
 
 
-  makePayment() {
+  makePayment() async{
     final uniqueTransRef = PayWithPayStack().generateUuidV4();
 
-    PayWithPayStack().now(
+    final payment = await  PayWithPayStack().now(
         context: context,
         secretKey: EnvironConfig.secretKey!,
         customerEmail: email,
         callbackUrl: '',
+        
         paymentChannel: ['card', 'mobile_money' ],
         reference: uniqueTransRef,
         currency: "GHS",

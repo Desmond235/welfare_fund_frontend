@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/service/http_service.dart';
+import 'package:church_clique/core/service/upload_image.dart';
 import 'package:church_clique/features/auth/domain/sign_cache.dart';
 import 'package:church_clique/features/auth/models/user_signin_model.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
@@ -18,7 +20,7 @@ class SigninService {
     BuildContext context,
     void Function(http.Response response) getResponse,
   ) async {
-
+      
     try {
       var headers = {
         "Content-Type": "application/json",
@@ -30,7 +32,7 @@ class SigninService {
         "password": password,
       });
 
-      final serverUrl = "http://10.0.2.2:6000/api/v1/";
+      final serverUrl = "http://10.0.2.2:3000/api/v1/";
 
       final response = await http.post(Uri.parse('${serverUrl}login'),
           headers: headers, body: body);
@@ -57,3 +59,7 @@ class SigninService {
     }
   }
 }
+
+
+
+
