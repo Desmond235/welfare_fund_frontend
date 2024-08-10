@@ -1,10 +1,12 @@
 // import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/components/input_control.dart';
 import 'package:church_clique/core/components/send_button.dart';
-import 'package:church_clique/features/payment/paystack/pay_with_paystack.dart';
-import 'package:church_clique/features/payment/views/make_payment_screen.dart';
+import 'package:church_clique/core/service/payment_service.dart';
+import 'package:church_clique/features/payment/data/data.dart';
+import 'package:church_clique/features/payment/views/main_payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
+import 'package:uuid/uuid.dart';
 // import 'package:pay_with_paystack/pay_with_paystack.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -18,7 +20,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final _formKey = GlobalKey<FormState>();
   String enteredAmount = '';
   String enteredEmail = '';
-  String enteredReference = '';
+  final uuid = Uuid();
 
   /// This function is responsible for validating the form inputs and navigating to the
   /// [MakePaymentScreen] with the provided payment details.
@@ -33,11 +35,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
     }
 
     _formKey.currentState!.save();
-    PayWithPaystack(
-      double.tryParse(enteredAmount)!,
-      enteredEmail,
-      context,
-    ).makePayment();
+
+    PaymentService.sendPayment(
+      amount: enteredAmount,
+      email: enteredEmail,
+      currency: 'GHS',
+    );
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainPaymentScreen()));
   }
 
   @override
@@ -90,14 +94,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 15),
-                // BuildTextInput(
-                //   icon: Icons.info,
-                //   hintText: "Reference",
-                //   onSaved: (value) {
-                //     enteredReference = value!;
-                //   },
-                // ),
                 const SizedBox(height: 10),
                 Column(
                   children: [
@@ -108,34 +104,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       text: "Proceed to make payment",
                       icon: Icons.payment,
                     ),
-                    // const SizedBox(height: 10),
-                    // SizedBox(
-                    //     height: 55,
-                    //     width: double.infinity,
-                    //     child: InkWell(
-                    //       onTap: () {},
-                    //       child: Container(
-                    //         padding: const EdgeInsets.symmetric(horizontal: 30),
-                    //         decoration: BoxDecoration(
-                    //           color: Theme.of(context)
-                    //               .colorScheme
-                    //               .primary
-                    //               .withOpacity(0.72),
-                    //           borderRadius: BorderRadius.circular(30),
-                    //         ),
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: [
-                    //             Text(
-                    //               'Pay with bank Account / Card',
-                    //               style: TextStyle(color: Colors.white),
-                    //             ),
-                    //             Icon(Icons.payment,
-                    //                 color: Colors.white.withOpacity(0.7))
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     ))
                   ],
                 )
               ],

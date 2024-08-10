@@ -4,7 +4,6 @@ import 'package:church_clique/features/settings/providers/image_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:church_clique/core/config/globals.dart' as globals;
 import 'package:provider/provider.dart';
 
 Future<void> uploadImage({required File file, required BuildContext context}) async { 

@@ -23,8 +23,6 @@ class _MainScreenState extends State<MainScreen> {
     _drawerController.showDrawer();
   }
 
-  
-
   @override
   void dispose() {
     _drawerController.dispose();
@@ -64,8 +62,8 @@ class _MainScreenState extends State<MainScreen> {
               ),
               body: PopScope(
                 canPop: false,
-                onPopInvoked: (value) async{
-                  return dialogBox(context);
+                onPopInvoked: (didPop){
+                  dialogBox(context);
                 },
                 child: KMainPages[pageState.currentPage],
               ),

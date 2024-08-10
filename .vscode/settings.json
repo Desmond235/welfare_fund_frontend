@@ -1,4 +1,10 @@
 {
+    "workbench.sideBar.location": "left",
+    "editor.minimap.enabled":false,
+    "files.autoSave": "afterDelay",
+    "editor.fontLigatures": true,
+    "editor.fontFamily": "Consolas, 'Courier New', monospace",
+    
     "workbench.colorCustomizations": {
         "minimap.background": "#00000000",
         "scrollbar.shadow": "#00000000"

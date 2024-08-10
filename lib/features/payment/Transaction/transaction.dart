@@ -1,34 +1,22 @@
 class Transaction {
-  final String amount;
-  final String reference;
-  final String currency;
-  final String email;
-  final List channels;
+  String email;
+  String amount;
+  String reference;
+  String currency;
 
   Transaction({
-    required this.amount,
-    required this.reference,
-    required this.currency,
     required this.email,
-    required this.channels,
+    required this.reference,
+    required this.amount,
+    required this.currency,
   });
 
-  factory Transaction.fromJson(Map<String, dynamic> json) {
+  factory Transaction.froJson(Map<String, dynamic> json){
     return Transaction(
-      amount: json['amount'],
-      reference: json['reference'],
-      currency: json['currency'],
       email: json['email'],
-      channels: json['channels'],
+      amount: json['amount'],
+      currency: json['currency'],
+      reference: json['reference']
     );
-  }
-  Map<String, dynamic> toJson() {
-    return {
-      'amount': amount,
-      'reference': reference,
-      'currency': currency,
-      'email': email,
-      'channels': channels,
-    };
   }
 }

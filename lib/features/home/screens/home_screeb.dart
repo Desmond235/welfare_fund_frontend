@@ -114,7 +114,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                _createCheckboxField()
+                Padding(
+                  padding: const EdgeInsets.only(left: 30, top: 10),
+                  child: _switchField(),
+                )
               ],
             ),
           ),
@@ -145,18 +148,22 @@ class _HomeScreenState extends State<HomeScreen> {
         : Text(name));
   }
 
-  Row _createCheckboxField() {
+  Row _switchField() {
     return Row(
       children: [
-        Checkbox(
-          value: _isEditMode,
-          onChanged: (value) {
-            setState(() {
-              _isEditMode = value!;
-            });
-          },
+         Text('Edit mode'),
+
+        Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: Switch(
+            value: _isEditMode,
+            onChanged: (value) {
+              setState(() {
+                _isEditMode = value;
+              });
+            },
+          ),
         ),
-        Text('Edit mode'),
       ],
     );
   }

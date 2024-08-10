@@ -55,6 +55,7 @@ dependencies:
   pdf: ^3.11.0
   share: ^2.0.4
   open_file: ^3.3.2
+  uuid: ^4.4.2
 
 dev_dependencies:
   flutter_test:
