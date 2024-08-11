@@ -10,11 +10,10 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class PaymentService {
-  static Future<void> sendPayment({
+  static Future<void> sendPayment(BuildContext context,{
     required String amount,
     required String email,
     required String currency,
-    
   }) async {
     http.Response? response;
     try {
@@ -38,6 +37,9 @@ class PaymentService {
         final responseData = jsonDecode(response.body);
 
         final authUrl = responseData['authorization_url'];
+        Provider.of<AuthorizationUrl>(context, listen: false).authUrl(authUrl);
+
+         print(authUrl);
           final prefs = await sharedPrefs;
           prefs.setString('authUrl', authUrl);
       } else{

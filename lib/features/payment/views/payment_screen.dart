@@ -37,6 +37,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     _formKey.currentState!.save();
 
     PaymentService.sendPayment(
+      context,
       amount: enteredAmount,
       email: enteredEmail,
       currency: 'GHS',
