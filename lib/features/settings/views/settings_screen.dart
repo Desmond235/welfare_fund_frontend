@@ -1,13 +1,10 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:church_clique/core/components/settings_item.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
-import 'package:church_clique/features/auth/views/auth.dart';
 import 'package:church_clique/features/settings/providers/image_provider.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
-import 'package:church_clique/features/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_flutter/icons_flutter.dart';

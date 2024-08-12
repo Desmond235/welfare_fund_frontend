@@ -1,10 +1,7 @@
-import 'package:church_clique/core/components/send_button.dart';
 import 'package:church_clique/core/constants/constants.dart';
-import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/onboard/provider/onboard_state_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:icons_flutter/icons_flutter.dart';
 import 'package:provider/provider.dart';
 
 class OnboardScreen extends StatefulWidget {
@@ -41,7 +38,6 @@ class _OnboardScreenState extends State<OnboardScreen> {
   Widget build(BuildContext context) {
     return Consumer<OnboardStatePage>(
       builder: (_, ref, __) {
-        int currentPage = ref.currentPage;
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: mainSystemUiOverlayStyle(context),
           child: Scaffold(

@@ -13,7 +13,7 @@ snackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 3000),
     ),
   );
 }
