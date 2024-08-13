@@ -1,6 +1,8 @@
 import 'package:church_clique/core/service/verify_payment_service.dart';
+import 'package:church_clique/features/payment/data/data.dart';
 import 'package:church_clique/features/payment/transaction/models/verify_payment.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TransactionDetailsScreen extends StatefulWidget {
 
@@ -11,20 +13,39 @@ class TransactionDetailsScreen extends StatefulWidget {
 }
 
 class _TransactionDetailsScreen extends State<TransactionDetailsScreen> {
-  late Future<VerifyPaymentResponse> futureVerifyPayment;
+ Future<VerifyPaymentResponse>? futureVerifyPayment;
+
+  String ? reference;
+
 
   @override
-  void initState() {
-    super.initState();
-    futureVerifyPayment = verifyPayment();
-  }
+  void didChangeDependencies() {
+    final provider = Provider.of<AuthorizationUrl>(context);
 
+     final new_reference = provider.reference;
+     if(reference != new_reference && new_reference.isNotEmpty) {
+       reference = new_reference;
+
+       print(reference);
+       print(new_reference);
+
+      //  fetch new data when the reference changes
+       futureVerifyPayment = verifyPayment(reference!); 
+
+      //  force a rebuild of the screen when the reference changes.
+      // This will trigger the FutureBuilder to fetch new data.
+       setState(() {}); 
+     } 
+    super.didChangeDependencies();
+  }
+ 
+   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Verify Payment'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('Verify Payment'),
+      // ),
       body: FutureBuilder<VerifyPaymentResponse>(
         future: futureVerifyPayment,
         builder: (context, snapshot) {
@@ -40,7 +61,7 @@ class _TransactionDetailsScreen extends State<TransactionDetailsScreen> {
               return Center(child: Text('Payment Failed: ${response.data['message']}'));
             }
           } else {
-            return Center(child: Text('No Data'));
+            return Center(child: Text('No Payment made yet'));
           }
         },
       ),

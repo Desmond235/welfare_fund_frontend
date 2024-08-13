@@ -1,6 +1,7 @@
 import 'package:church_clique/features/auth/models/user_model.dart';
 
 class MembershipModel {
+  final int? id;
   final int userId;
   final String fullName;
   final String dateOfBirth;
@@ -8,7 +9,7 @@ class MembershipModel {
   final String amountPaid;
   final String amountInWords;
   final String receiptNo;
-  final String contact;
+  final int contact;
   final String houseNo;
   final String placeOfAbode;
   final String landmark;
@@ -16,23 +17,24 @@ class MembershipModel {
   final String region;
   final String maritalStatus;
   final String others;
-  final String nameOfSpouse;
-  final String lifeStatus;
-  final String numberOfChildren;
-  final String namesOfChildren;
+  final String? nameOfSpouse;
+  final String? lifeStatus;
+  final String? numberOfChildren;
+  final String? namesOfChildren;
   final String occupation;
   final String fatherName;
   final String fLifeStatus;
   final String motherName;
   final String mLifeStatus;
   final String nextOfKin;
-  final String nextOfKinContact;
+  final int nextOfKinContact;
   final String classLeader;
-  final String classLeaderContact;
-  final String orgMember;
-  final String orgLeaderContact;
+  final int classLeaderContact;
+  final String? orgMember;
+  final int? orgLeaderContact;
 
   MembershipModel({
+    this.id,
     required this.userId,
     required this.fullName,
     required this.dateOfBirth,
@@ -67,36 +69,37 @@ class MembershipModel {
 
   factory MembershipModel.fromJson(Map<String, dynamic> json) {
     return MembershipModel(
-      userId: User.fromJson (json['id']) as int,
-      fullName: json['fullName'] as String,
-      dateOfBirth: json['dateOfBirth'],
-      dateOfRegistration: json['dateOfRegistration'],
-      amountPaid: json['amountPaid'],
-      amountInWords: json['amountInWords'],
-      receiptNo: json['receiptNo'],
+      id: json["id"] as int? ,
+      userId: json["id"],
+      fullName: json['fullName'] ?? '',
+      dateOfBirth: json['dateOfBirth']  ?? "",
+      dateOfRegistration: json['dateOfRegistration'] ?? "",
+      amountPaid: json['amountPaid'] ?? '',
+      amountInWords: json['amountInWords'] ?? '',
+      receiptNo: json['receiptNo'] ?? '',
       contact: json['contact'],
-      houseNo: json['houseNo'],
-      placeOfAbode: json['placeOfAbode'],
-      landmark: json['landmark'],
-      homeTown: json['homeTown'],
-      region: json['region'],
-      maritalStatus: json['maritalStatus'],
-      others: json['others'],
-      nameOfSpouse: json['nameOfSpouse'],
-      lifeStatus: json['lifeStatus'],
-      numberOfChildren: json['numberOfChildren'],
-      namesOfChildren: json['namesOfChildren'],
-      occupation: json['occupation'],
-      fatherName: json['fatherName'],
-      fLifeStatus: json['fLifeStatus'],
-      motherName: json['motherName'],
-      mLifeStatus: json['mLifeStatus'],
-      nextOfKin: json['nextOfKin'],
-      nextOfKinContact: json['nextOfKinContact'],
-      classLeader: json['classLeader'],
-      classLeaderContact: json['classLeaderContact'],
-      orgMember: json['orgMember'],
-      orgLeaderContact: json['orgLeader'],
+      houseNo: json['houseNo'] ?? '',
+      placeOfAbode: json['placeOfAbode'] ?? '',
+      landmark: json['landmark'] ?? '',
+      homeTown: json['homeTown'] ?? '',
+      region: json['region'] ?? '',
+      maritalStatus: json['maritalStatus'] ?? '',
+      others: json['others'] ?? '',
+      nameOfSpouse: json['nameOfSpouse'] != null ? json['nameOfSpouse'] : null,
+      lifeStatus: json['lifeStatus'] != null ? json['lifeStatus'] : null,
+      numberOfChildren: json['numberOfChildren'] !=null ? json['numberOfChildren'] : null,
+      namesOfChildren: json['namesOfChildren'] !=null ? json['namesOfChildren'] : null,
+      occupation: json['occupation'] ?? '' ,
+      fatherName: json['fatherName'] ?? '',
+      fLifeStatus: json['fLifeStatus'] ?? '',
+      motherName: json['motherName'] ?? '',
+      mLifeStatus: json['mLifeStatus'] ?? '',
+      nextOfKin: json['nextOfKin'] ?? '',
+      nextOfKinContact: json['nextOfKinContact'] ?? 0,
+      classLeader: json['classLeader'] ?? '',
+      classLeaderContact: json['classLeaderContact'] ?? 0,
+      orgMember: json['orgMember'] != null ? json['orgMember'] :null,
+      orgLeaderContact: json['orgLeader'] != null ? json['orgLeader'] :null,
     );
   }
 }

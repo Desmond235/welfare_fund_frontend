@@ -1,17 +1,10 @@
 import 'dart:convert';
 
-import 'package:church_clique/core/components/dialog_box.dart';
 import 'package:church_clique/core/config/environ.dart';
-import 'package:church_clique/core/constants/constants.dart';
-import 'package:church_clique/core/service/http_service.dart';
 import 'package:church_clique/core/service/verify_payment_service.dart';
 import 'package:church_clique/features/payment/data/data.dart';
-import 'package:church_clique/features/payment/transaction/models/paystack_auth_response.dart';
-import 'package:church_clique/features/payment/transaction/models/verify_payment.dart';
-import 'package:church_clique/features/payment/views/main_payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class PaymentService {
@@ -34,31 +27,34 @@ class PaymentService {
             "email": email,
             "currency": currency,
           }));
-    } on Exception catch (e) {
-      print(e.toString());
-    }
 
-    if (response!.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
 
-      final authUrl = responseData['authorization_url'];
-      Provider.of<AuthorizationUrl>(context, listen: false).authUrl(authUrl);
+        final authUrl = responseData['authorization_url'];
+        final reference = responseData['reference'];
 
-      final reference = responseData['reference'];
-      Provider.of<AuthorizationUrl>(context, listen:  false).setReference(reference);
+        if (authUrl != null && reference != null) {
+          Provider.of<AuthorizationUrl>(context, listen: false).authUrl(authUrl);
+          Provider.of<AuthorizationUrl>(context, listen: false).setReference(reference);
 
-      verifyPayment(reference: reference);
-      print(authUrl);
+          // verifyPayment(reference: reference);
 
-      // sends the reference to the verify payment endpoint
-      // checkTransactionStatus(authUrl, context);
-    } else {
-      Container(color: Colors.red,);
+          print("Authorization URL: $authUrl");
+          print("Reference: $reference");
+        } else {
+          print("Authorization URL or Reference is null.");
+        }
+      } else {
+        print("Failed to send payment. Status code: ${response.statusCode}");
+        print("Response body: ${response.body}");
+      }
+    } catch (e) {
+      print("Exception occurred: $e");
     }
   }
-
-  
 }
+
 
 // ShowDialogBox(BuildContext context) {
 //   showDialog(

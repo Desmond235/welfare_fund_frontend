@@ -34,18 +34,18 @@ class MembershipService {
     }
   }
 
-  static Future<List<MembershipModel>> getMemberships() async {
-    final serverEndpoint = 'http://10.0.2.2:3000/api/v1/';
+  // static Future<List<MembershipModel>> getMemberships() async {
+  //   final serverEndpoint = 'http://10.0.2.2:3000/api/v1/';
 
-    final response = await http.get(Uri.parse('${serverEndpoint}get-details'));
+  //   final response = await http.get(Uri.parse('${serverEndpoint}get-details'));
     
-    if (response.statusCode == 200) {
-      final List<dynamic> membership = jsonDecode(response.body);
-      final List<MembershipModel> membershipData =
-          membership.map((json) => MembershipModel.fromJson(json)).toList();
-      return membershipData;
-    } else {
-      throw Exception("Failed to fetch details");
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     final List<dynamic> membership = jsonDecode(response.body);
+  //     final List<MembershipModel> membershipData =
+  //         membership.map((json) => MembershipModel.fromJson(json)).toList();
+  //     return membershipData;
+  //   } else {
+  //     throw Exception("Failed to fetch details");
+  //   }
+  // }
 }
