@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       ...members.map((data) {
                         return Text(
-                          data.others,
+                          data.full_name,
                           style: TextStyle(color: Colors.black),
                         );
                       }).toList(),
