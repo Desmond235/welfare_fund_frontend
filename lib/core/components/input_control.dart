@@ -1,5 +1,4 @@
 import 'package:church_clique/core/constants/palette.dart';
-import 'package:church_clique/core/controls/obscure_text.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +39,6 @@ class BuildTextInput extends StatefulWidget {
 class _BuildTextInputState extends State<BuildTextInput> {
   @override
   Widget build(BuildContext context) {
-    final dd = TextEditingController();
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: TextFormField(

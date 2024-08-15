@@ -1,7 +1,6 @@
 import 'package:church_clique/core/base/main/main_page_provider.dart';
 import 'package:church_clique/core/components/nav_item.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
-import 'package:church_clique/features/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 import 'package:provider/provider.dart';

@@ -2,6 +2,8 @@ import 'package:church_clique/core/components/data_column.dart';
 import 'package:church_clique/core/components/data_row.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/controls/data_column.dart';
+import 'package:church_clique/core/service/http_service.dart';
+import 'package:church_clique/core/service/update_members.dart';
 import 'package:church_clique/features/form/models/membership_model.dart';
 import 'package:church_clique/features/form/service/form_service.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +26,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-void updateMembers(){
-  _formKey.currentState!.save();
-}
+  void updateMembers() {
+    _formKey.currentState!.save();
+
+    UpdateMembersResponse.updateMembers(
+      1,
+      memberData,
+      snackBar(context, 'Failed to update records'),
+    );
+  }
 
   @override
   void initState() {
@@ -85,85 +93,15 @@ void updateMembers(){
                               key: _formKey,
                               child: DataTable(
                                 showBottomBorder: true,
-                                headingRowColor: WidgetStateProperty.resolveWith(
-                                    (states) => priCol(context)),
+                                headingRowColor:
+                                    WidgetStateProperty.resolveWith(
+                                        (states) => priCol(context)),
                                 showCheckboxColumn: true,
                                 sortColumnIndex: _currentSortIndex,
                                 sortAscending: _isSortAsc,
                                 columns: getDataColumns(members),
                                 rows: [
-                                  for (var item in members)
-                                    DataRow(
-                                      cells: [
-                                        createTitleCell(item.full_name.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.date_of_birth.toString(),
-                                            _isEditMode , onSaved: (value){}),
-                                        createTitleCell(
-                                            item.date_of_registration.toString(),
-                                            _isEditMode, onSaved:(value){}),
-                                        createTitleCell(
-                                            item.contact.toString(), _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.house_number.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.place_of_abode.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(item.land_mark.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(item.home_town.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.region.toString(), _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.marital_status.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.name_of_spouse.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.life_status.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        // _createTitleCell(item.no_of_children.toString(),_isEditMode),
-                                        // _createTitleCell(item.names_of_children.toString(),_isEditMode),
-                                        createTitleCell(
-                                            item.occupation.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.fathers_name.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.father_life_status.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.mothers_name.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.mother_life_status.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.next_of_kin.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.next_of_kin_contact.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.class_leader.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.class_leader_contact.toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.organization_of_member
-                                                .toString(),
-                                            _isEditMode, onSaved: (value){}),
-                                        createTitleCell(
-                                            item.org_leader_contact.toString(),
-                                            _isEditMode,onSaved: (value){})
-                                      ],
-                                    ),
+                                  for (var item in members) getRows(item),
                                 ],
                                 // rows: <DataRow>[
                                 //   for (var items in list)
@@ -226,6 +164,105 @@ void updateMembers(){
               ),
             )
           : null,
+    );
+  }
+
+  DataRow getRows(MembershipModel item) {
+    return DataRow(
+      cells: [
+        createTitleCell(item.full_name.toString(), _isEditMode,
+            onSaved: (value) {
+          fullNameController = value!;
+        }),
+        createTitleCell(item.date_of_birth.toString(), _isEditMode,
+            onSaved: (value) {
+          dateOfBirthController = value!;
+        }),
+        createTitleCell(item.date_of_registration.toString(), _isEditMode,
+            onSaved: (value) {
+          dateOfRegistrationController = value!;
+        }),
+        createTitleCell(item.contact.toString(), _isEditMode, onSaved: (value) {
+          contactController = value!;
+        }),
+        createTitleCell(item.house_number.toString(), _isEditMode,
+            onSaved: (value) {
+          houseNumberController = value!;
+        }),
+        createTitleCell(item.place_of_abode.toString(), _isEditMode,
+            onSaved: (value) {
+          placeOfAbodeController = value!;
+        }),
+        createTitleCell(item.land_mark.toString(), _isEditMode,
+            onSaved: (value) {
+          landMarkController = value!;
+        }),
+        createTitleCell(item.home_town.toString(), _isEditMode,
+            onSaved: (value) {
+          homeTownController = value!;
+        }),
+        createTitleCell(item.region.toString(), _isEditMode, onSaved: (value) {
+          regionController = value!;
+        }),
+        createTitleCell(item.marital_status.toString(), _isEditMode,
+            onSaved: (value) {
+          maritalStatusController = value!;
+        }),
+        createTitleCell(item.name_of_spouse.toString(), _isEditMode,
+            onSaved: (value) {
+          nameOfSpouseController = value!;
+        }),
+        createTitleCell(item.life_status.toString(), _isEditMode,
+            onSaved: (value) {
+          lifeStatusController = value!;
+        }),
+        // _createTitleCell(item.no_of_children.toString(),_isEditMode),
+        // _createTitleCell(item.names_of_children.toString(),_isEditMode),
+        createTitleCell(item.occupation.toString(), _isEditMode,
+            onSaved: (value) {
+          occupationController = value!;
+        }),
+        createTitleCell(item.fathers_name.toString(), _isEditMode,
+            onSaved: (value) {
+          fatherNameController = value!;
+        }),
+        createTitleCell(item.father_life_status.toString(), _isEditMode,
+            onSaved: (value) {
+          fatherLifeStatusController = value!;
+        }),
+        createTitleCell(item.mothers_name.toString(), _isEditMode,
+            onSaved: (value) {
+          motherNameController = value!;
+        }),
+        createTitleCell(item.mother_life_status.toString(), _isEditMode,
+            onSaved: (value) {
+          motherLifeStatusController = value!;
+        }),
+        createTitleCell(item.next_of_kin.toString(), _isEditMode,
+            onSaved: (value) {
+          nextOfKinContactController = value!;
+        }),
+        createTitleCell(item.next_of_kin_contact.toString(), _isEditMode,
+            onSaved: (value) {
+          nextOfKinContactController = value!;
+        }),
+        createTitleCell(item.class_leader.toString(), _isEditMode,
+            onSaved: (value) {
+          classLeaderController = value!;
+        }),
+        createTitleCell(item.class_leader_contact.toString(), _isEditMode,
+            onSaved: (value) {
+          classLeaderContactController = value!;
+        }),
+        createTitleCell(item.organization_of_member.toString(), _isEditMode,
+            onSaved: (value) {
+          organizationOfMemberController = value!;
+        }),
+        createTitleCell(item.org_leader_contact.toString(), _isEditMode,
+            onSaved: (value) {
+          orgLeaderContactController = value!;
+        })
+      ],
     );
   }
 

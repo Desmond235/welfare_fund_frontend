@@ -1,5 +1,4 @@
 import 'package:church_clique/core/base/main/main_page_provider.dart';
-import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
