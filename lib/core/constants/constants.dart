@@ -6,6 +6,7 @@ import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
 import 'package:church_clique/features/auth/views/juice.dart';
 import 'package:church_clique/features/form/data/data.dart';
+import 'package:church_clique/features/form/models/membership_model.dart';
 import 'package:church_clique/features/form/views/form_screen.dart';
 import 'package:church_clique/features/form/views/fourth_form_screen.dart';
 import 'package:church_clique/features/form/views/second_form.dart';
@@ -27,11 +28,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final KMainPages = [
-  HomeScreen(),
-  PaymentScreen(),
-  TransactionDetailsScreen()
-];
+final KMainPages = [HomeScreen(), PaymentScreen(), TransactionDetailsScreen()];
 
 Color priCol(BuildContext context) {
   return Theme.of(context).colorScheme.primary;
@@ -98,3 +95,26 @@ List<Widget> kOnboardPage = [
   FourthFormScreen()
 ];
 
+String fullNameController = '';
+String dateOfBirthController = '';
+String dateOfRegistrationController = '';
+String contactController = '';
+String houseNumberController = '';
+String placeOfAbodeController = '';
+String landMarkController = '';
+String homeTownController = '';
+String regionController = '';
+String maritalStatusController = '';
+String nameOfSpouseController = '';
+String lifeStatusController = '';
+String occupationController = '';
+String fatherNameController = '';
+String fatherLifeStatusController = '';
+String motherNameController = '';
+String motherLifeStatusController = '';
+String nextOfKinController = '';
+String nextOfKinContactController = '';
+String classLeaderController = '';
+String classLeaderContactController = '';
+String organizationOfMemberController = '';
+String orgLeaderContactController = '';

@@ -1,12 +1,11 @@
 import 'package:church_clique/features/auth/models/user_model.dart';
 
 class MembershipModel {
-  final int? id;
-  final int userId;
+  final int id;
   final String full_name;
   final String date_of_birth;
   final String date_of_registration;
-  final String amount_paid;
+  final int amount_paid;
   final String amount_in_words;
   final String receipt_no;
   final int contact;
@@ -19,7 +18,7 @@ class MembershipModel {
   final String others;
   final String? name_of_spouse;
   final String? life_status;
-  final String? no_of_children;
+  final int no_of_children;
   final String? names_of_children;
   final String occupation;
   final String fathers_name;
@@ -31,11 +30,10 @@ class MembershipModel {
   final String class_leader;
   final int class_leader_contact;
   final String? organization_of_member;
-  final int? org_leader_contact;
+  final int org_leader_contact;
 
   MembershipModel({
-    this.id,
-    required this.userId,
+    required this.id,
     required this.full_name,
     required this.date_of_birth,
     required this.date_of_registration,
@@ -69,15 +67,14 @@ class MembershipModel {
 
   factory MembershipModel.fromJson(Map<String, dynamic> json) {
     return MembershipModel(
-      id: json["id"] as int? ,
-      userId: json["id"],
+      id: json["id"] ?? 0 ,
       full_name: json['full_name'] ?? '',
       date_of_birth: json['date_of_birth']  ?? "",
       date_of_registration: json['date_of_registration'] ?? "",
-      amount_paid: json['amount_paid'] ?? '',
+      amount_paid: json['amount_paid'] as int? ?? 0,
       amount_in_words: json['amount_in_words'] ?? '',
       receipt_no: json['receipt_no'] ?? '',
-      contact: json['contact'],
+      contact: json['contact'] as int,
       house_number: json['house_number'] ?? '',
       place_of_abode: json['place_of_abode'] ?? '',
       land_mark: json['land_mark'] ?? '',
@@ -87,7 +84,7 @@ class MembershipModel {
       others: json['others'] ?? '',
       name_of_spouse: json['name_of_spouse'] != null ? json['name_of_spouse'] : null,
       life_status: json['life_status'] != null ? json['life_status'] : null,
-      no_of_children: json['no_of_children'] !=null ? json['no_of_children'] : null,
+      no_of_children: json['no_of_children'] ?? 0,
       names_of_children: json['names_of_children'] != null ? json['names_of_children'] : null,
       occupation: json['occupation'] ?? '' ,
       fathers_name: json['fathers_name'] ?? '',

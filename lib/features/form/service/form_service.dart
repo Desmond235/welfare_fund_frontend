@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 
 class FormServiceResponse {
   static Future<List<MembershipModel>> getMembershipDetails(
-      int userId) async {
-    final serverUrl = 'http://10.0.2.2:3000/api/v1/get-membership/$userId';
+      int id) async {
+    final serverUrl = 'http://10.0.2.2:3000/api/v1/get-membership/$id';
 
     try {
       final response = await http.get(
@@ -19,7 +19,7 @@ class FormServiceResponse {
         final List<dynamic> getMembers = responseData['data'];
 
         final List<MembershipModel> getMembersData =
-            getMembers.map((json) => MembershipModel.fromJson(json)).cast<MembershipModel>().toList();
+            getMembers.map((json) => MembershipModel.fromJson(json)).toList();
 
             print(getMembers);
         return getMembersData;
