@@ -1,19 +1,16 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:church_clique/core/components/dialog_box.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/service/http_service.dart';
 import 'package:church_clique/core/service/signIn_service.dart';
-import 'package:church_clique/features/auth/models/user_model.dart';
 import 'package:church_clique/features/auth/models/user_signin_model.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
 import 'package:church_clique/features/auth/widgets/submit_button.dart';
-import 'package:church_clique/features/onboard/provider/onboarding_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';

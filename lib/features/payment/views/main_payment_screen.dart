@@ -14,6 +14,7 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
   String? _url;
   late WebViewController _webViewController;
   late AuthorizationUrl provider;
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -23,7 +24,17 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
       ..setBackgroundColor(Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onPageFinished: (url) {},
+          onWebResourceError: (error) {
+            setState(() {
+              _hasError = true;
+            });
+            Center(child: Text('An error occurred'),);
+          },
+          onPageFinished: (url) {
+            setState(() {
+              _hasError = false;
+            });
+          },
           onNavigationRequest: (request) {
             if (request.url.startsWith('http://www.youtube.com')) {
               return NavigationDecision.prevent;
@@ -45,6 +56,7 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
     // Load the URL only if it has changed
     if (_url != newUrl && newUrl.isNotEmpty) {
       _url = newUrl;
+      print(newUrl);
       _webViewController.loadRequest(Uri.parse(_url!));
     }
   }
@@ -55,7 +67,9 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
       body: SafeArea(
         child: _url == null
             ? Center(child: CircularProgressIndicator())
-            : WebViewWidget(controller: _webViewController),
+            : _hasError
+                ? Center(child: Text('An error occurred'))
+                : WebViewWidget(controller: _webViewController),
       ),
     );
   }

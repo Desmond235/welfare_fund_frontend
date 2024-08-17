@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:church_clique/core/config/environ.dart';
-import 'package:church_clique/core/service/verify_payment_service.dart';
 import 'package:church_clique/features/payment/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

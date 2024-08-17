@@ -1,12 +1,8 @@
 import 'dart:io';
-import 'dart:typed_data';
-import 'dart:convert';
 
 import 'package:church_clique/core/constants/palette.dart';
-import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 class UserImagePicker extends StatefulWidget {
   const UserImagePicker({super.key, required this.onPickedImage});

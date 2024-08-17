@@ -1,4 +1,3 @@
-import 'package:church_clique/features/auth/models/user_signin_model.dart';
 
 class User {
   User({

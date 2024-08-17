@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'package:church_clique/core/config/environ.dart';
 import 'package:church_clique/features/payment/transaction/models/verify_payment.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<VerifyPaymentResponse> verifyPayment(String reference) async {

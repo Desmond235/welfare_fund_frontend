@@ -1,4 +1,3 @@
-import 'package:church_clique/features/auth/models/user_model.dart';
 
 class MembershipModel {
   final int id;

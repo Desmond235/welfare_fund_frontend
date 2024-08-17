@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/controls/obscure_text.dart';
-import 'package:church_clique/features/auth/models/user_model.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/widgets/signup/gender.dart';
 import 'package:church_clique/features/auth/widgets/signup/terms_condition.dart';
