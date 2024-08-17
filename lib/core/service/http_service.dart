@@ -22,7 +22,7 @@ class Http {
   static post(
     Map<String, dynamic> data,
     BuildContext context,
-    {required File file}
+    {required File? file}
   ) async {
     try {
 
@@ -51,6 +51,10 @@ class Http {
       }
     } on Exception {
       snackBar(context, "An error occurred while logging in!");
+    }
+    if(file == null){
+      snackBar(context, 'Please pick an image');
+      return;
     }
     uploadImage(file: file, context: context);
   }

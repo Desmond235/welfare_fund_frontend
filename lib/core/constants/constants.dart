@@ -119,28 +119,4 @@ String classLeaderContactController = '';
 String organizationOfMemberController = '';
 String orgLeaderContactController = '';
 
- Map<String, dynamic> memberData = {
-  'fullName': fullNameController,
-  'dateOfBirth': dateOfBirthController,
-  'dateOfRegistration': dateOfRegistrationController,
-  'contact': contactController,
-  'houseNumber': houseNumberController,
-  'placeOfAbode': placeOfAbodeController,
-  'landmark': landMarkController,
-  'homeTown': homeTownController,
- 'region': regionController,
- 'maritalStatus': maritalStatusController,
-  'nameOfSpouse': nameOfSpouseController,
-  'lifeStatus': lifeStatusController,
-  'occupation': occupationController,
-  'fatherName': fatherNameController,
-  'fatherLifeStatus': fatherLifeStatusController,
- 'motherName': motherNameController,
- 'motherLifeStatus': motherLifeStatusController,
-  'nextOfKin': nextOfKinController,
-  'nextOfKinContact': nextOfKinContactController,
-  'classLeader': classLeaderController,
-  'classLeaderContact': classLeaderContactController,
-  'organizationOfMember': organizationOfMemberController,
-  'orgLeaderContact': orgLeaderContactController,
-};
+ 

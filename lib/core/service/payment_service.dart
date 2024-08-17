@@ -36,9 +36,11 @@ class PaymentService {
 
         if (authUrl != null && reference != null) {
           Provider.of<AuthorizationUrl>(context, listen: false).authUrl(authUrl);
-          Provider.of<AuthorizationUrl>(context, listen: false).setReference(reference);
+          // Provider.of<AuthorizationUrl>(context, listen: false).setReference(reference);
 
           // verifyPayment(reference: reference);
+
+          
 
           print("Authorization URL: $authUrl");
           print("Reference: $reference");

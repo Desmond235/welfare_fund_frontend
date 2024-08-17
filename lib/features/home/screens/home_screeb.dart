@@ -23,16 +23,43 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late Future<List<MembershipModel>> loadMembership;
   MembershipModel? members;
+  late int _membershipId = 0;
 
   final _formKey = GlobalKey<FormState>();
 
-  void updateMembers() {
+  void updateMembers(int id) {
     _formKey.currentState!.save();
 
+    Map<String, dynamic> memberData = {
+  'fullName': fullNameController,
+  'dateOfBirth': dateOfBirthController,
+  'dateOfRegistration': dateOfRegistrationController,
+  'contact': contactController,
+  'houseNo': houseNumberController,
+  'placeOfAbode': placeOfAbodeController,
+  'landmark': landMarkController,
+  'homeTown': homeTownController,
+ 'region': regionController,
+ 'maritalStatus': maritalStatusController,
+  'nameOfSpouse': nameOfSpouseController,
+  'lifeStatus': lifeStatusController,
+  'occupation': occupationController,
+  'fatherName': fatherNameController,
+  'fLifeStatus': fatherLifeStatusController,
+ 'motherName': motherNameController,
+ 'mLifeStatus': motherLifeStatusController,
+  'nextOfKin': nextOfKinController,
+  'nextOfKinContact': nextOfKinContactController,
+  'classLeader': classLeaderController,
+  'classLeaderContact': classLeaderContactController,
+  'orgOfMember': organizationOfMemberController,
+  'orgLeaderContact': orgLeaderContactController,
+};
+
     UpdateMembersResponse.updateMembers(
-      1,
+      id,
       memberData,
-      snackBar(context, 'Failed to update records'),
+     context
     );
   }
 
@@ -43,11 +70,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<List<MembershipModel>> loadMembers() async {
-    final membership = await FormServiceResponse.getMembershipDetails(1);
+    final prefs = await sharedPrefs;
+    final id = prefs.getInt('memberId') ?? 0;
+    print(id);
+
+    if (id != 0) {
+      setState(() {
+        _membershipId = id;
+      });
+    }
+    final membership =
+        await FormServiceResponse.getMembershipDetails(_membershipId);
     if (membership.isNotEmpty) {
       members = membership.first;
-
-      return await FormServiceResponse.getMembershipDetails(members!.id);
+      return membership;
     }
     return [];
   }
@@ -55,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -156,7 +193,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: _isEditMode
           ? FloatingActionButton(
-              onPressed: () {},
+              onPressed: () { 
+                print(members!.id);
+                // print(members!.full_name);
+                updateMembers(members!.id);
+                },
               backgroundColor: priCol(context),
               child: Icon(
                 Icons.save,
@@ -173,10 +214,12 @@ class _HomeScreenState extends State<HomeScreen> {
         createTitleCell(item.full_name.toString(), _isEditMode,
             onSaved: (value) {
           fullNameController = value!;
+          print(fullNameController);
         }),
         createTitleCell(item.date_of_birth.toString(), _isEditMode,
             onSaved: (value) {
           dateOfBirthController = value!;
+          print(dateOfBirthController);
         }),
         createTitleCell(item.date_of_registration.toString(), _isEditMode,
             onSaved: (value) {

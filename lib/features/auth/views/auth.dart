@@ -68,11 +68,11 @@ class _AuthScreenState extends State<AuthScreen> {
           .onSavePassword
           .trim(),
     };
-
-    Http.post(data, context,file: pickedImageFile!);
     if(pickedImageFile == null){
       return ;
     }
+    Http.post(data, context,file: pickedImageFile!);
+    
   }
 
   void signIn() async {
@@ -101,7 +101,7 @@ class _AuthScreenState extends State<AuthScreen> {
         }
 
         if (response!.statusCode == 200) {
-          Navigator.of(context).pushReplacementNamed('onboard');
+          Navigator.of(context).pushReplacementNamed('main');
         }
       },
     );

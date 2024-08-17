@@ -44,9 +44,8 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
 //       });
 //     }
 //   }
-  final 
-  GetData data = GetData();
-  
+  final GetData data = GetData();
+
   void sendForm() async {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -56,7 +55,7 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
     var membership = Provider.of<GetData>(context, listen: false);
     final prefs = await sharedPrefs;
     int userId = prefs.getInt('userId') ?? 0;
-    
+
     final data = {
       "userId": userId,
       'fullName': membership.fullName,
@@ -89,7 +88,6 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
       'orgOfMember': membership.orgOfMember,
       'orgLeaderContact': membership.orgLeaderContact
     };
-
 
     print(data);
     MembershipService.post(data, context);
@@ -129,8 +127,7 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        dropDownButton(
-                          (value) {
+                        dropDownButton((value) {
                           data.saveMLifeStatus(value);
                         }, (value) {
                           if (value == null) {
@@ -139,23 +136,17 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
                           return null;
                         }),
                         const SizedBox(height: 10),
-                        kinClassLeader(
-                          'Next of Kin',
-                          context,
-                          isClassLeader: false,
-                          onSaved: (value){
-                            data.saveNextOfKin(value);
-                          }
-                        ),
+                        kinClassLeader('Next of Kin', context,
+                            isClassLeader: false, onSaved: (value) {
+                          data.saveNextOfKin(value);
+                        }),
                         const SizedBox(height: 10),
                         kinClassLeader(
-                          'Class Leader',
-                          isClassLeader: true,
-                          context,
-                          onSaved: (value){
-                            data.saveClassLeader(value);
-                          }
-                        ),
+                            'Class Leader',
+                            isClassLeader: true,
+                            context, onSaved: (value) {
+                          data.saveClassLeader(value);
+                        }),
                         const SizedBox(height: 10),
                         inputText(
                             Icons.person,
