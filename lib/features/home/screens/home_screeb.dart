@@ -101,11 +101,11 @@ class _HomeScreenState extends State<HomeScreen> {
               future: loadMembership,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Text('No data available');
+                  return const Text('No data available');
                 }
 
                 final members = snapshot.data!;
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             theme.iconTheme.copyWith(color: Colors.white),
                       ),
                       child: Container(
-                        margin: EdgeInsets.only(top: 20),
+                        margin: const EdgeInsets.only(top: 20),
                         child: SingleChildScrollView(
                           scrollDirection: Axis.vertical,
                           child: SingleChildScrollView(
@@ -172,8 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               loadMembership = loadMembers();
                             });
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 20),
+                          child: const Padding(
+                            padding: EdgeInsets.only(right: 20),
                             child: Text(
                               'Refresh',
                               style: TextStyle(color: Colors.white),
@@ -197,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 updateMembers(members!.id);
                 },
               backgroundColor: priCol(context),
-              child: Icon(
+              child: const Icon(
                 Icons.save,
                 color: Colors.white,
               ),
@@ -321,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _isSortAsc = !_isSortAsc;
           });
         },
-        label: Text(
+        label: const Text(
           'Full Name',
           style: TextStyle(color: Colors.white),
         ),
@@ -338,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _isSortAsc = !_isSortAsc;
           });
         },
-        label: Text(
+        label: const Text(
           'Date of Birth',
           style: TextStyle(color: Colors.white),
         ),
@@ -350,7 +350,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Row _switchField() {
     return Row(
       children: [
-        Text('Edit mode'),
+        const Text('Edit mode'),
         Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Switch(

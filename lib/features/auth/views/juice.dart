@@ -7,7 +7,7 @@ class Juice extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Text("Home page"),
+        child: const Text("Home page"),
       ),
     );
   }

@@ -9,13 +9,13 @@ List<DataCell> cells(MembershipModel memberData, bool editMode) {
 
 
 
-createTitleCell(String name, bool _isEditMode, {required void Function(String?) onSaved} ) {
+createTitleCell(String name, bool isEditMode, {required void Function(String?) onSaved} ) {
   return DataCell(
-    _isEditMode
+    isEditMode
         ? TextFormField(
             initialValue: name,
             onSaved: onSaved ,
-            style: TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 14),
           )
         : Text(name),
   );

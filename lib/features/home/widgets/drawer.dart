@@ -43,7 +43,7 @@ class HomeDrawer extends StatelessWidget {
                   height: 70,
                   margin: const EdgeInsets.only(top: 24, bottom: 50),
                   clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.black26, shape: BoxShape.circle),
                   child: Image.asset(
                     'assets/logo.png',
@@ -82,7 +82,7 @@ class HomeDrawer extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        Text(
+                        const Text(
                           'Welfare Fund',
                           style: TextStyle(
                             fontSize: 25,

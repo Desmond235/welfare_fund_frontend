@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class OnboardStatePage extends ChangeNotifier{
-  int _totalPages = 3;
+  final int _totalPages = 3;
   int _currentPage = 0;
   int get currentPage => _currentPage;
 

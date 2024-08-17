@@ -11,7 +11,7 @@ import 'package:icons_flutter/icons_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-typedef List_int = List<int>;
+
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -64,14 +64,14 @@ class _SettingsScreenState extends State<SettingsScreen>
       builder: (context) {
         return AlertDialog(
           actionsAlignment: MainAxisAlignment.center,
-          title: Row(
+          title: const Row(
             children: [
               Icon(Icons.logout),
-              const SizedBox(width: 20),
+              SizedBox(width: 20),
               Text('Logout')
             ],
           ),
-          content: Text(
+          content: const Text(
             'You are about to log out',
             style: TextStyle(fontSize: 15),
           ),
@@ -80,7 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen>
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
@@ -91,7 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                 );
                 Provider.of<SignInProvider>(context,listen: false).removeSigninSate();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             )
           ],
         );
@@ -151,12 +151,12 @@ class _SettingsScreenState extends State<SettingsScreen>
                               radius: 50,
                               backgroundImage: _userImage != null
                                   ? FileImage(_userImage!)
-                                  : AssetImage(
+                                  : const AssetImage(
                                       'assets/images/user-icon.png',
                                     ),
                             ),
                             const SizedBox(height: 10),
-                            Text(
+                            const Text(
                               'Desmond Adabe',
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w500),
@@ -173,11 +173,13 @@ class _SettingsScreenState extends State<SettingsScreen>
                       SettingsCard(
                         label: 'General',
                         children: [
-                          SettingsListItem(
+                          const SettingsListItem(
                             icon: MaterialCommunityIcons.account,
                             label: 'Account',
                           ),
                           SettingsListItem(
+                            label: 'Theme',
+                            toggle: true,
                             child: AnimatedSwitcher(
                               duration: const Duration(
                                 milliseconds: 3000,
@@ -196,13 +198,11 @@ class _SettingsScreenState extends State<SettingsScreen>
                                     : Icons.sunny,
                               ),
                             ),
-                            label: 'Theme',
-                            toggle: true,
                           )
                         ],
                       ),
                       const SizedBox(height: 15),
-                      SettingsCard(
+                      const SettingsCard(
                         label: 'About',
                         children: [
                           SettingsListItem(
@@ -264,7 +264,7 @@ class ProfileImage extends StatelessWidget {
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(20)),
-        child: Icon(
+        child: const Icon(
           Icons.edit,
           color: Colors.black,
         ),

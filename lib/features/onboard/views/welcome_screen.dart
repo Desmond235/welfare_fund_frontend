@@ -33,7 +33,7 @@ class WelcomeScreen extends StatelessWidget {
                     ]).createShader(rect);
               },
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                   image: AssetImage(
                     'assets/images/welcome.jpg',
@@ -68,11 +68,11 @@ class WelcomeScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: Colors.white.withOpacity(0.95)),
                       ),
-                      TextSpan(
+                      const TextSpan(
                         text: '\n\nCreate a new account or login to access .',
                         style: TextStyle(fontSize: 16, ),
                       ),
-                      TextSpan(
+                      const TextSpan(
                         text: '\n your personalized welfare management app.',
                         style: TextStyle(fontSize: 16),
                       ),
@@ -93,7 +93,7 @@ class WelcomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pushReplacementNamed('onboard');
                 },
-                child: Text(
+                child: const Text(
                   'GET STARTED',
                   style: TextStyle(
                       color: Colors.white,

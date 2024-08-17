@@ -26,7 +26,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final KMainPages = [HomeScreen(), PaymentScreen(), TransactionDetailsScreen()];
+final KMainPages = [const HomeScreen(), const PaymentScreen(), const TransactionDetailsScreen()];
 
 Color priCol(BuildContext context) {
   return Theme.of(context).colorScheme.primary;
@@ -47,7 +47,7 @@ List<SingleChildWidget> multiProviders = [
 ];
 
 final systemNavBarColor = SystemChrome.setSystemUIOverlayStyle(
-  SystemUiOverlayStyle(
+  const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     // systemNavigationBarColor: Palette.backgroundColor,
     // systemNavigationBarIconBrightness: Brightness.dark,
@@ -55,7 +55,7 @@ final systemNavBarColor = SystemChrome.setSystemUIOverlayStyle(
   ),
 );
 
-final systemUiOverlayStyle = SystemUiOverlayStyle(
+const systemUiOverlayStyle = SystemUiOverlayStyle(
     systemNavigationBarColor: Palette.backgroundColor,
     systemNavigationBarIconBrightness: Brightness.dark,
     systemNavigationBarDividerColor: Colors.transparent);
@@ -74,23 +74,23 @@ SystemUiOverlayStyle mainSystemUiOverlayStyle(BuildContext context) {
 }
 
 Map<String, Widget Function(BuildContext)> routes = {
-  'juice': (context) => Juice(),
-  'payment': (context) => PaymentScreen(),
-  'main': (context) => MainScreen(),
-  'settings': (context) => SettingsScreen(),
-  'auth': (context) => AuthScreen(),
-  'onboard': (context) => OnboardScreen(),
-  'second_form': (context) => SecondForm(),
-  'third_form': (context) => ThirdFormScreen(),
-  'fourth_form': (context) => FourthFormScreen(),
-  'form_screen': (context) => FormScreen(),
+  'juice': (context) => const Juice(),
+  'payment': (context) => const PaymentScreen(),
+  'main': (context) => const MainScreen(),
+  'settings': (context) => const SettingsScreen(),
+  'auth': (context) => const AuthScreen(),
+  'onboard': (context) => const OnboardScreen(),
+  'second_form': (context) => const SecondForm(),
+  'third_form': (context) => const ThirdFormScreen(),
+  'fourth_form': (context) => const FourthFormScreen(),
+  'form_screen': (context) => const FormScreen(),
 };
 
 List<Widget> kOnboardPage = [
-  FormScreen(),
-  SecondForm(),
-  ThirdFormScreen(),
-  FourthFormScreen()
+  const FormScreen(),
+  const SecondForm(),
+  const ThirdFormScreen(),
+  const FourthFormScreen()
 ];
 
 String fullNameController = '';

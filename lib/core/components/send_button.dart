@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 SizedBox sendButton({
   required BuildContext context,
@@ -13,7 +12,7 @@ SizedBox sendButton({
       width: double.infinity,
       height: 55,
       child: InkWell(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+        borderRadius: const BorderRadius.all(Radius.circular(30)),
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -26,7 +25,7 @@ SizedBox sendButton({
             children: [
               Text(
                 text,
-                style: TextStyle(color: Colors.white,fontSize: 15.2),
+                style: const TextStyle(color: Colors.white,fontSize: 15.2),
               ),
               Icon(icon, color: Colors.white.withOpacity(0.7))
             ],

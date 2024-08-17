@@ -19,7 +19,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final _formKey = GlobalKey<FormState>();
   String enteredAmount = '';
   String enteredEmail = '';
-  final uuid = Uuid();
+  final uuid = const Uuid();
 
   /// This function is responsible for validating the form inputs and navigating to the
   /// [MakePaymentScreen] with the provided payment details.
@@ -41,7 +41,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       email: enteredEmail,
       currency: 'GHS',
     );
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainPaymentScreen()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MainPaymentScreen()));
   }
 
   @override

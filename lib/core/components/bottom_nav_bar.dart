@@ -32,7 +32,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               Provider.of<ThemeProvider>(context).isDarkTheme
           ? Colors.black26
           : Colors.white,
-      destinations: [
+      destinations: const [
         NavItem(icon: MaterialCommunityIcons.home, index: 0),
         NavItem(icon: Icons.payment, index: 1),
         NavItem(icon: Icons.attach_money,index: 2)

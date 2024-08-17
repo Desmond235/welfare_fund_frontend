@@ -42,11 +42,11 @@ class _OnboardScreenState extends State<OnboardScreen> {
           value: mainSystemUiOverlayStyle(context),
           child: Scaffold(
             appBar: AppBar(
-              title: Text('Membership Form'),
+              title: const Text('Membership Form'),
             ),
             body: Padding(
               padding: const EdgeInsets.all(16),
-              child: Container(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.8,
                 child: Column(
                   children: [
@@ -57,7 +57,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                           return PageView.builder(
                             controller: controller,
                             scrollDirection: Axis.horizontal,
-                            physics: AlwaysScrollableScrollPhysics(),
+                            physics: const AlwaysScrollableScrollPhysics(),
                             itemCount: kOnboardPage.length,
                             itemBuilder: (context, index) {
                               return kOnboardPage[index];

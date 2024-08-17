@@ -9,7 +9,7 @@ class MembershipService {
   static Future<int?> post(
       Map<String, dynamic> data, BuildContext context) async {
     try {
-      final serverEndpoint = 'http://10.0.2.2:3000/api/v1/';
+      const serverEndpoint = 'http://10.0.2.2:3000/api/v1/';
 
       final response =
           await http.post(Uri.parse('${serverEndpoint}send-details'),
@@ -19,10 +19,14 @@ class MembershipService {
               },
               body: jsonEncode(data));
 
+        if (!context.mounted) return null;      
+
       if (response.statusCode == 200) {
         // snackBar(context, 'Records sent successfully.');
-         Navigator.of(context).pushReplacementNamed('auth');
-         
+        if(context.mounted){
+          Navigator.of(context).pushReplacementNamed('auth');
+        }
+
         final Map<String, dynamic> data = jsonDecode(response.body);
         final memberId = data['id'] as int?;
         final prefs = await sharedPrefs;
@@ -33,7 +37,11 @@ class MembershipService {
       }
     } on Exception catch (e) {
       print(e.toString());
-      snackBar(context, "Failed to send records, please try again later.");
+
+      if(context.mounted){
+        snackBar(context, "Failed to send records, please try again later.");
+      }
+      
       return null;
     }
   }

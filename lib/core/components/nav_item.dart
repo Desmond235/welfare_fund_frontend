@@ -66,7 +66,7 @@ class _NavItemState extends State<NavItem> {
                       ? const SizedBox.shrink()
                       : Text(
                           widget.name,
-                          style: TextStyle(fontSize: 10),
+                          style: const TextStyle(fontSize: 10),
                         ),
                 ],
               ),

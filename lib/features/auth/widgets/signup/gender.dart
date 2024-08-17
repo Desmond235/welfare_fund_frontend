@@ -50,7 +50,7 @@ class _SignupGenderSelectionState extends State<SignupGenderSelection> {
                       ),
                     ),
                   ),
-                  Text(
+                  const Text(
                     "Male",
                     style: TextStyle(
                       fontSize: 16,
@@ -83,7 +83,7 @@ class _SignupGenderSelectionState extends State<SignupGenderSelection> {
                       ),
                     ),
                   ),
-                  Text(
+                  const Text(
                     "Female",
                     style: TextStyle(
                       fontSize: 16,

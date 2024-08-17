@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 class TransactionDetailsScreen extends StatefulWidget {
 
-  TransactionDetailsScreen({super.key});
+  const TransactionDetailsScreen({super.key});
 
   @override
   _TransactionDetailsScreen createState() => _TransactionDetailsScreen();
@@ -22,12 +22,12 @@ class _TransactionDetailsScreen extends State<TransactionDetailsScreen> {
   void didChangeDependencies() {
     final provider = Provider.of<AuthorizationUrl>(context);
 
-     final new_reference = provider.reference;
-     if(reference != new_reference && new_reference.isNotEmpty) {
-       reference = new_reference;
+     final newReference = provider.reference;
+     if(reference != newReference && newReference.isNotEmpty) {
+       reference = newReference;
 
        print(reference);
-       print(new_reference);
+       print(newReference);
 
       //  fetch new data when the reference changes
        futureVerifyPayment = verifyPayment(reference!); 
@@ -50,18 +50,18 @@ class _TransactionDetailsScreen extends State<TransactionDetailsScreen> {
         future: futureVerifyPayment,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             final VerifyPaymentResponse response = snapshot.data!;
             if (response.status == 'success') {
-              return Center(child: Text('Payment Verified!'));
+              return const Center(child: Text('Payment Verified!'));
             } else {
               return Center(child: Text('Payment Failed: ${response.data['message']}'));
             }
           } else {
-            return Center(child: Text('No Payment made yet'));
+            return const Center(child: Text('No Payment made yet'));
           }
         },
       ),

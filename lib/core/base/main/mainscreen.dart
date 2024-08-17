@@ -62,7 +62,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               body: PopScope(
                 canPop: false,
-                onPopInvoked: (didPop){
+                onPopInvokedWithResult: (didPop, result){
                   dialogBox(context);
                 },
                 child: KMainPages[pageState.currentPage],

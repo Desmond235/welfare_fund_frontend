@@ -32,22 +32,22 @@ class DateTimePickerWidget extends StatelessWidget {
             controller: controller,
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 color: Palette.textColor1,
               ),
               contentPadding: const EdgeInsets.all(13),
               isDense: true,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(35),
-                borderSide: BorderSide(color: Palette.textColor1),
+                borderSide: const BorderSide(color: Palette.textColor1),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(35),
-                borderSide: BorderSide(color: Palette.textColor2),
+                borderSide: const BorderSide(color: Palette.textColor2),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(35),
-                borderSide: BorderSide(color: Palette.textColor1),
+                borderSide: const BorderSide(color: Palette.textColor1),
               ),
             ),
           ),
@@ -57,7 +57,7 @@ class DateTimePickerWidget extends StatelessWidget {
           child: IconButton(
             tooltip: "select Date",
             onPressed: onPressed,
-            icon: Icon(
+            icon: const Icon(
               MaterialCommunityIcons.calendar,
               color: Palette.textColor1,
               size: 25,

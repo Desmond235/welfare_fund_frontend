@@ -136,7 +136,7 @@ class _SecondFormState extends State<SecondForm> {
                                 }
                                 return null;
                               },
-                              hint: Text(
+                              hint: const Text(
                                 'Choose marital status',
                                 style: TextStyle(color: Palette.textColor1),
                               ),
@@ -146,7 +146,7 @@ class _SecondFormState extends State<SecondForm> {
                                         value: status.name,
                                         child: Text(
                                           status.name,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Palette.textColor1,
                                           ),
                                         ),

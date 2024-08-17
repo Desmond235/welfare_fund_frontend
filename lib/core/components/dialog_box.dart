@@ -7,8 +7,8 @@ dialogBox(BuildContext context) {
       context: context,
       builder: (context) {
         return AlertDialog(
-          icon: Icon(Icons.exit_to_app),
-          content: Text(
+          icon: const Icon(Icons.exit_to_app),
+          content: const Text(
             "Are you sure you want to exit?",
             style: TextStyle(fontSize: 15),
           ),
@@ -17,14 +17,14 @@ dialogBox(BuildContext context) {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('No'),
+              child: const Text('No'),
             ),
             TextButton(
               onPressed: () {
                 SystemNavigator.pop();
                 // canPop = true;
               },
-              child: Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         );

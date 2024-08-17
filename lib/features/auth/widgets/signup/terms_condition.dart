@@ -11,7 +11,7 @@ class TermsAndConditions extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(top: 20),
           width: 220,
-          child: Text(
+          child: const Text(
             textAlign: TextAlign.center,
             "By pressing 'submit' you agree to ",
             style: TextStyle(color: Palette.textColor1, fontSize: 14),
@@ -20,7 +20,7 @@ class TermsAndConditions extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'our',
               style: TextStyle(fontSize: 14, color: Palette.textColor1),
             ),

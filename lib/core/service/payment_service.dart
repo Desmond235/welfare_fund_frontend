@@ -15,7 +15,7 @@ class PaymentService {
   }) async {
     http.Response? response;
     try {
-      final paymentEndpoint = 'http://10.0.2.2:3000/api/v1/receive-payment';
+      const paymentEndpoint = 'http://10.0.2.2:3000/api/v1/receive-payment';
       response = await http.post(Uri.parse(paymentEndpoint),
           headers: {
             'Content-Type': 'application/json',

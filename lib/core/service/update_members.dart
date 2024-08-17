@@ -10,16 +10,20 @@ class UpdateMembersResponse {
     Map<String, dynamic> data,
     BuildContext context,
   ) async {
-    final BASE_URL = "http://10.0.2.2:3000/api/v1/update-members/$id";
+    final baseUrl = "http://10.0.2.2:3000/api/v1/update-members/$id";
     try {
-      final response = await http.post(Uri.parse(BASE_URL),
+      final response = await http.post(Uri.parse(baseUrl),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode(data));
       //  if(response.statusCode == 200){
       //   snackBar(context, "Records updated successfully.");
       //  }   
+
+      if(!context.mounted) return;
       if (response.statusCode != 200) {
-        snackBar(context, 'Failed to update records');
+        if(context.mounted){
+           snackBar(context, 'Failed to update records');
+        }
         print('failed to update records');
       }
     } on Exception catch (e) {

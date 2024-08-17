@@ -21,14 +21,14 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
     super.initState();
     _webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(Color(0x00000000))
+      ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
           onWebResourceError: (error) {
             setState(() {
               _hasError = true;
             });
-            Center(child: Text('An error occurred'),);
+            const Center(child: Text('An error occurred'),);
           },
           onPageFinished: (url) {
             setState(() {
@@ -66,9 +66,9 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
     return Scaffold(
       body: SafeArea(
         child: _url == null
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : _hasError
-                ? Center(child: Text('An error occurred'))
+                ? const Center(child: Text('An error occurred'))
                 : WebViewWidget(controller: _webViewController),
       ),
     );

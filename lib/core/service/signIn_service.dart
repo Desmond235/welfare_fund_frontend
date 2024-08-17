@@ -20,12 +20,12 @@ class SigninService {
       };
 
       Object? body = jsonEncode({
-        "userID": userId ?? null,
+        "userID": userId,
         "username": username,
         "password": password,
       });
 
-      final serverUrl = "http://10.0.2.2:3000/api/v1/";
+      const serverUrl = "http://10.0.2.2:3000/api/v1/";
 
       final response = await http.post(Uri.parse('${serverUrl}login'),
           headers: headers, body: body);

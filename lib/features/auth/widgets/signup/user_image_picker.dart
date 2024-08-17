@@ -40,11 +40,11 @@ class _UserImagePickerState extends State<UserImagePicker> {
             backgroundColor: Colors.white,
             backgroundImage: _pickedImageFile != null
                 ? FileImage(_pickedImageFile!) 
-                : AssetImage('assets/images/user-icon.png'),
+                : const AssetImage('assets/images/user-icon.png'),
           ),
           IconButton(
             onPressed: _pickedImage,
-            icon: Icon(
+            icon: const Icon(
               Icons.image,
               color: Palette.textColor1,
             ),

@@ -4,7 +4,7 @@ import 'package:church_clique/core/components/dialog_box.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/service/http_service.dart';
-import 'package:church_clique/core/service/signIn_service.dart';
+import 'package:church_clique/core/service/signin_service.dart';
 import 'package:church_clique/features/auth/models/user_signin_model.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
@@ -132,7 +132,7 @@ class _AuthScreenState extends State<AuthScreen> {
     final width = MediaQuery.of(context).size.width;
     return PopScope(
       canPop: false,
-      onPopInvoked: (value) {
+      onPopInvokedWithResult: (value, result) {
         dialogBox(context);
       },
       child: Scaffold(
@@ -144,7 +144,7 @@ class _AuthScreenState extends State<AuthScreen> {
               child: Consumer<AuthProvider>(
                 builder: (context, value, child) {
                   bool isSignupScreen = value.isSignUp;
-                  return Container(
+                  return SizedBox(
                     height: MediaQuery.of(context).size.height / 0.96,
                     child: Form(
                       key: _formKey,
@@ -155,14 +155,14 @@ class _AuthScreenState extends State<AuthScreen> {
                             left: 0,
                             right: 0,
                             child: ClipRRect(
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
                                 bottomRight: Radius.circular(20),
                               ),
                               child: Container(
                                 height: 355,
                                 // background image
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   image: DecorationImage(
                                       image: AssetImage(
                                         'assets/logo.png',
@@ -211,7 +211,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                           isSignupScreen
                                               ? 'Signup to continue'
                                               : 'Signin to continue',
-                                          style: TextStyle(color: Colors.white),
+                                          style: const TextStyle(color: Colors.white),
                                         )
                                       ],
                                     ),

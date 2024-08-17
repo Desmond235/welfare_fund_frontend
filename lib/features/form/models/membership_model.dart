@@ -1,4 +1,6 @@
 
+// ignore_for_file: non_constant_identifier_names
+
 class MembershipModel {
   final int id;
   final String full_name;
@@ -81,10 +83,10 @@ class MembershipModel {
       region: json['region'] ?? '',
       marital_status: json['marital_status'] ?? '',
       others: json['others'] ?? '',
-      name_of_spouse: json['name_of_spouse'] != null ? json['name_of_spouse'] : null,
-      life_status: json['life_status'] != null ? json['life_status'] : null,
+      name_of_spouse: json['name_of_spouse'],
+      life_status: json['life_status'],
       no_of_children: json['no_of_children'] ?? 0,
-      names_of_children: json['names_of_children'] != null ? json['names_of_children'] : null,
+      names_of_children: json['names_of_children'],
       occupation: json['occupation'] ?? '' ,
       fathers_name: json['fathers_name'] ?? '',
       father_life_status: json['father_life_status'] ?? '',
@@ -94,8 +96,8 @@ class MembershipModel {
       next_of_kin_contact: json['next_of_kin_contact'] ?? 0,
       class_leader: json['class_leader'] ?? '',
       class_leader_contact: json['class_leader_contact'] ?? 0,
-      organization_of_member: json['organization_of_member'] != null ? json['organization_of_member'] :null,
-      org_leader_contact: json['org_leader_contact'] != null ? json['org_leader_contact'] :null,
+      organization_of_member: json['organization_of_member'],
+      org_leader_contact: json['org_leader_contact'],
     );
   }
 }

@@ -63,11 +63,11 @@ class SubmitButton extends StatelessWidget {
                           )
                         ]),
                     child: !isSending!
-                        ? SizedBox( 
+                        ? const SizedBox( 
                           // height:12,
                           // width: 12,
                             child: Padding(
-                              padding: const EdgeInsets.all(15.0),
+                              padding: EdgeInsets.all(15.0),
                               child: CircularProgressIndicator(color: Colors.white,),
                             ),
                             

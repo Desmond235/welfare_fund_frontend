@@ -77,16 +77,16 @@ class _BuildTextInputState extends State<BuildTextInput> {
           ),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(35),
-              borderSide: BorderSide(color: Palette.textColor1)),
+              borderSide: const BorderSide(color: Palette.textColor1)),
           hintText: widget.hintText,
-          hintStyle: TextStyle(color: Palette.textColor1),
+          hintStyle: const TextStyle(color: Palette.textColor1),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(35),
-            borderSide: BorderSide(color: Palette.textColor1),
+            borderSide: const BorderSide(color: Palette.textColor1),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(35),
-            borderSide: BorderSide(color: Palette.textColor1),
+            borderSide: const BorderSide(color: Palette.textColor1),
           ),
         ),
         maxLengthEnforcement: MaxLengthEnforcement.enforced,

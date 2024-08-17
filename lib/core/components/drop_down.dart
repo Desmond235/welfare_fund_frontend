@@ -12,7 +12,7 @@ DropdownButtonFormField<String> dropDownButton([
     validator: validator,
     onSaved:  onSaved,
     value: aliveValue,
-    hint: Text(
+    hint: const Text(
       'Alive or Deceased',
       style: TextStyle(color: Palette.textColor1),
     ),
@@ -22,7 +22,7 @@ DropdownButtonFormField<String> dropDownButton([
             value: life.name,
             child: Text(
               life.name,
-              style: TextStyle(color: Palette.textColor1),
+              style: const TextStyle(color: Palette.textColor1),
             ),
           ),
         )

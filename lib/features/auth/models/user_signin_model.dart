@@ -13,7 +13,7 @@ class SignIn {
   factory SignIn.fromJson(Map<String,dynamic> json){
     return SignIn(
       username: json['username'] as String?,
-      userId:   json['userId'] as int?  ?? null
+      userId:   json['userId'] as int?
 
     );
   }

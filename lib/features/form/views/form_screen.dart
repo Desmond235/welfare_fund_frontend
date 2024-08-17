@@ -80,9 +80,9 @@ class _FormScreenState extends State<FormScreen> {
       if (regisDate == null || DoBDate == null) {
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Date of Birth or Registration date empty"),
-            duration: const Duration(seconds: 2),
+            duration: Duration(seconds: 2),
           ),
         );
       }
@@ -96,10 +96,11 @@ class _FormScreenState extends State<FormScreen> {
   @override
   Widget build(BuildContext context) {
     return HomeDrawer(
+      controller: controller,
       child: Scaffold(
         body: PopScope(
           canPop: false,
-          onPopInvoked: (didPop){
+          onPopInvokedWithResult: (didPop, result){
             dialogBox(context);
           },
           child: SafeArea(
@@ -244,7 +245,6 @@ class _FormScreenState extends State<FormScreen> {
           ),
         ),
       ),
-      controller: controller,
     );
   }
 }

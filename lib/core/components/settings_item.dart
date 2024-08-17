@@ -22,7 +22,7 @@ class SettingsCard extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 5),
           child: Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               color: Palette.textColor2,
               fontWeight: FontWeight.bold,
@@ -119,7 +119,7 @@ class _SettingsListItemState extends State<SettingsListItem> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(widget.label,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                           color: Palette.textColor1)),

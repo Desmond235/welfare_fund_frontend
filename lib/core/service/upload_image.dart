@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:church_clique/features/settings/providers/image_provider.dart';
@@ -6,10 +8,10 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 Future<void> uploadImage({required File file, required BuildContext context}) async { 
- final SEVER_URL = 'http://10.0.2.2:3000/api/v1/';
+ const severUrl = 'http://10.0.2.2:3000/api/v1/';
    
   var request = http.MultipartRequest('POST', Uri.parse(
-    '${SEVER_URL}send-image',
+    '${severUrl}send-image',
   ));  
 
 
@@ -24,7 +26,12 @@ Future<void> uploadImage({required File file, required BuildContext context}) as
     var jsonResponse = jsonDecode(responseData.body);
     final String imagePath = jsonResponse['imagePath'];
 
-    context.read<ImagePathProvider>().setImagePath(imagePath);
+    if(!context.mounted) return;
+
+    if(context.mounted) {
+      context.read<ImagePathProvider>().setImagePath(imagePath);
+    }
+    
     
     print(imagePath);
     print('File uploaded successfully'); 
