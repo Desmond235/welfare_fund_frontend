@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:church_clique/core/config/environ.dart';
@@ -12,6 +14,7 @@ class PaymentService {
     required String amount,
     required String email,
     required String currency,
+    required Object metadata,
   }) async {
     http.Response? response;
     try {
@@ -26,7 +29,7 @@ class PaymentService {
             "email": email,
             "currency": currency,
           }));
-
+       
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
 
@@ -34,6 +37,7 @@ class PaymentService {
         final reference = responseData['reference'];
 
         if (authUrl != null && reference != null) {
+          // ignore: use_build_context_synchronously
           Provider.of<AuthorizationUrl>(context, listen: false).authUrl(authUrl);
           // Provider.of<AuthorizationUrl>(context, listen: false).setReference(reference);
 

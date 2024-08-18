@@ -40,6 +40,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       amount: enteredAmount,
       email: enteredEmail,
       currency: 'GHS',
+      metadata: {'cancel-action': 'your-cancel-url.com'}
     );
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MainPaymentScreen()));
   }

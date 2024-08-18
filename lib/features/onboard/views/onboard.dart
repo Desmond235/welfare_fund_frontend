@@ -57,7 +57,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                           return PageView.builder(
                             controller: controller,
                             scrollDirection: Axis.horizontal,
-                            physics: const AlwaysScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: kOnboardPage.length,
                             itemBuilder: (context, index) {
                               return kOnboardPage[index];

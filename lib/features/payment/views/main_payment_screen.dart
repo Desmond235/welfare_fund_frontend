@@ -1,3 +1,4 @@
+import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/features/payment/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,11 +25,14 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
+          
           onWebResourceError: (error) {
             setState(() {
               _hasError = true;
             });
-            const Center(child: Text('An error occurred'),);
+            const Center(
+              child: Text('An error occurred'),
+            );
           },
           onPageFinished: (url) {
             setState(() {
@@ -68,7 +72,25 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
         child: _url == null
             ? const Center(child: CircularProgressIndicator())
             : _hasError
-                ? const Center(child: Text('An error occurred'))
+                ? Card(
+                    child: Center(
+                      child: Column(
+                        children: [
+                          const Expanded(child: Text('An error occurred')),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: priCol(context),
+                            ),
+                            onPressed: () {},
+                            child: const Text(
+                              'reload',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
                 : WebViewWidget(controller: _webViewController),
       ),
     );
