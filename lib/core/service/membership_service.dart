@@ -24,7 +24,7 @@ class MembershipService {
       if (response.statusCode == 200) {
         // snackBar(context, 'Records sent successfully.');
         if(context.mounted){
-          Navigator.of(context).pushReplacementNamed('auth');
+          Navigator.of(context).pushReplacementNamed('main');
         }
 
         final Map<String, dynamic> data = jsonDecode(response.body);

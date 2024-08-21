@@ -4,15 +4,10 @@ import 'package:church_clique/features/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 
 class ThemeProvider extends ChangeNotifier{
+  
   ThemeData _themeData = lightMode;
-  
   bool isDarkTheme = false;
-
-  
-
-
   ThemeData get themeData => _themeData;
-
   bool get isDarkMode => _themeData == darkMode;
   
 

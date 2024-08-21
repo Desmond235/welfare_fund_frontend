@@ -54,7 +54,7 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
     _formKey.currentState!.save();
     var membership = Provider.of<GetData>(context, listen: false);
     final prefs = await sharedPrefs;
-    int userId = prefs.getInt('userId') ?? 0;
+    int userId = Provider.of<MemFormState>(context, listen: false).userId;
 
     final data = {
       "userId": userId,
@@ -88,10 +88,15 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
       'orgOfMember': membership.orgOfMember,
       'orgLeaderContact': membership.orgLeaderContact
     };
-
-    print(data);
+    
+    if(!mounted){
+      return;
+    }
     MembershipService.post(data, context);
     Provider.of<OnboardingPage>(context, listen: false).setOnboarded(true);
+
+    print(data);
+
   }
 
   @override

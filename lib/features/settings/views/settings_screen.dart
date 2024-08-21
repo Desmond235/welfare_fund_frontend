@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:church_clique/core/components/settings_item.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
@@ -25,6 +26,16 @@ class _SettingsScreenState extends State<SettingsScreen>
   late AnimationController _controller;
   late Animation<double> _animation;
 
+  String ? imagePath;
+
+  Future<void> _loadImagePath() async{
+    final prefs = await sharedPrefs;
+    setState(() {
+      imagePath =  prefs.getString('imagePath') ?? "";
+    });
+  }
+
+
   File? _userImage;
   savedImage() {
     userImage();
@@ -47,6 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen>
   @override
   void initState() {
     super.initState();
+    _loadImagePath();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2000),
@@ -56,7 +68,9 @@ class _SettingsScreenState extends State<SettingsScreen>
       parent: _controller,
       curve: Curves.linear,
     );
+
   }
+  
 
   _logoutDialog(BuildContext context) {
     showDialog(
@@ -101,8 +115,6 @@ class _SettingsScreenState extends State<SettingsScreen>
 
   @override
   Widget build(BuildContext context) {
-     String imagePath =context.read<ImagePathProvider>().imagePath;
-     print(imagePath);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: mainSystemUiOverlayStyle(context),
       child: Scaffold(
@@ -121,40 +133,47 @@ class _SettingsScreenState extends State<SettingsScreen>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            // CachedNetworkImage(
-                            //   imageUrl: imagePath,
-                            //   placeholder: (context, url) => const CircleAvatar(
-                            //     backgroundColor: Colors.amber,
-                            //     radius: 50,
-                            //   ),
-                            //   imageBuilder: (context, image) => CircleAvatar(
-                            //     backgroundImage: _userImage != null
+                            Container(
+                              clipBehavior: Clip.hardEdge,
+                              decoration:const ShapeDecoration(shape: CircleBorder()),
+                              child: CachedNetworkImage(
+                                height: 130,
+                                width: 100,
+                                imageUrl: imagePath ?? '',
+                                
+                                placeholder: (context, url) => const CircleAvatar(
+                                  backgroundColor: Colors.amber,
+                                  radius: 50,
+                                ),
+                                // imageBuilder: (context, image) => CircleAvatar(
+                                //   backgroundImage: _userImage != null
+                                //     ? FileImage(_userImage!)
+                                //     : const AssetImage(
+                                //         'assets/images/user-icon.png',
+                                //       ),
+                                //   radius: 50,
+                                // ),
+                              ),
+                            ),
+
+                            // CircleAvatar(
+                            //   backgroundColor: Provider.of<ThemeProvider>(
+                            //                   context,
+                            //                   listen: false)
+                            //               .isDarkMode ||
+                            //           Provider.of<ThemeProvider>(context,
+                            //                   listen: false)
+                            //               .isDarkTheme
+                            //       ? const Color.fromARGB(31, 17, 17, 17)
+                            //           .withOpacity(0.03)
+                            //       : Colors.grey.shade200.withOpacity(0.4),
+                            //   radius: 50,
+                            //   backgroundImage: _userImage != null
                             //       ? FileImage(_userImage!)
-                            //       : AssetImage(
+                            //       : const AssetImage(
                             //           'assets/images/user-icon.png',
                             //         ),
-                            //     radius: 50,
-                            //   ),
                             // ),
-
-                            CircleAvatar(
-                              backgroundColor: Provider.of<ThemeProvider>(
-                                              context,
-                                              listen: false)
-                                          .isDarkMode ||
-                                      Provider.of<ThemeProvider>(context,
-                                              listen: false)
-                                          .isDarkTheme
-                                  ? const Color.fromARGB(31, 17, 17, 17)
-                                      .withOpacity(0.03)
-                                  : Colors.grey.shade200.withOpacity(0.4),
-                              radius: 50,
-                              backgroundImage: _userImage != null
-                                  ? FileImage(_userImage!)
-                                  : const AssetImage(
-                                      'assets/images/user-icon.png',
-                                    ),
-                            ),
                             const SizedBox(height: 10),
                             const Text(
                               'Desmond Adabe',
@@ -233,7 +252,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                 Positioned(
                   left: MediaQuery.of(context).size.width * 0.5,
                   top: 65,
-                  child: ProfileImage(
+                  child: ProfileImageButton(
                     onTap: () {
                         print(imagePath);
                       savedImage();
@@ -249,8 +268,8 @@ class _SettingsScreenState extends State<SettingsScreen>
   }
 }
 
-class ProfileImage extends StatelessWidget {
-  const ProfileImage({
+class ProfileImageButton extends StatelessWidget {
+  const ProfileImageButton({
     super.key,
     required this.onTap,
   });

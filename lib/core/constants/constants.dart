@@ -4,8 +4,8 @@ import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
-import 'package:church_clique/features/auth/views/juice.dart';
 import 'package:church_clique/features/form/data/data.dart';
+import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:church_clique/features/form/views/form_screen.dart';
 import 'package:church_clique/features/form/views/fourth_form_screen.dart';
 import 'package:church_clique/features/form/views/second_form.dart';
@@ -36,6 +36,7 @@ final Future<SharedPreferences> sharedPrefs = SharedPreferences.getInstance();
 
 List<SingleChildWidget> multiProviders = [
   ChangeNotifierProvider(create: (context) => AuthProvider()),
+  ChangeNotifierProvider(create: (context) => MemFormState()),
   ChangeNotifierProvider(create: (context) => MainPageProvider()),
   ChangeNotifierProvider(create: (context) => SignInProvider()),
   ChangeNotifierProvider(create: (context) => ThemeProvider()),
@@ -74,7 +75,6 @@ SystemUiOverlayStyle mainSystemUiOverlayStyle(BuildContext context) {
 }
 
 Map<String, Widget Function(BuildContext)> routes = {
-  'juice': (context) => const Juice(),
   'payment': (context) => const PaymentScreen(),
   'main': (context) => const MainScreen(),
   'settings': (context) => const SettingsScreen(),

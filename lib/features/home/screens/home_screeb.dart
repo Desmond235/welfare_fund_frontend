@@ -3,8 +3,10 @@ import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/controls/data_column.dart';
 import 'package:church_clique/core/service/update_members.dart';
 import 'package:church_clique/features/form/models/membership_model.dart';
+import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:church_clique/features/form/service/form_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
   late int _membershipId = 0;
 
   final _formKey = GlobalKey<FormState>();
+
+  late int userId;
 
   void updateMembers(int id) {
     _formKey.currentState!.save();
@@ -68,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<List<MembershipModel>> loadMembers() async {
+    userId = Provider.of<MemFormState>(context, listen: false).userId;
     final prefs = await sharedPrefs;
     final id = prefs.getInt('memberId') ?? 0;
     print(id);
@@ -78,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
     final membership =
-        await FormServiceResponse.getMembershipDetails(_membershipId);
+        await FormServiceResponse.getMembershipDetails(userId);
     if (membership.isNotEmpty) {
       members = membership.first;
       return membership;

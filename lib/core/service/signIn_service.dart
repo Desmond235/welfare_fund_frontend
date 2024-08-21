@@ -1,9 +1,13 @@
 import 'dart:convert';
 
+import 'package:church_clique/core/base/main/mainscreen.dart';
 import 'package:church_clique/core/constants/constants.dart';
+import 'package:church_clique/core/service/http_service.dart';
+import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:provider/provider.dart';
 
 class SigninService {
   static login(
@@ -20,7 +24,6 @@ class SigninService {
       };
 
       Object? body = jsonEncode({
-        "userID": userId,
         "username": username,
         "password": password,
       });
@@ -33,22 +36,24 @@ class SigninService {
       getResponse(response);
 
       var data = jsonDecode(response.body);
+
+      if (!context.mounted) return;
+
       if (response.statusCode == 200) {
         final  token = data["token"];
         // /DateTime expirationData = JwtDecoder.getExpirationDate(token);
         final decodedToken = JwtDecoder.decode(token);
         final userId= decodedToken["id"];
 
-        final prefs = await sharedPrefs;
-        prefs.setInt('userId',userId);
-        print(userId);
-        
-      } else {
+        Provider.of<MemFormState>(context, listen: false).setUserId(userId);
+      }    else {
         throw Exception('Invalid response');
       }
-    } on Exception {
-      throw Exception('An error occurred');
-    }
+    } on Exception catch (e) {
+      if(context.mounted){
+          snackBar(context, 'An error occurred : $e');
+      }
+       }
   }
 }
 

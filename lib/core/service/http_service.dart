@@ -36,10 +36,6 @@ class Http {
       if (response.statusCode == 200) {
         final dynamic data = jsonDecode(response.body);
         final User user = User.fromJson(data);
-        if (context.mounted) {
-          uploadImage(file: file, context: context);
-          Navigator.of(context).pushReplacementNamed('main');
-        }
         return user;
       }
 
@@ -53,9 +49,11 @@ class Http {
           snackBar(context, 'Something wrong');
         }
       }
+
+      uploadImage(file: file, context: context);
     } on Exception {
       if (context.mounted) {
-        snackBar(context, "An error occurred while logging in!");
+        snackBar(context, "An error occurred!");
       }
     }
 

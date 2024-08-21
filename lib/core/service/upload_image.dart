@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/features/settings/providers/image_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -29,11 +30,15 @@ Future<void> uploadImage({required File file, required BuildContext context}) as
     if(!context.mounted) return;
 
     if(context.mounted) {
-      context.read<ImagePathProvider>().setImagePath(imagePath);
+      final prefs = await sharedPrefs;
+      prefs.setString('imagePath', imagePath );
+      // context.read<ImagePathProvider>().setImagePath(imagePath);
+
     }
     
     
     print(imagePath);
+    print('come to me');
     print('File uploaded successfully'); 
 
   } else {  

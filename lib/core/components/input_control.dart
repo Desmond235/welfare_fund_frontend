@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class BuildTextInput extends StatefulWidget {
   const BuildTextInput({
     super.key,
-    required this.icon,
+    this.icon,
     this.isEmail,
     required this.hintText,
     this.validator,
@@ -21,7 +21,7 @@ class BuildTextInput extends StatefulWidget {
   });
 
   final bool? isEmail;
-  final IconData icon;
+  final IconData? icon;
   final String hintText;
   final FormFieldValidator<String>? validator;
   final TextInputType? type;

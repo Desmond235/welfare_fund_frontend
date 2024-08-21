@@ -3,7 +3,17 @@ import 'package:flutter/material.dart';
 
 class MemFormState extends ChangeNotifier{
   bool _isFillMemForm = false;
+  int? _userId;
+  
+
+
   bool get isFillMemFrom => _isFillMemForm;
+  int get userId => _userId ?? 0;
+
+  void setUserId(int value){
+    _userId = value;
+    notifyListeners();
+  }
 
   void setFormState (bool value){
     _isFillMemForm = value;
