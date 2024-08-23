@@ -4,6 +4,7 @@ import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
+import 'package:church_clique/features/auth/widgets/verify_email.dart';
 import 'package:church_clique/features/form/data/data.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:church_clique/features/form/views/form_screen.dart';
@@ -79,6 +80,7 @@ Map<String, Widget Function(BuildContext)> routes = {
   'main': (context) => const MainScreen(),
   'settings': (context) => const SettingsScreen(),
   'auth': (context) => const AuthScreen(),
+  'otp': (context) => const VerifyEmail(),
   'onboard': (context) => const OnboardScreen(),
   'second_form': (context) => const SecondForm(),
   'third_form': (context) => const ThirdFormScreen(),

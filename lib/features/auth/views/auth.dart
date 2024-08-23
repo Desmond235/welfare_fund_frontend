@@ -4,6 +4,7 @@ import 'package:church_clique/core/components/dialog_box.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/service/http_service.dart';
+import 'package:church_clique/core/service/send_otp.dart';
 import 'package:church_clique/core/service/signin_service.dart';
 import 'package:church_clique/features/auth/models/user_signin_model.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
@@ -50,7 +51,11 @@ class _AuthScreenState extends State<AuthScreen> {
 // if the user does not pick an image, he or she will be prompted to pick an image
 // if the user enters a wrong or does or does not enter any information, the user will be prompted to do so
 
-  post() {}
+  void sendOtp() async{
+    final provider = Provider.of<AuthProvider>(context, listen: false);
+    final email = provider.onSaveEmail;
+    SendOtpResponse.post(email, context);
+  }
   void addItem() async {
     final data = {
       "username": Provider.of<AuthProvider>(context, listen: false)
@@ -122,8 +127,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
     _formKey.currentState!.save();
     addItem();
+    sendOtp();
 
-    // Navigator.of(context).pushReplacementNamed('main');
   }
 
   @override

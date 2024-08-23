@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
               : ThemeMode.system,
       theme: Provider.of<ThemeProvider>(context).themeData,
       // home: signinPageState.isSignin ? MainScreen() : AuthScreen(),
-      home:  const VerifyEmail(),
+      home:  const AuthScreen(),
       // home: onboardState.onboarded
       //     ? const AuthScreen()
       //     // : signinPageState.isSignin
