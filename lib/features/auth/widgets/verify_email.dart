@@ -17,6 +17,13 @@ class VerifyEmail extends StatefulWidget {
 
 class _VerifyEmailState extends State<VerifyEmail> {
   final otpController = TextEditingController();
+  late ChangePasswordProvider isChangePassword ;
+
+  @override
+  void initState() {
+  isChangePassword = context.read<ChangePasswordProvider>();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -25,10 +32,13 @@ class _VerifyEmailState extends State<VerifyEmail> {
   }
 
 void verifyOtp( TextEditingController emailController){
-  bool isChangedPassword = context.read<ChangePasswordProvider>().isChangedPassword;
-  VerifyOtpResponse.post(otpController.text);
 
-  if(isChangedPassword){
+  VerifyOtpResponse.post(otpController.text, context);
+  // if(isChangePassword.isForgetPassword){
+  //   Navigator.of(context).pushReplacementNamed('auth');
+  // }
+
+  if(isChangePassword.isChangedPassword ){
     Navigator.of(context).pushReplacementNamed('password');
   } else{
     Navigator.of(context).pushReplacementNamed('main');

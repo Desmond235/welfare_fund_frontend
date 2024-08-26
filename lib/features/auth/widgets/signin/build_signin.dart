@@ -182,7 +182,7 @@ class _SignInWidgetState extends State<SignInWidget> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Row(
                 //   children: [
@@ -202,9 +202,11 @@ class _SignInWidgetState extends State<SignInWidget> {
                 TextButton(
                   onPressed: () async {
                     context.read<ChangePasswordProvider>().setIsChangePassword(true);
-                    Navigator.of(context).pushReplacementNamed('otp');
+                    context.read<ChangePasswordProvider>().setForgetPassword(true);
+                    Navigator.of(context).pushNamed('email');
                   },
                   child: const Text("Forgot Password?",
+                    textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 12, color: Palette.textColor1)),
                 )

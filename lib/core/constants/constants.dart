@@ -6,6 +6,7 @@ import 'package:church_clique/features/auth/providers/change_password_provider.d
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
 import 'package:church_clique/features/auth/views/chang_password.dart';
+import 'package:church_clique/features/auth/views/email_screen.dart';
 import 'package:church_clique/features/auth/widgets/verify_email.dart';
 import 'package:church_clique/features/form/data/data.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
@@ -29,7 +30,11 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final KMainPages = [const HomeScreen(), const PaymentScreen(), const TransactionDetailsScreen()];
+final KMainPages = [
+  const HomeScreen(),
+  const PaymentScreen(),
+  // const TransactionDetailsScreen(),
+];
 
 Color priCol(BuildContext context) {
   return Theme.of(context).colorScheme.primary;
@@ -89,7 +94,8 @@ Map<String, Widget Function(BuildContext)> routes = {
   'third_form': (context) => const ThirdFormScreen(),
   'fourth_form': (context) => const FourthFormScreen(),
   'form_screen': (context) => const FormScreen(),
-  'password' : (context) => const ChangePasswordScreen(),
+  'password': (context) => const ChangePasswordScreen(),
+  'email': (context) => const EmailScreen()
 };
 
 List<Widget> kOnboardPage = [
@@ -122,5 +128,3 @@ String classLeaderController = '';
 String classLeaderContactController = '';
 String organizationOfMemberController = '';
 String orgLeaderContactController = '';
-
- 

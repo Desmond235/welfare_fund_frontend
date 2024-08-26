@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
 
 import 'package:church_clique/core/service/http_service.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +21,11 @@ class SendOtpResponse {
         return;
       }
       if(response.statusCode == 200){
+        if(email == ''){
+          snackBar(context, 'Email field cannot be empty');
+          return;
+        }
+        Navigator.of(context).pushNamed('otp');
         print('otp sent successfully');
       }
       else{

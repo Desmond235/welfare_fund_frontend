@@ -2,6 +2,7 @@ import 'package:church_clique/core/base/main/mainscreen.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
+import 'package:church_clique/features/auth/views/chang_password.dart';
 import 'package:church_clique/features/auth/widgets/verify_email.dart';
 import 'package:church_clique/features/onboard/provider/onboarding_provider.dart';
 import 'package:church_clique/features/onboard/views/welcome_screen.dart';
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
               : ThemeMode.system,
       theme: Provider.of<ThemeProvider>(context).themeData,
       // home: signinPageState.isSignin ? MainScreen() : AuthScreen(),
-      home:  const AuthScreen(),
+      home:  const ChangePasswordScreen(),
       // home: onboardState.onboarded
       //     ? const AuthScreen()
       //     // : signinPageState.isSignin
