@@ -22,14 +22,13 @@ class SendOtpResponse {
         return;
       }
       if(response.statusCode == 200){
-        log('otp sent successfully');
-        Navigator.of(context).pushReplacementNamed('otp');
+        print('otp sent successfully');
       }
       else{
-        log('Could not sent otp');
+        print('Could not sent otp');
       }
     } on Exception catch (e) {
-      log('An error occurred while sending otp: $e');
+      print('An error occurred while sending otp: $e');
     }
   }
 }

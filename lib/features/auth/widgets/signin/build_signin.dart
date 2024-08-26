@@ -1,7 +1,9 @@
+import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/controls/obscure_text.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/core/components/input_control.dart';
+import 'package:church_clique/features/auth/providers/change_password_provider.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
@@ -13,7 +15,6 @@ class SignInWidget extends StatefulWidget {
     required bool isSignupScreen,
     this.isRememberMe,
     this.username,
-    required this.chkOnchanged,
     required this.onChanged,
     required this.passwordController,
   }) : _isSignUpScreen = isSignupScreen;
@@ -22,7 +23,7 @@ class SignInWidget extends StatefulWidget {
   final void Function(String name)? username;
   final bool? isRememberMe;
   final void Function(String onChanged) onChanged;
-  final void Function(bool? value) chkOnchanged;
+
   final TextEditingController passwordController;
 
   @override
@@ -199,7 +200,10 @@ class _SignInWidgetState extends State<SignInWidget> {
                 //   ],
                 // ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    context.read<ChangePasswordProvider>().setIsChangePassword(true);
+                    Navigator.of(context).pushReplacementNamed('otp');
+                  },
                   child: const Text("Forgot Password?",
                       style:
                           TextStyle(fontSize: 12, color: Palette.textColor1)),

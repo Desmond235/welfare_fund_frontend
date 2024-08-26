@@ -2,8 +2,10 @@ import 'package:church_clique/core/base/main/main_page_provider.dart';
 import 'package:church_clique/core/base/main/mainscreen.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
+import 'package:church_clique/features/auth/providers/change_password_provider.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
+import 'package:church_clique/features/auth/views/chang_password.dart';
 import 'package:church_clique/features/auth/widgets/verify_email.dart';
 import 'package:church_clique/features/form/data/data.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
@@ -45,7 +47,8 @@ List<SingleChildWidget> multiProviders = [
   ChangeNotifierProvider(create: (context) => GetData()),
   ChangeNotifierProvider(create: (context) => OnboardingPage()),
   ChangeNotifierProvider(create: (context) => ImagePathProvider()),
-  ChangeNotifierProvider(create: (context) => AuthorizationUrl())
+  ChangeNotifierProvider(create: (context) => AuthorizationUrl()),
+  ChangeNotifierProvider(create: (context) => ChangePasswordProvider())
 ];
 
 final systemNavBarColor = SystemChrome.setSystemUIOverlayStyle(
@@ -86,6 +89,7 @@ Map<String, Widget Function(BuildContext)> routes = {
   'third_form': (context) => const ThirdFormScreen(),
   'fourth_form': (context) => const FourthFormScreen(),
   'form_screen': (context) => const FormScreen(),
+  'password' : (context) => const ChangePasswordScreen(),
 };
 
 List<Widget> kOnboardPage = [

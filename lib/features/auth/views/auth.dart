@@ -8,6 +8,7 @@ import 'package:church_clique/core/service/send_otp.dart';
 import 'package:church_clique/core/service/signin_service.dart';
 import 'package:church_clique/features/auth/models/user_signin_model.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
+import 'package:church_clique/features/auth/providers/change_password_provider.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
@@ -35,7 +36,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
   http.Response? response;
 
- 
   @override
   void initState() {
     super.initState();
@@ -51,11 +51,12 @@ class _AuthScreenState extends State<AuthScreen> {
 // if the user does not pick an image, he or she will be prompted to pick an image
 // if the user enters a wrong or does or does not enter any information, the user will be prompted to do so
 
-  void sendOtp() async{
+  void sendOtp() async {
     final provider = Provider.of<AuthProvider>(context, listen: false);
     final email = provider.onSaveEmail;
     SendOtpResponse.post(email, context);
   }
+
   void addItem() async {
     final data = {
       "username": Provider.of<AuthProvider>(context, listen: false)
@@ -70,10 +71,12 @@ class _AuthScreenState extends State<AuthScreen> {
           .onSavePassword
           .trim(),
     };
-    if(pickedImageFile == null ){
-      return ;
+    if (pickedImageFile == null) {
+      return;
     }
-    Http.post(data, context,file: pickedImageFile!); 
+    context.read<ChangePasswordProvider>().setIsChangePassword(false);
+    Http.post(data, context, file: pickedImageFile!);
+    Navigator.of(context).pushReplacementNamed('otp');
   }
 
   void signIn() async {
@@ -81,14 +84,13 @@ class _AuthScreenState extends State<AuthScreen> {
 
     final provider = Provider.of<SignInProvider>(context, listen: false);
     final signIn = SignIn();
-    
+
     setState(() {
       _isSending = true;
     });
     SigninService.login(
       provider.username.trim(),
       provider.password.trim(),
-
       signIn.userId,
       context,
       (
@@ -102,7 +104,7 @@ class _AuthScreenState extends State<AuthScreen> {
         }
 
         if (response!.statusCode == 200) {
-         Navigator.of(context).pushReplacementNamed('main'); 
+          Navigator.of(context).pushReplacementNamed('main');
         }
       },
     );
@@ -128,7 +130,6 @@ class _AuthScreenState extends State<AuthScreen> {
     _formKey.currentState!.save();
     addItem();
     sendOtp();
-
   }
 
   @override
@@ -215,7 +216,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                           isSignupScreen
                                               ? 'Signup to continue'
                                               : 'Signin to continue',
-                                          style: const TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         )
                                       ],
                                     ),
@@ -265,18 +267,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                     ),
                                   if (!isSignupScreen)
                                     SignInWidget(
-                                      // FIXME: getTextBefore on inactive input connection issue
                                       passwordController: passwordController,
                                       isSignupScreen: isSignupScreen,
-                                      isRememberMe: isRememberMe,
                                       onChanged: (value) async {
                                         setState(() {
                                           username = value;
-                                        });
-                                      },
-                                      chkOnchanged: (value) async {
-                                        setState(() {
-                                          isRememberMe = value!;
                                         });
                                       },
                                     ),
