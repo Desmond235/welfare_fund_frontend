@@ -38,7 +38,7 @@ class Http {
         final User user = User.fromJson(data);
         return user;
       }
-
+      
       if (response.statusCode == 409) {
         if (context.mounted) {
           snackBar(

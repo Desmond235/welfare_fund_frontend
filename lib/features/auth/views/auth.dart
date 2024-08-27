@@ -125,6 +125,8 @@ class _AuthScreenState extends State<AuthScreen> {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Please pick an image"),
       ));
+
+      return;
     }
 
     _formKey.currentState!.save();
@@ -287,7 +289,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               } else {
                                 signIn();
                               }
-                            },
+                          },
                             isSignupScreen: isSignupScreen,
                             isShadow: false,
                           )
