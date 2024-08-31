@@ -18,6 +18,7 @@ class BuildTextInput extends StatefulWidget {
     this.onChanged,
     this.textInputAction,
     this.maxLines,
+    this.foreground,
   });
 
   final bool? isEmail;
@@ -31,6 +32,7 @@ class BuildTextInput extends StatefulWidget {
   final void Function(String? value)? onSaved;
   final void Function(String value)? onChanged;
   final TextInputAction? textInputAction;
+  final Paint? foreground;
 
   @override
   State<BuildTextInput> createState() => _BuildTextInputState();

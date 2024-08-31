@@ -25,7 +25,6 @@ class SendOtpResponse {
           snackBar(context, 'Email field cannot be empty');
           return;
         }
-        Navigator.of(context).pushNamed('otp');
         print('otp sent successfully');
       }
       else{

@@ -34,23 +34,26 @@ class Http {
       if (!context.mounted) return null;
 
       if (response.statusCode == 200) {
+        // Navigator.of(context).pushReplacementNamed('otp');
+
         final dynamic data = jsonDecode(response.body);
         final User user = User.fromJson(data);
+
+      uploadImage(file: file, context: context);
+        
         return user;
       }
       
       if (response.statusCode == 409) {
         if (context.mounted) {
           snackBar(
-              context, 'Email or username already in use, use a different one');
+              context, 'Email already in use');
         }
       } else if (response.statusCode == 400) {
         if (context.mounted) {
-          snackBar(context, 'Something wrong');
+          snackBar(context, 'username already in use');
         }
       }
-
-      uploadImage(file: file, context: context);
     } on Exception {
       if (context.mounted) {
         snackBar(context, "An error occurred!");

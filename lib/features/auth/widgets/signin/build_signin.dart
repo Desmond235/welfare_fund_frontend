@@ -5,6 +5,7 @@ import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/core/components/input_control.dart';
 import 'package:church_clique/features/auth/providers/change_password_provider.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
+import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -53,9 +54,13 @@ class _SignInWidgetState extends State<SignInWidget> {
                         "LOGIN",
                         style: TextStyle(
                           fontSize: 16,
-                          color: !widget._isSignUpScreen
-                              ? Palette.activeColor
-                              : Palette.textColor1,
+                          color: !widget._isSignUpScreen &&
+                                context.watch<ThemeProvider>().isDarkMode ||
+                                context.watch<ThemeProvider>().isDarkTheme
+                            ? Colors.white
+                            : !widget._isSignUpScreen &&
+                                !context.watch<ThemeProvider>().isDarkMode ||
+                                !context.watch<ThemeProvider>().isDarkTheme ? Palette.activeColor : Palette.textColor1,
                         ),
                       ),
                       if (!widget._isSignUpScreen)
@@ -81,7 +86,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                         style: TextStyle(
                           fontSize: 16,
                           color: widget._isSignUpScreen
-                              ? Palette.activeColor
+                              ? const Color.fromARGB(255, 154, 243, 112)
                               : Palette.textColor1,
                         ),
                       ),
@@ -98,6 +103,7 @@ class _SignInWidgetState extends State<SignInWidget> {
             ),
             const SizedBox(height: 20),
             BuildTextInput(
+
               maxLines: 1,
               type: TextInputType.emailAddress,
               onChanged: widget.onChanged,
@@ -125,7 +131,7 @@ class _SignInWidgetState extends State<SignInWidget> {
             /// The [enabledBorder] and [focusedBorder] properties are used to customize the border of the
             /// TextFormField when it is not focused and when it is focused, respectively.
             TextFormField(
-              style: const TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.white),
               controller: showPassword
                   ? widget.passwordController
                   : obscureTextController,

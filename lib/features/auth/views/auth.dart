@@ -13,6 +13,7 @@ import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
 import 'package:church_clique/features/auth/widgets/submit_button.dart';
+import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ import 'package:http/http.dart' as http;
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
+  
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -76,7 +78,6 @@ class _AuthScreenState extends State<AuthScreen> {
     }
     context.read<ChangePasswordProvider>().setIsChangePassword(false);
     Http.post(data, context, file: pickedImageFile!);
-    Navigator.of(context).pushReplacementNamed('otp');
   }
 
   void signIn() async {
@@ -248,7 +249,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   const EdgeInsets.symmetric(horizontal: 20),
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color:  context.watch<ThemeProvider>().isDarkMode || context.watch<ThemeProvider>().isDarkTheme ? Colors.grey.shade800: Colors.white,
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: [
                                   BoxShadow(

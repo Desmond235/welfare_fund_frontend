@@ -7,6 +7,7 @@ import 'package:church_clique/features/auth/widgets/signup/gender.dart';
 import 'package:church_clique/features/auth/widgets/signup/terms_condition.dart';
 import 'package:church_clique/core/components/input_control.dart';
 import 'package:church_clique/features/auth/widgets/signup/user_image_picker.dart';
+import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_flutter/icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final passwordController = TextEditingController();
   final obscureTextController = ObscuringTextEditingController();
 
-  
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -78,9 +78,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       'SIGNUP',
                       style: TextStyle(
                         fontSize: 16,
-                        color: widget.isSignupScreen
-                            ? Palette.activeColor
-                            : Palette.textColor1,
+                        color: widget.isSignupScreen &&
+                                context.watch<ThemeProvider>().isDarkMode ||
+                                context.watch<ThemeProvider>().isDarkTheme
+                            ? Colors.white
+                            : widget.isSignupScreen &&
+                                !context.watch<ThemeProvider>().isDarkMode ||
+                                !context.watch<ThemeProvider>().isDarkTheme ? Palette.activeColor : Palette.textColor1,
                       ),
                     ),
                     if (widget.isSignupScreen)
@@ -100,125 +104,121 @@ class _SignUpWidgetState extends State<SignUpWidget> {
           ),
           Consumer<AuthProvider>(
             builder: (context, credentials, child) {
-              return Container(
-                child: Column(
-                  children: [
-                    // field for entering registration username
-                    BuildTextInput(
-                      icon: MaterialCommunityIcons.account_outline,
-                      hintText: 'User Name',
-                      onSaved: (value) {
-                        credentials.saveUsername(value!);
-                      },
-                      // validation for username
-                      validator: (value) {
-                        if (value!.trim().isEmpty) {
-                          return "Please enter username";
-                        }
-                        
-                        return null;
-                      },
-                    ),
-                    // field for entering registration email
-                    BuildTextInput(
-                      icon: Icons.email_outlined,
-                      hintText: 'Email',
-                      isEmail: true,
-                      onSaved: (value) {
-                        credentials.saveEmail(value!);
-                      },
-                      // validation for email
-                      validator: (value) {
-                        if (value!.trim().isEmpty ||
-                            !RegExp(r'\S\@\S+\.\S', caseSensitive: false)
-                                .hasMatch(value.trim())) {
-                          return 'Please enter a valid email address;';
-                        }
-                        return null;
-                      },
-                    ),
-                    BuildTextInput(
-                      icon: Icons.phone,
-                      hintText: 'Contact',
-                      type: TextInputType.phone,
-                      onSaved: (value){
-                        credentials.saveContact(value);
-                      },
-                      validator: (value){
-                        if(value!.trim().isEmpty){
-                          return "Please your contact";
-                        }
-                        return null;
-                      },
-                    ),
-                    // field for entering registration password
-                    TextFormField(
-                      style: const TextStyle(color: Colors.black),
-                      controller: showPassword
-                          ? passwordController
-                          : obscureTextController,
-                      onSaved: (value) {
-                        credentials.savePassword(value!);
-                      },
-                      validator: (value) {
-                        if (value!.trim().isEmpty ||
-                            value.trim().length < 6) {
-                          return "Password must be at least 6 characters";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(10),
-                          hintText: "Password",
-                          hintStyle: const TextStyle(color: Palette.textColor1),
-                          prefixIcon: const Icon(
-                            MaterialCommunityIcons.lock,
-                            color: Palette.textColor1,
+              return Column(
+                children: [
+                  // field for entering registration username
+                  BuildTextInput(
+                    icon: MaterialCommunityIcons.account_outline,
+                    hintText: 'User Name',
+                    onSaved: (value) {
+                      credentials.saveUsername(value!);
+                    },
+                    // validation for username
+                    validator: (value) {
+                      if (value!.trim().isEmpty) {
+                        return "Please enter username";
+                      }
+              
+                      return null;
+                    },
+                  ),
+                  // field for entering registration email
+                  BuildTextInput(
+                    icon: Icons.email_outlined,
+                    hintText: 'Email',
+                    isEmail: true,
+                    onSaved: (value) {
+                      credentials.saveEmail(value!);
+                    },
+                    // validation for email
+                    validator: (value) {
+                      if (value!.trim().isEmpty ||
+                          !RegExp(r'\S\@\S+\.\S', caseSensitive: false)
+                              .hasMatch(value.trim())) {
+                        return 'Please enter a valid email address;';
+                      }
+                      return null;
+                    },
+                  ),
+                  // BuildTextInput(
+                  //   icon: Icons.phone,
+                  //   hintText: 'Contact',
+                  //   type: TextInputType.phone,
+                  //   onSaved: (value) {
+                  //     credentials.saveContact(value);
+                  //   },
+                  //   validator: (value) {
+                  //     if (value!.trim().isEmpty) {
+                  //       return "Please your contact";
+                  //     }
+                  //     return null;
+                  //   },
+                  // ),
+                  // field for entering registration password
+                  TextFormField(
+                    style: const TextStyle(color: Colors.white),
+                    controller: showPassword
+                        ? passwordController
+                        : obscureTextController,
+                    onSaved: (value) {
+                      credentials.savePassword(value!);
+                    },
+                    validator: (value) {
+                      if (value!.trim().isEmpty || value.trim().length < 6) {
+                        return "Password must be at least 6 characters";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(10),
+                        hintText: "Password",
+                        hintStyle: const TextStyle(color: Palette.textColor1),
+                        prefixIcon: const Icon(
+                          MaterialCommunityIcons.lock,
+                          color: Palette.textColor1,
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            if (showPassword) {
+                              obscureTextController.text =
+                                  passwordController.text;
+                              obscureTextController.selection =
+                                  TextSelection.collapsed(
+                                      offset:
+                                          obscureTextController.text.length);
+                            } else {
+                              passwordController.text =
+                                  obscureTextController.text;
+                              passwordController.selection =
+                                  TextSelection.collapsed(
+                                      offset: passwordController.text.length);
+                            }
+                            setState(() {
+                              showPassword = !showPassword;
+                            });
+                          },
+                          icon: Icon(
+                            showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Palette.iconColor,
                           ),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              if (showPassword) {
-                                obscureTextController.text =
-                                    passwordController.text;
-                                obscureTextController.selection =
-                                    TextSelection.collapsed(
-                                        offset: obscureTextController
-                                            .text.length);
-                              } else {
-                                passwordController.text =
-                                    obscureTextController.text;
-                                passwordController.selection =
-                                    TextSelection.collapsed(
-                                        offset:
-                                            passwordController.text.length);
-                              }
-                              setState(() {
-                                showPassword = !showPassword;
-                              });
-                            },
-                            icon: Icon(
-                              showPassword
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Palette.iconColor,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(35),
+                          borderSide:
+                              const BorderSide(color: Palette.textColor1),
+                        ),
+                        enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(35),
                             borderSide:
-                                const BorderSide(color: Palette.textColor1),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(35),
-                              borderSide: const BorderSide(
-                                  color: Palette.textColor1)),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(35),
-                              borderSide: const BorderSide(
-                                  color: Palette.textColor1))),
-                    )
-                  ],
-                ),
+                                const BorderSide(color: Palette.textColor1)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(35),
+                            borderSide:
+                                const BorderSide(color: Palette.textColor1))),
+                  )
+                ],
               );
             },
           ),

@@ -1,4 +1,5 @@
 import 'package:church_clique/core/constants/palette.dart';
+import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -52,17 +53,16 @@ class SettingsCard extends StatelessWidget {
 }
 
 class SettingsListItem extends StatefulWidget {
-  const SettingsListItem({
-    super.key,
-    this.onTap,
-    this.icon,
-    required this.label,
-    this.toggle = false,
-    this.bgColor = Colors.white,
-    this.child,
-    this.txtColor = const Color.fromARGB(255, 165, 119, 238),
-    this.animatedIcon
-  });
+  const SettingsListItem(
+      {super.key,
+      this.onTap,
+      this.icon,
+      required this.label,
+      this.toggle = false,
+      this.bgColor = Colors.white,
+      this.child,
+      this.txtColor = const Color.fromARGB(255, 165, 119, 238),
+      this.animatedIcon});
 
   final void Function()? onTap;
   final String label;
@@ -112,10 +112,11 @@ class _SettingsListItemState extends State<SettingsListItem> {
             ),
             child: Row(
               children: [
-                widget.toggle == true ? widget.child! :
-                Icon( widget.icon,
-                    color: widget.txtColor ??
-                        Theme.of(context).colorScheme.primary),
+                widget.toggle == true
+                    ? widget.child!
+                    : Icon(widget.icon,
+                        color: widget.txtColor ??
+                            Theme.of(context).colorScheme.primary),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(widget.label,
@@ -126,11 +127,18 @@ class _SettingsListItemState extends State<SettingsListItem> {
                 ),
                 widget.toggle == true
                     ? Switch(
-                        value: ref.isDarkTheme? true : ref.isDarkMode,
+                        value: ref.isDarkTheme ? true : ref.isDarkMode,
                         inactiveThumbColor: Palette.textColor1,
                         inactiveTrackColor: Colors.white,
                         activeColor: Theme.of(context).colorScheme.primary,
-                        onChanged: (value) => ref.toggleThemeMode(),
+                        onChanged: (value) {
+                          ref.toggleThemeMode();
+                          if(ref.isDarkMode || ref.isDarkTheme){
+                            context.read<SignInProvider>().setSignIn(true);
+                          }else{
+                            context.read<SignInProvider>().setSignIn(false);
+                          }
+                        },
                       )
                     : Icon(
                         Icons.arrow_forward_ios_rounded,

@@ -1,4 +1,6 @@
+import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SubmitButton extends StatelessWidget {
   const SubmitButton({
@@ -28,7 +30,10 @@ class SubmitButton extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
-            color: Colors.white,
+            color: context.watch<ThemeProvider>().isDarkMode ||
+                    context.watch<ThemeProvider>().isDarkTheme
+                ? Colors.grey.shade800
+                : Colors.white,
             boxShadow: [
               if (isShadow)
                 BoxShadow(
@@ -48,11 +53,17 @@ class SubmitButton extends StatelessWidget {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withOpacity(0.6),
-                            Theme.of(context).colorScheme.primary,
+                            context.watch<ThemeProvider>().isDarkMode ||
+                                    context.watch<ThemeProvider>().isDarkTheme
+                                ? Colors.grey.shade700
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.6),
+                            context.watch<ThemeProvider>().isDarkMode ||
+                                    context.watch<ThemeProvider>().isDarkTheme
+                                ? Colors.grey.shade800
+                                : Theme.of(context).colorScheme.primary,
                           ],
                         ),
                         boxShadow: [
@@ -63,14 +74,15 @@ class SubmitButton extends StatelessWidget {
                           )
                         ]),
                     child: !isSending!
-                        ? const SizedBox( 
-                          // height:12,
-                          // width: 12,
+                        ? const SizedBox(
+                            // height:12,
+                            // width: 12,
                             child: Padding(
                               padding: EdgeInsets.all(15.0),
-                              child: CircularProgressIndicator(color: Colors.white,),
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
                             ),
-                            
                           )
                         : const Icon(
                             Icons.arrow_forward,

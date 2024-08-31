@@ -49,9 +49,9 @@ class SigninService {
       }    else {
         throw Exception('Invalid response');
       }
-    } on Exception catch (e) {
+    } on Exception {
       if(context.mounted){
-          snackBar(context, 'An error occurred : $e');
+          snackBar(context, 'Username or password incorrect');
       }
        }
   }
