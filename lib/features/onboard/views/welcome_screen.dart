@@ -50,34 +50,32 @@ class WelcomeScreen extends StatelessWidget {
             top: MediaQuery.of(context).size.height * 0.6,
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
-              child: Container(
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Welcome to Church',
-                        style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white.withOpacity(0.95)),
-                      ),
-                      TextSpan(
-                        text: '\nClique',
-                        style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white.withOpacity(0.95)),
-                      ),
-                      const TextSpan(
-                        text: '\n\nCreate a new account or login to access .',
-                        style: TextStyle(fontSize: 16, ),
-                      ),
-                      const TextSpan(
-                        text: '\n your personalized welfare management app.',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Welcome to Church',
+                      style: TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white.withOpacity(0.95)),
+                    ),
+                    TextSpan(
+                      text: '\nClique',
+                      style: TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white.withOpacity(0.95)),
+                    ),
+                    const TextSpan(
+                      text: '\n\nCreate a new account or login to access .',
+                      style: TextStyle(fontSize: 16, ),
+                    ),
+                    const TextSpan(
+                      text: '\n your personalized welfare management app.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
                 ),
               ),
             ),

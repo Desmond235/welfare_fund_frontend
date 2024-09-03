@@ -35,11 +35,18 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
             );
           },
           onPageFinished: (url) {
+            print(url);
             setState(() {
               _hasError = false;
             });
           },
+          onUrlChange: (change) {
+            // print(change);
+          },
           onNavigationRequest: (request) {
+            if(request.url.contains('facebook.com')){
+              print((request.url.toString()));
+            }
             if (request.url.startsWith('http://www.youtube.com')) {
               return NavigationDecision.prevent;
             }
@@ -72,25 +79,40 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
         child: _url == null
             ? const Center(child: CircularProgressIndicator())
             : _hasError
-                ? Card(
-                    child: Center(
-                      child: Column(
-                        children: [
-                          const Expanded(child: Text('An error occurred')),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: priCol(context),
-                            ),
-                            onPressed: () {},
-                            child: const Text(
-                              'reload',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )
-                        ],
+                ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade700,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.error),
+                            const Text('An error occurred'),
+                            const SizedBox(height: 10),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: priCol(context),
+                              ),
+                              onPressed: () {
+                                _webViewController.reload();
+                              },
+                              child: const Text(
+                                'reload',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  )
+                    ],
+                  ),
+                )
                 : WebViewWidget(controller: _webViewController),
       ),
     );

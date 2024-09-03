@@ -136,7 +136,8 @@ class _SettingsScreenState extends State<SettingsScreen>
                             Container(
                               clipBehavior: Clip.hardEdge,
                               decoration:const ShapeDecoration(shape: CircleBorder()),
-                              child: CachedNetworkImage(
+                              child: imagePath != null || imagePath != "" ?
+                              CachedNetworkImage(
                                 height: 130,
                                 width: 100,
                                 imageUrl: imagePath ?? '',
@@ -153,7 +154,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                                 //       ),
                                 //   radius: 50,
                                 // ),
-                              ),
+                              ) : Image.asset('assets/images/user-icon.png'),
                             ),
 
                             // CircleAvatar(
