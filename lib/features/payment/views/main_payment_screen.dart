@@ -1,4 +1,5 @@
 import 'package:church_clique/core/constants/constants.dart';
+import 'package:church_clique/core/service/verify_payment_service.dart';
 import 'package:church_clique/features/payment/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,9 +44,12 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
           onUrlChange: (change) {
             // print(change);
           },
-          onNavigationRequest: (request) {
+          onNavigationRequest: (request) async {
             if(request.url.contains('facebook.com')){
-              print((request.url.toString()));
+              // final payment = await verifyPayment(_url!);
+              // print(payment.data);
+              print('authorization url: ${request.url.toString()}');
+              Navigator.pop(context);
             }
             if (request.url.startsWith('http://www.youtube.com')) {
               return NavigationDecision.prevent;

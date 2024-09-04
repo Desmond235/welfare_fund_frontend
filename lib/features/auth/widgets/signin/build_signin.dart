@@ -55,12 +55,20 @@ class _SignInWidgetState extends State<SignInWidget> {
                         style: TextStyle(
                           fontSize: 16,
                           color: !widget._isSignUpScreen &&
-                                context.watch<ThemeProvider>().isDarkMode ||
-                                context.watch<ThemeProvider>().isDarkTheme
-                            ? Colors.white
-                            : !widget._isSignUpScreen &&
-                                !context.watch<ThemeProvider>().isDarkMode ||
-                                !context.watch<ThemeProvider>().isDarkTheme ? Palette.activeColor : Palette.textColor1,
+                                      context
+                                          .watch<ThemeProvider>()
+                                          .isDarkMode ||
+                                  context.watch<ThemeProvider>().isDarkTheme
+                              ? Colors.white
+                              : !widget._isSignUpScreen &&
+                                          !context
+                                              .watch<ThemeProvider>()
+                                              .isDarkMode ||
+                                      !context
+                                          .watch<ThemeProvider>()
+                                          .isDarkTheme
+                                  ? Palette.activeColor
+                                  : Palette.textColor1,
                         ),
                       ),
                       if (!widget._isSignUpScreen)
@@ -103,7 +111,6 @@ class _SignInWidgetState extends State<SignInWidget> {
             ),
             const SizedBox(height: 20),
             BuildTextInput(
-
               maxLines: 1,
               type: TextInputType.emailAddress,
               onChanged: widget.onChanged,
@@ -115,7 +122,7 @@ class _SignInWidgetState extends State<SignInWidget> {
               hintText: "info@example.com",
               isEmail: true,
             ),
-    
+
             /// A TextFormField widget for password input with show/hide functionality.
             /// It uses two TextEditingControllers: [passwordController] for showing the password and
             /// [obscureTextController] for hiding the password. The [showPassword] boolean flag is used to
@@ -131,7 +138,12 @@ class _SignInWidgetState extends State<SignInWidget> {
             /// The [enabledBorder] and [focusedBorder] properties are used to customize the border of the
             /// TextFormField when it is not focused and when it is focused, respectively.
             TextFormField(
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: context.watch<ThemeProvider>().isDarkMode ||
+                        context.watch<ThemeProvider>().isDarkTheme
+                    ? Colors.white
+                    : Colors.black,
+              ),
               controller: showPassword
                   ? widget.passwordController
                   : obscureTextController,
@@ -156,8 +168,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                     if (showPassword) {
                       obscureTextController.text =
                           widget.passwordController.text;
-                      obscureTextController.selection =
-                          TextSelection.collapsed(
+                      obscureTextController.selection = TextSelection.collapsed(
                         offset: obscureTextController.text.length,
                       );
                     } else {
@@ -207,12 +218,16 @@ class _SignInWidgetState extends State<SignInWidget> {
                 // ),
                 TextButton(
                   onPressed: () async {
-                    context.read<ChangePasswordProvider>().setIsChangePassword(true);
-                    context.read<ChangePasswordProvider>().setForgetPassword(true);
+                    context
+                        .read<ChangePasswordProvider>()
+                        .setIsChangePassword(true);
+                    context
+                        .read<ChangePasswordProvider>()
+                        .setForgetPassword(true);
                     Navigator.of(context).pushNamed('email');
                   },
                   child: const Text("Forgot Password?",
-                    textAlign: TextAlign.center,
+                      textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 12, color: Palette.textColor1)),
                 )

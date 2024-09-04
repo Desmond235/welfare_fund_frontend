@@ -4,7 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+
 class BuildTextInput extends StatefulWidget {
+
+  /// A custom widget for building and styling text input fields.
+///
+/// This widget is used to create and customize text input fields in the application.
+/// It includes various parameters to customize the appearance and behavior of the input field.
   const BuildTextInput({
     super.key,
     this.icon,
@@ -18,21 +24,41 @@ class BuildTextInput extends StatefulWidget {
     this.onChanged,
     this.textInputAction,
     this.maxLines,
-    this.foreground,
   });
 
-  final bool? isEmail;
+ /// The icon to be displayed at the beginning of the input field.
   final IconData? icon;
+
+  /// Indicates whether the input field should accept an email address.
+  final bool? isEmail;
+
+  /// The hint text to be displayed when the input field is empty.
   final String hintText;
+
+  /// The validator function to be called when the input field loses focus.
   final FormFieldValidator<String>? validator;
+
+  /// The type of keyboard to be displayed when the input field is focused.
   final TextInputType? type;
+
+  /// The controller for managing the text in the input field.
   final TextEditingController? controller;
+
+  /// The maximum length of the input text.
   final int? maxLength;
+
+  /// The maximum number of lines for multi-line input fields.
   final int? maxLines;
+
+  /// The function to be called when the input field loses focus and the form is saved.
   final void Function(String? value)? onSaved;
+
+  /// The function to be called when the input text changes.
   final void Function(String value)? onChanged;
+
+  /// The action to be performed when the user presses the return key on the keyboard.
   final TextInputAction? textInputAction;
-  final Paint? foreground;
+
 
   @override
   State<BuildTextInput> createState() => _BuildTextInputState();
