@@ -145,164 +145,168 @@ class _AuthScreenState extends State<AuthScreen> {
       },
       child: Scaffold(
         backgroundColor: Palette.backgroundColor,
-        body: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: systemUiOverlayStyle,
-          child: SingleChildScrollView(
-            child: KeyboardDismissOnTap(
-              child: Consumer<AuthProvider>(
-                builder: (context, value, child) {
-                  bool isSignupScreen = value.isSignUp;
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height / 0.96,
-                    child: Form(
-                      key: _formKey,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                              ),
-                              child: Container(
-                                height: 355,
-                                // background image
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                        'assets/logo.png',
-                                      ),
-                                      fit: BoxFit.cover),
+        body: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: systemUiOverlayStyle,
+            child: SingleChildScrollView(
+              child: KeyboardDismissOnTap(
+                child: Consumer<AuthProvider>(
+                  builder: (context, value, child) {
+                    bool isSignupScreen = value.isSignUp;
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height ,
+                      child: Form(
+                        key: _formKey,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
                                 ),
                                 child: Container(
-                                  padding:
-                                      const EdgeInsets.only(top: 40, left: 20),
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withOpacity(0.8),
-                                  child: SafeArea(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          // color: priCol(context).withOpacity(0.4),
-                                          child: RichText(
-                                            text: TextSpan(
-                                              text: "Welcome to",
-                                              style: TextStyle(
-                                                color: Colors.yellow[700],
-                                                fontSize: width < 600 ? 20 : 25,
-                                                letterSpacing: 2,
+                                  height: 355,
+                                  // background image
+                                  decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                          'assets/logo.png',
+                                        ),
+                                        fit: BoxFit.cover),
+                                  ),
+                                  child: Container(
+                                    padding:
+                                        const EdgeInsets.only(top: 40, left: 20),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withOpacity(0.8),
+                                    child: SafeArea(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            // color: priCol(context).withOpacity(0.4),
+                                            child: RichText(
+                                              text: TextSpan(
+                                                text: "Welcome to",
+                                                style: TextStyle(
+                                                  color: Colors.yellow[700],
+                                                  fontSize: width < 600 ? 20 : 25,
+                                                  letterSpacing: 2,
+                                                ),
+                                                children: [
+                                                  TextSpan(
+                                                      text: " Welfare Fund,",
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.yellow[600],
+                                                          fontSize: width < 600
+                                                              ? 20
+                                                              : 25,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                ],
                                               ),
-                                              children: [
-                                                TextSpan(
-                                                    text: " Welfare Fund,",
-                                                    style: TextStyle(
-                                                        color:
-                                                            Colors.yellow[600],
-                                                        fontSize: width < 600
-                                                            ? 20
-                                                            : 25,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                              ],
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 6),
-                                        Text(
-                                          isSignupScreen
-                                              ? 'Signup to continue'
-                                              : 'Signin to continue',
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        )
-                                      ],
+                                          const SizedBox(height: 6),
+                                          Text(
+                                            isSignupScreen
+                                                ? 'Signup to continue'
+                                                : 'Signin to continue',
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          SubmitButton(
-                            isSending: _isSending,
-                            isSignupScreen: isSignupScreen,
-                            isShadow: true,
-                            onTap: () {},
-                          ),
-                          // this adds a submit button
-                          AnimatedPositioned(
-                            duration: const Duration(milliseconds: 700),
-                            curve: Curves.bounceInOut,
-                            top: isSignupScreen ? 180 : 230,
-                            child: AnimatedContainer(
-                              duration: const Duration(microseconds: 700),
+                            SubmitButton(
+                              isSending: _isSending,
+                              isSignupScreen: isSignupScreen,
+                              isShadow: true,
+                              onTap: () {},
+                            ),
+                            // this adds a submit button
+                            AnimatedPositioned(
+                              duration: const Duration(milliseconds: 700),
                               curve: Curves.bounceInOut,
-                              width: MediaQuery.of(context).size.width - 40,
-                              height: isSignupScreen ? 565 : 260,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              padding: const EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color:  context.watch<ThemeProvider>().isDarkMode || context.watch<ThemeProvider>().isDarkTheme ? Colors.grey.shade800: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  if (isSignupScreen)
-                                    SignUpWidget(
-                                      isSignupScreen: isSignupScreen,
-                                      onPickedImage: (pickedImage) {
-                                        pickedImageFile = pickedImage;
-                                      },
+                              top: isSignupScreen ? 180 : 230,
+                              child: AnimatedContainer(
+                                duration: const Duration(microseconds: 700),
+                                curve: Curves.bounceInOut,
+                                width: MediaQuery.of(context).size.width - 40,
+                                height: isSignupScreen ? 565 : 260,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color:  context.watch<ThemeProvider>().isDarkMode || context.watch<ThemeProvider>().isDarkTheme ? Colors.grey.shade800: Colors.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.3),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
                                     ),
-                                  if (!isSignupScreen)
-                                    SignInWidget(
-                                      passwordController: passwordController,
-                                      isSignupScreen: isSignupScreen,
-                                      onChanged: (value) async {
-                                        setState(() {
-                                          username = value;
-                                        });
-                                      },
-                                    ),
-                                ],
+                                  ],
+                                ),
+                                child: Column(
+                                  children: [
+                                    if (isSignupScreen)
+                                      SignUpWidget(
+                                        isSignupScreen: isSignupScreen,
+                                        onPickedImage: (pickedImage) {
+                                          pickedImageFile = pickedImage;
+                                        },
+                                      ),
+                                    if (!isSignupScreen)
+                                      SignInWidget(
+                                        passwordController: passwordController,
+                                        isSignupScreen: isSignupScreen,
+                                        onChanged: (value) async {
+                                          setState(() {
+                                            username = value;
+                                          });
+                                        },
+                                      ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          SubmitButton(
-                            isSending: _isSending,
-                            onTap: () async {
-                              if (isSignupScreen) {
-                                addCredentials();
-                              } else {
-                                signIn();
-                              }
-                          },
-                            isSignupScreen: isSignupScreen,
-                            isShadow: false,
-                          )
-                        ],
+                            SubmitButton(
+                              isSending: _isSending,
+                              onTap: () async {
+                                if (isSignupScreen) {
+                                  addCredentials();
+                                } else {
+                                  signIn();
+                                }
+                            },
+                              isSignupScreen: isSignupScreen,
+                              isShadow: false,
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           ),
         ),
+        resizeToAvoidBottomInset: true,
       ),
     );
   }

@@ -36,6 +36,9 @@ class PaymentService {
         final authUrl = responseData['authorization_url'];
         final reference = responseData['reference'];
 
+        // ignore: use_build_context_synchronously
+        Provider.of<AuthorizationUrl>(context, listen: false).setReference(reference);
+
         if (authUrl != null && reference != null) {
           // ignore: use_build_context_synchronously
           Provider.of<AuthorizationUrl>(context, listen: false).authUrl(authUrl);

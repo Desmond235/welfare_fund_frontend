@@ -44,6 +44,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     return KeyboardDismissOnTap(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         body: Padding(
           padding: const EdgeInsets.all(20),
           child: Form(

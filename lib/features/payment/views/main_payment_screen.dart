@@ -14,12 +14,15 @@ class MainPaymentScreen extends StatefulWidget {
 
 class _MainPaymentScreenState extends State<MainPaymentScreen> {
   String? _url;
+  String? _reference;
   late WebViewController _webViewController;
   late AuthorizationUrl provider;
   bool _hasError = false;
 
   @override
   void initState() {
+    final reference = Provider.of<AuthorizationUrl>(context, listen: false);
+    _reference = reference.reference;
     super.initState();
     _webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -46,10 +49,11 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
           },
           onNavigationRequest: (request) async {
             if(request.url.contains('facebook.com')){
-              // final payment = await verifyPayment(_url!);
-              // print(payment.data);
+              final payment = await verifyPayment(_reference!);
+              print(payment.data);
+              print(_reference);
               print('authorization url: ${request.url.toString()}');
-              Navigator.pop(context);
+              // Navigator.pop(context);
             }
             if (request.url.startsWith('http://www.youtube.com')) {
               return NavigationDecision.prevent;
@@ -67,6 +71,12 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
     // Access the provider and update the URL
     provider = Provider.of<AuthorizationUrl>(context);
     final newUrl = provider.authorization_url;
+    final reference = provider.reference;
+
+    if (_reference != reference && reference.isNotEmpty) {
+      _reference = reference;
+      print(reference);
+    }
 
     // Load the URL only if it has changed
     if (_url != newUrl && newUrl.isNotEmpty) {
