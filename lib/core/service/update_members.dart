@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:church_clique/core/service/http_service.dart';
+import 'package:church_clique/features/form/models/membership_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,6 +10,7 @@ class UpdateMembersResponse {
     int id,
     Map<String, dynamic> data,
     BuildContext context,
+    Future<List<MembershipModel>> Function() updateMembers,
   ) async {
     final baseUrl = "http://10.0.2.2:3000/api/v1/update-members/$id";
     try {
@@ -20,6 +22,9 @@ class UpdateMembersResponse {
       //  }   
 
       if(!context.mounted) return;
+      if(response.statusCode == 200){
+        updateMembers();
+      }
       if (response.statusCode != 200) {
         if(context.mounted){
            snackBar(context, 'Failed to update records');

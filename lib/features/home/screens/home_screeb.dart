@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late int userId;
 
-  void updateMembers(int id) {
+  void updateMembers(int id) async{
     _formKey.currentState!.save();
 
     Map<String, dynamic> memberData = {
@@ -61,8 +61,15 @@ class _HomeScreenState extends State<HomeScreen> {
     UpdateMembersResponse.updateMembers(
       id,
       memberData,
-     context
+     context,
+     (){
+       return loadMembers();
+     }
     );
+
+    setState(() {
+      loadMembership = loadMembers();
+    });
   }
 
   @override
@@ -105,14 +112,13 @@ class _HomeScreenState extends State<HomeScreen> {
             child: FutureBuilder<List<MembershipModel>>(
               future: loadMembership,
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
+                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const Text('No data available');
                 }
 
+                if (snapshot.hasData) {
                 final members = snapshot.data!;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,27 +174,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.only(top: 10, left: 20),
                           child: _switchField(),
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: priCol(context),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              loadMembership = loadMembers();
-                            });
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.only(right: 20),
-                            child: Text(
-                              'Refresh',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
+                        // ElevatedButton(
+                        //   style: ElevatedButton.styleFrom(
+                        //     backgroundColor: priCol(context),
+                        //   ),
+                        //   onPressed: () {
+                        //     setState(() {
+                        //       loadMembership = loadMembers();
+                        //     });
+                        //   },
+                        //   child: const Padding(
+                        //     padding: EdgeInsets.only(right: 20),
+                        //     child: Text(
+                        //       'Refresh',
+                        //       style: TextStyle(color: Colors.white),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ],
                 );
+                }
+                return const CircularProgressIndicator();
               },
             ),
           ),

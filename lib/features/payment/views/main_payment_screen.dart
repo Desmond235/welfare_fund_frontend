@@ -38,23 +38,31 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
               child: Text('An error occurred'),
             );
           },
-          onPageFinished: (url) {
-            print(url);
-            setState(() {
+          onPageStarted: (url) {
+              setState(() {
               _hasError = false;
             });
+          },
+          onPageFinished: (url) async{
+            print(url);
+             if(url.contains('facebook.com')){
+              final payment = await verifyPayment(_reference!);
+              print(payment.data);
+              print(_reference);
+              print('authorization url: ${url.toString()}');
+              if(!mounted){
+                return;
+              }
+              if(mounted){
+                Navigator.pop(context);
+              }
+            }
           },
           onUrlChange: (change) {
             // print(change);
           },
           onNavigationRequest: (request) async {
-            if(request.url.contains('facebook.com')){
-              final payment = await verifyPayment(_reference!);
-              print(payment.data);
-              print(_reference);
-              print('authorization url: ${request.url.toString()}');
-              // Navigator.pop(context);
-            }
+           
             if (request.url.startsWith('http://www.youtube.com')) {
               return NavigationDecision.prevent;
             }
