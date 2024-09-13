@@ -20,20 +20,21 @@ import 'package:church_clique/features/onboard/provider/onboarding_provider.dart
 import 'package:church_clique/features/onboard/views/onboard.dart';
 import 'package:church_clique/features/payment/data/data.dart';
 import 'package:church_clique/features/payment/views/payment_screen.dart';
+import 'package:church_clique/features/payment/views/view_transaction_screen.dart';
 import 'package:church_clique/features/settings/providers/image_provider.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:church_clique/features/settings/views/settings_screen.dart';
-import 'package:church_clique/features/transation_details/views/transaction_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ignore: non_constant_identifier_names
 final KMainPages = [
   const HomeScreen(),
   const PaymentScreen(),
-  // const TransactionDetailsScreen(),
+  const ViewTransactionScreen(),
 ];
 
 Color priCol(BuildContext context) {
