@@ -18,6 +18,7 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
   late WebViewController _webViewController;
   late AuthorizationUrl provider;
   bool _hasError = false;
+  bool _hasVerifiedPayment = false;
 
   @override
   void initState() {
@@ -45,11 +46,15 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
           },
           onPageFinished: (url) async{
             print(url);
-             if(url.contains('facebook.com')){
-              final payment = await verifyPayment(_reference!);
-              print(payment.data);
-              print(_reference);
-              print('authorization url: ${url.toString()}');
+             if(url.contains('facebook.com') && !_hasVerifiedPayment) {
+              await verifyPayment(_reference!);
+              // print(payment.data);
+              // print(_reference);
+              // print('authorization url: ${url.toString()}');
+
+              setState(() {
+                _hasVerifiedPayment = true;
+              });
               if(!mounted){
                 return;
               }

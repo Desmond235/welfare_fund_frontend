@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 
 
 class GetTransactionResponse {
-  static Future<List<TransactionModel>> getTransactions(int id) async {
-     final serverUrl = 'http://10.0.2.2:3000/api/v1/get-transactions/$id';
+  static Future<List<TransactionModel>> getTransactions() async {
+     const serverUrl = 'http://10.0.2.2:3000/api/v1/get-transactions';
 
     try {
       final response = await http.get(

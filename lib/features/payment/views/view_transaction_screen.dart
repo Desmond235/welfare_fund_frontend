@@ -4,14 +4,19 @@ import 'package:church_clique/features/payment/transaction/models/transaction_mo
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class ViewTransactionScreen extends StatelessWidget {
+class ViewTransactionScreen extends StatefulWidget {
   const ViewTransactionScreen({super.key});
 
+  @override
+  State<ViewTransactionScreen> createState() => _ViewTransactionScreenState();
+}
+
+class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
   Future<List<TransactionModel>> _getTransaction() async {
     try {
-      final prefs = await sharedPrefs;
-      final id = prefs.getInt('id') ?? 0;
-      return await GetTransactionResponse.getTransactions(id);
+      // final prefs = await sharedPrefs;
+      // final id = prefs.getInt('id') ?? 0;
+      return await GetTransactionResponse.getTransactions();
     } on Exception catch (e) {
       print(e);
       throw Exception(e);
@@ -19,19 +24,27 @@ class ViewTransactionScreen extends StatelessWidget {
   }
 
   String formatDate(String dbDate) {
-    // parse the date from database
-    DateTime paymentDate = DateTime.parse(dbDate);
+    String correctedDate = dbDate.replaceFirst('-', 'T', dbDate.lastIndexOf('-'));
+    DateTime paymentDate = DateTime.parse(correctedDate);
 
-    // current date
     final now = DateTime.now();
-    // check if paymentDate is today
+    final yesterday = now.subtract(const Duration(days: 1));
+
+    bool isYesterday = now.year == yesterday.year &&
+        now.month == yesterday.month &&
+        now.day == yesterday.day;
+
     bool isToday = now.year == paymentDate.year &&
         now.month == paymentDate.month &&
         now.day == paymentDate.day;
     if (isToday) {
-      return DateFormat.jm().format(paymentDate);
-    } else {
-      return DateFormat('MMM d').format(paymentDate);
+      return 'Today • ${DateFormat.jm().format(paymentDate)}';
+    }else if(isYesterday){
+      return 'Yesterday • ${DateFormat.jm().format(paymentDate)}';
+    } else if(paymentDate.year == now.year) {
+      return DateFormat('EEE, MMM d • h:mm a ').format(paymentDate);
+    }else{
+      return DateFormat('EEE, MMM d, yyyy • h:mm a').format(paymentDate);
     }
   }
 
@@ -41,24 +54,13 @@ class ViewTransactionScreen extends StatelessWidget {
       body: Center(
           child: Padding(
         padding: const EdgeInsets.all(10),
-        child: FutureBuilder(
+        child: FutureBuilder<List<TransactionModel>>(
             future: _getTransaction(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
-                const Center(
-                  child: Text(
-                    'An error occurred while fetching transactions',
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                );
-              }
-
-              if (!snapshot.hasData) {
                 return const Center(
                   child: Text(
-                    'No transactions found',
+                    'An error occurred while fetching transactions',
                     style: TextStyle(
                       fontSize: 15,
                     ),
@@ -72,37 +74,61 @@ class ViewTransactionScreen extends StatelessWidget {
                 );
               }
 
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final date = snapshot.data![index].date;
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Image.asset('assets/logo.png'),
-                      ),
-                      title: const Text(
-                        'Welfare Fund',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      trailing: Text(formatDate(date)),
-                      subtitle: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 200),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: priCol(context),
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Text(
-                              softWrap: true,
-                              'Payment of ${snapshot.data![index].amount} made  '),
-                        ),
-                      ),
-                    );
-                  },
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'No transactions found',
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
                 );
               }
-              return const Center(
-                child: CircularProgressIndicator(),
+
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final transaction = snapshot.data![index];
+                  final date = transaction.date;
+                  return Column(
+                    children: [
+                      Text(
+                        formatDate(date),
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      ListTile(
+                        leading: CircleAvatar(
+                          child: Image.asset('assets/logo.png'),
+                        ),
+                        // title: Text(
+                        //   'Welfare Fund',
+                        //   style: TextStyle(color: Colors.grey[700]),
+                        // ),
+                        subtitle: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 200),
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: priCol(context),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Text(
+                              'Payment of GH₵ ${snapshot.data![index].amount} for Welfare dues made to admin   ',
+                              softWrap: true, // softWrap belongs here
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10,) 
+                    ],
+                  );
+                },
               );
             }),
       )),
