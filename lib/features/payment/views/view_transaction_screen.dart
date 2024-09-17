@@ -125,7 +125,7 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10,) 
+                      const SizedBox(height: 10) 
                     ],
                   );
                 },

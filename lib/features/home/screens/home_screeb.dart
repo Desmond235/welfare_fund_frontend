@@ -112,12 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
             child: FutureBuilder<List<MembershipModel>>(
               future: loadMembership,
               builder: (context, snapshot) {
-                 if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const Text('No data available');
                 }
-
+                
                 if (snapshot.hasData) {
                 final members = snapshot.data!;
                 return Column(
