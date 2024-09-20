@@ -1,4 +1,5 @@
 import 'package:church_clique/core/service/verify_payment_service.dart';
+import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:church_clique/features/payment/data/data.dart';
 import 'package:church_clique/features/payment/transaction/models/verify_payment.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class _TransactionDetailsScreen extends State<TransactionDetailsScreen> {
   @override
   void didChangeDependencies() {
     final provider = Provider.of<AuthorizationUrl>(context);
+    final userId = context.watch<MemFormState>().userId;
 
      final newReference = provider.reference;
      if(reference != newReference && newReference.isNotEmpty) {
@@ -30,7 +32,7 @@ class _TransactionDetailsScreen extends State<TransactionDetailsScreen> {
        print(newReference);
 
       //  fetch new data when the reference changes
-       futureVerifyPayment = verifyPayment(reference!); 
+       futureVerifyPayment = verifyPayment(reference!, userId); 
 
       //  force a rebuild of the screen when the reference changes.
       // This will trigger the FutureBuilder to fetch new data.

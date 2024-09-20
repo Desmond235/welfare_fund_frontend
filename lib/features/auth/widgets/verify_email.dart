@@ -4,6 +4,7 @@ import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/service/verify_otp.dart';
 import 'package:church_clique/features/auth/providers/change_password_provider.dart';
+import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
@@ -32,16 +33,22 @@ class _VerifyEmailState extends State<VerifyEmail> {
   }
 
 void verifyOtp( TextEditingController emailController){
-
+  final isFillForm = context.read<MemFormState>().isFillMemFrom;
+   
   VerifyOtpResponse.post(otpController.text, context);
   // if(isChangePassword.isForgetPassword){
   //   Navigator.of(context).pushReplacementNamed('auth');
   // }
-
+  
+  print(isFillForm);
   if(isChangePassword.isChangedPassword ){
     Navigator.of(context).pushReplacementNamed('password');
   } else{
-    Navigator.of(context).pushReplacementNamed('main');
+    if(isFillForm == true){
+      Navigator.of(context).pushReplacementNamed('onboard');
+    }else{
+      Navigator.of(context).pushNamed('auth');
+    }
   }
 }
   

@@ -119,7 +119,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                     .saveUsername(value!);
               },
               icon: MaterialCommunityIcons.account_outline,
-              hintText: "info@example.com",
+              hintText: "username",
               isEmail: true,
             ),
 
@@ -224,6 +224,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                     context
                         .read<ChangePasswordProvider>()
                         .setForgetPassword(true);
+                        print(context.read<ChangePasswordProvider>().isForgetPassword);
                     Navigator.of(context).pushNamed('email');
                   },
                   child: const Text("Forgot Password?",

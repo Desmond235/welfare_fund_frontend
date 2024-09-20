@@ -1,7 +1,9 @@
 import 'package:church_clique/core/constants/constants.dart';
 // ignore: unused_import
 import 'package:church_clique/features/auth/widgets/submit_button.dart';
+import 'package:church_clique/features/onboard/provider/onboarding_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -90,6 +92,7 @@ class WelcomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(20)),
                 onPressed: () {
                   Navigator.of(context).pushReplacementNamed('auth');
+                  Provider.of<OnboardingPage>(context, listen: false).setOnboarded(true);
                 },
                 child: const Text(
                   'GET STARTED',

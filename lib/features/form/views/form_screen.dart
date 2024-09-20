@@ -1,9 +1,13 @@
 import 'package:church_clique/core/components/dialog_box.dart';
+import 'package:church_clique/core/components/drop_down.dart';
 import 'package:church_clique/core/components/input_control.dart';
 import 'package:church_clique/core/components/input_text.dart';
 import 'package:church_clique/core/components/send_button.dart';
+import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/features/form/data/data.dart';
+import 'package:church_clique/features/form/views/enum/category.dart';
 import 'package:church_clique/features/form/widgets/drop_down.dart';
+import 'package:church_clique/features/form/widgets/input_decoration.dart';
 import 'package:church_clique/features/home/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
@@ -48,7 +52,9 @@ class _FormScreenState extends State<FormScreen> {
   }
 
   DateTime? _pickedDate;
+  // ignore: non_constant_identifier_names
   DateTime? DoBDate;
+  String? initialValue;
   DateTime? regisDate;
   // TODO:modify the last date
 
@@ -145,6 +151,43 @@ class _FormScreenState extends State<FormScreen> {
                                 );
                               },
                             ),
+                            Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          child: SizedBox(
+                            // width: MediaQuery.of(context).size.width * 0.52,
+                            child: DropdownButtonFormField(
+                              onSaved: (value) {
+                                data.saveGender(value);
+                              },
+                              validator: (value) {
+                                if (initialValue == null) {
+                                  return "choose marital status";
+                                }
+                                return null;
+                              },
+                              hint: const Text(
+                                'Choose marital status',
+                                style: TextStyle(color: Palette.textColor1),
+                              ),
+                              value: initialValue,
+                              items: Gender.values
+                                  .map((status) => DropdownMenuItem(
+                                        value: status.name,
+                                        child: Text(
+                                          status.name,
+                                          style: const TextStyle(
+                                            color: Palette.textColor1,
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                              onChanged: (value) {
+                                initialValue = value!;
+                              },
+                              decoration: inputDecoration(),
+                            ),
+                          ),
+                        ),
                             DateTimePickerWidget(
                               onSaved: (value) {
                                 data.dateOfRegistration = value!;
@@ -165,52 +208,51 @@ class _FormScreenState extends State<FormScreen> {
                               },
                               hintText: 'Date of Registration',
                             ),
-                            const SizedBox(height: 10),
-                            BuildTextInput(
-                              onSaved: (value) {
-                                data.amountPaid = value!;
-                              },
-                              validator: (value) {
-                                if (value!.trim().isEmpty ||
-                                    !RegExp(r'\d').hasMatch(value)) {
-                                  return 'Invalid amount';
-                                }
-                                return null;
-                              },
-                              icon: Icons.payment_outlined,
-                              hintText: 'Amount Paid GHC',
-                            ),
-                            const SizedBox(height: 10),
-                            BuildTextInput(
-                              type: TextInputType.text,
-                              onSaved: (value) {
-                                data.amountInWords = value!;
-                              },
-                              validator: (value) {
-                                if (value!.trim().isEmpty ||
-                                    !RegExp(r'\S').hasMatch(value)) {
-                                  return 'Please enter amount in words';
-                                }
-                                return null;
-                              },
-                              icon: MaterialCommunityIcons.alphabetical,
-                              hintText: 'Amount Paid in Words',
-                            ),
-                            const SizedBox(height: 10),
-                            BuildTextInput(
-                              onSaved: (value) {
-                                data.receiptNumber = value!;
-                              },
-                              validator: (value) {
-                                if (value!.trim().isEmpty ||
-                                    !RegExp(r'\d').hasMatch(value)) {
-                                  return 'Please enter a number';
-                                }
-                                return null;
-                              },
-                              icon: MaterialCommunityIcons.numeric,
-                              hintText: 'receipt number',
-                            ),
+                            // BuildTextInput(
+                            //   onSaved: (value) {
+                            //     data.amountPaid = value!;
+                            //   },
+                            //   validator: (value) {
+                            //     if (value!.trim().isEmpty ||
+                            //         !RegExp(r'\d').hasMatch(value)) {
+                            //       return 'Invalid amount';
+                            //     }
+                            //     return null;
+                            //   },
+                            //   icon: Icons.payment_outlined,
+                            //   hintText: 'Amount Paid GHC',
+                            // ),
+                            // const SizedBox(height: 10),
+                            // BuildTextInput(
+                            //   type: TextInputType.text,
+                            //   onSaved: (value) {
+                            //     data.amountInWords = value!;
+                            //   },
+                            //   validator: (value) {
+                            //     if (value!.trim().isEmpty ||
+                            //         !RegExp(r'\S').hasMatch(value)) {
+                            //       return 'Please enter amount in words';
+                            //     }
+                            //     return null;
+                            //   },
+                            //   icon: MaterialCommunityIcons.alphabetical,
+                            //   hintText: 'Amount Paid in Words',
+                            // ),
+                            // const SizedBox(height: 10),
+                            // BuildTextInput(
+                            //   onSaved: (value) {
+                            //     data.receiptNumber = value!;
+                            //   },
+                            //   validator: (value) {
+                            //     if (value!.trim().isEmpty ||
+                            //         !RegExp(r'\d').hasMatch(value)) {
+                            //       return 'Please enter a number';
+                            //     }
+                            //     return null;
+                            //   },
+                            //   icon: MaterialCommunityIcons.numeric,
+                            //   hintText: 'receipt number',
+                            // ),
                             const SizedBox(height: 10),
                             BuildTextInput(
                               onSaved: (value) {

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:church_clique/core/components/dialog_box.dart';
@@ -13,6 +14,8 @@ import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
 import 'package:church_clique/features/auth/widgets/submit_button.dart';
+import 'package:church_clique/features/form/provider/form_state.dart';
+import 'package:church_clique/features/onboard/provider/onboarding_provider.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +25,6 @@ import 'package:http/http.dart' as http;
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
-  
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -59,27 +61,6 @@ class _AuthScreenState extends State<AuthScreen> {
     SendOtpResponse.post(email, context);
   }
 
-  void addItem() async {
-    final data = {
-      "username": Provider.of<AuthProvider>(context, listen: false)
-          .onSaveUsername
-          .trim(),
-      "email":
-          Provider.of<AuthProvider>(context, listen: false).onSaveEmail.trim(),
-      "contact": Provider.of<AuthProvider>(context, listen: false)
-          .onSaveContact
-          .trim(),
-      "password": Provider.of<AuthProvider>(context, listen: false)
-          .onSavePassword
-          .trim(),
-    };
-    if (pickedImageFile == null) {
-      return;
-    }
-    context.read<ChangePasswordProvider>().setIsChangePassword(false);
-    Http.post(data, context, file: pickedImageFile!);
-  }
-
   void signIn() async {
     _formKey.currentState!.save();
 
@@ -105,6 +86,7 @@ class _AuthScreenState extends State<AuthScreen> {
         }
 
         if (response!.statusCode == 200) {
+          if(!mounted) return;
           Navigator.of(context).pushReplacementNamed('main');
         }
       },
@@ -121,30 +103,44 @@ class _AuthScreenState extends State<AuthScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    if (pickedImageFile == null) {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Please pick an image"),
-      ));
-
-      return;
-    }
 
     _formKey.currentState!.save();
-    addItem();
-    sendOtp();
+    final data = {
+      "username": Provider.of<AuthProvider>(context, listen: false)
+          .onSaveUsername
+          .trim(),
+      "email":
+          Provider.of<AuthProvider>(context, listen: false).onSaveEmail.trim(),
+      "password": Provider.of<AuthProvider>(context, listen: false)
+          .onSavePassword
+          .trim(),
+    };
+    context.read<ChangePasswordProvider>().setIsChangePassword(false);
+    Http.post(data, context,
+    (res){
+      if(res.statusCode == 201){
+        final data = jsonDecode(res.body);
+        int userId = data['userId'];
+        context.read<MemFormState>().setUserId(userId);
+
+        sendOtp();
+         Navigator.of(context).pushNamed('otp');
+      }
+    }
+    );
+    
   }
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width ;
+    final width = MediaQuery.of(context).size.width;
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (value, result) {
         dialogBox(context);
       },
       child: Scaffold(
-        backgroundColor: Palette.backgroundColor, 
+        backgroundColor: Palette.backgroundColor,
         body: AnnotatedRegion<SystemUiOverlayStyle>(
           value: systemUiOverlayStyle,
           child: SingleChildScrollView(
@@ -153,7 +149,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 builder: (context, value, child) {
                   bool isSignupScreen = value.isSignUp;
                   return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.9  ,
+                    height: MediaQuery.of(context).size.height * 0.9,
                     child: Form(
                       key: _formKey,
                       child: Stack(
@@ -245,12 +241,18 @@ class _AuthScreenState extends State<AuthScreen> {
                               duration: const Duration(microseconds: 700),
                               curve: Curves.bounceInOut,
                               width: MediaQuery.of(context).size.width - 40,
-                              height: isSignupScreen ? 565 : 260,
+                              height: isSignupScreen ? 400 : 260,
                               margin:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                color:  context.watch<ThemeProvider>().isDarkMode || context.watch<ThemeProvider>().isDarkTheme ? Colors.grey.shade800: Colors.white,
+                                color:
+                                    context.watch<ThemeProvider>().isDarkMode ||
+                                            context
+                                                .watch<ThemeProvider>()
+                                                .isDarkTheme
+                                        ? Colors.grey.shade800
+                                        : Colors.white,
                                 borderRadius: BorderRadius.circular(15),
                                 boxShadow: [
                                   BoxShadow(
@@ -290,8 +292,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                 addCredentials();
                               } else {
                                 signIn();
+                                 Provider.of<SignInProvider>(context, listen: false).setSignIn(true);
                               }
-                          },
+                            },
                             isSignupScreen: isSignupScreen,
                             isShadow: false,
                           )

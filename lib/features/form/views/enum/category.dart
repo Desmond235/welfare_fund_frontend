@@ -10,4 +10,9 @@ enum Life{
   deceased,
 }
 
+enum Gender{
+  male,
+  female
+}
+
 

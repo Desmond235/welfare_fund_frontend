@@ -10,6 +10,7 @@ class OnboardingPage extends ChangeNotifier{
   void setOnboarded(bool value){
     _isOnboarded = value;
     saveOnboardingState();
+    print(_isOnboarded);
     notifyListeners();
   }
   

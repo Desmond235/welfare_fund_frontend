@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/service/http_service.dart';
+import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class MembershipService {
   static Future<int?> post(
@@ -24,20 +26,21 @@ class MembershipService {
       if (response.statusCode == 200) {
         // snackBar(context, 'Records sent successfully.');
         if(context.mounted){
-          Navigator.of(context).pushReplacementNamed('main');
+          Navigator.of(context).pushReplacementNamed('auth');
         }
-
+        context.read<MemFormState>().setFormState(true);
+        
         final Map<String, dynamic> data = jsonDecode(response.body);
         final memberId = data['id'] as int?;
         final prefs = await sharedPrefs;
          prefs.setInt('memberId', memberId ?? 0);
+         
         return memberId;
       } else {
         throw Exception('Failed to send records');
       }
-    } on Exception catch (e) {
-      print(e.toString());
-
+    } on Exception{
+    
       if(context.mounted){
         snackBar(context, "Failed to send records, please try again later.");
       }

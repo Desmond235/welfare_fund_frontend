@@ -115,7 +115,9 @@ class _HomeScreenState extends State<HomeScreen> {
                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const Text('No data available');
                 }
-                
+                if(snapshot.connectionState == ConnectionState.waiting){
+                  return const Center(child: CircularProgressIndicator(),);
+                }
                 if (snapshot.hasData) {
                 final members = snapshot.data!;
                 return Column(

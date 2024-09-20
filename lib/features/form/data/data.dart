@@ -16,6 +16,7 @@ class GetData extends ChangeNotifier {
   String homeTown = '';
   String region = '';
   String maritalStatus = '';
+  String gender = '';
   String others = '';
   String? nameOfSpouse;
   String? lifeStatus;
@@ -77,6 +78,10 @@ class GetData extends ChangeNotifier {
  }
  void saveMaritalStatus(String? value){
   maritalStatus = value!;
+ }
+
+ void saveGender(String? value){
+  gender = value!;
  }
  void saveOthers(String? value){
   others = value!;

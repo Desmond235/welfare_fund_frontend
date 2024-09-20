@@ -79,12 +79,16 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       style: TextStyle(
                         fontSize: 16,
                         color: widget.isSignupScreen &&
-                                context.watch<ThemeProvider>().isDarkMode ||
+                                    context.watch<ThemeProvider>().isDarkMode ||
                                 context.watch<ThemeProvider>().isDarkTheme
                             ? Colors.white
                             : widget.isSignupScreen &&
-                                !context.watch<ThemeProvider>().isDarkMode ||
-                                !context.watch<ThemeProvider>().isDarkTheme ? Palette.activeColor : Palette.textColor1,
+                                        !context
+                                            .watch<ThemeProvider>()
+                                            .isDarkMode ||
+                                    !context.watch<ThemeProvider>().isDarkTheme
+                                ? Palette.activeColor
+                                : Palette.textColor1,
                       ),
                     ),
                     if (widget.isSignupScreen)
@@ -98,7 +102,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               ),
             ],
           ),
-          UserImagePicker(onPickedImage: widget.onPickedImage),
           const SizedBox(
             height: 10,
           ),
@@ -118,7 +121,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       if (value!.trim().isEmpty) {
                         return "Please enter username";
                       }
-              
+
                       return null;
                     },
                   ),
@@ -156,7 +159,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   // ),
                   // field for entering registration password
                   TextFormField(
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: context.watch<ThemeProvider>().isDarkMode ||
+                              context.watch<ThemeProvider>().isDarkTheme
+                          ? Colors.white
+                          : Colors.black,
+                    ),
                     controller: showPassword
                         ? passwordController
                         : obscureTextController,
@@ -223,7 +231,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             },
           ),
           const SignupGenderSelection(),
-          const TermsAndConditions(),
         ],
       ),
     );

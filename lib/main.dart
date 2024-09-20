@@ -54,15 +54,11 @@ class MyApp extends StatelessWidget {
               ? ThemeMode.light
               : ThemeMode.system,
       theme: Provider.of<ThemeProvider>(context).themeData,
-      // home: signinPageState.isSignin ? MainScreen() : AuthScreen(),
-      home:  const AuthScreen(),
-      // home: onboardState.onboarded
-      //     ? const AuthScreen()
-      //     // : signinPageState.isSignin
-      //     //     ? MainScreen()
-      //     //     : !signinPageState.isSignin
-      //             : const WelcomeScreen(),
-      // home: const ThirdFormScreen(),
+      home: onboardState.onboarded && !signinPageState.isSignin
+          ? const AuthScreen()
+          : signinPageState.isSignin
+              ? const MainScreen()
+              : const WelcomeScreen(),
       routes: routes,
     );
   }

@@ -17,13 +17,11 @@ void snackBar(BuildContext context, String message) {
 }
 
 class Http {
-  static Future<User?> post(Map<String, dynamic> data, BuildContext context,
-      {required File? file}) async {
-    if (file == null) {
-      snackBar(context, 'Please pick an image');
-      return null;
-    }
-
+  static  post(
+    Map<String, dynamic> data,
+    BuildContext context,
+    void Function(http.Response response) getResponse
+  ) async {
     try {
       final response = await http.post(
         Uri.parse(dotenv.env["URL"]!),
@@ -31,27 +29,18 @@ class Http {
         body: jsonEncode(data),
       );
 
+      getResponse(response);
       if (!context.mounted) return null;
 
-      if (response.statusCode == 200) {
-        // Navigator.of(context).pushReplacementNamed('otp');
-
-        final dynamic data = jsonDecode(response.body);
-        final User user = User.fromJson(data);
-
-      uploadImage(file: file, context: context);
-        
-        return user;
-      }
-      
       if (response.statusCode == 409) {
         if (context.mounted) {
-          snackBar(
-              context, 'Email already in use');
+          return snackBar(context, 'Email already in use');
+          
         }
       } else if (response.statusCode == 400) {
         if (context.mounted) {
-          snackBar(context, 'username already in use');
+          return snackBar(context, 'username already in use');
+          
         }
       }
     } on Exception {

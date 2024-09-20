@@ -1,5 +1,6 @@
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/service/verify_payment_service.dart';
+import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:church_clique/features/payment/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,7 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
   @override
   void initState() {
     final reference = Provider.of<AuthorizationUrl>(context, listen: false);
+    final userId = Provider.of<MemFormState>(context, listen: false).userId;
     _reference = reference.reference;
     super.initState();
     _webViewController = WebViewController()
@@ -47,7 +49,7 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
           onPageFinished: (url) async{
             print(url);
              if(url.contains('facebook.com') && !_hasVerifiedPayment) {
-              await verifyPayment(_reference!);
+              await verifyPayment(_reference!, userId);
               // print(payment.data);
               // print(_reference);
               // print('authorization url: ${url.toString()}');

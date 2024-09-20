@@ -1,8 +1,10 @@
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/service/get_transactions.dart';
+import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:church_clique/features/payment/transaction/models/transaction_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ViewTransactionScreen extends StatefulWidget {
   const ViewTransactionScreen({super.key});
@@ -13,10 +15,11 @@ class ViewTransactionScreen extends StatefulWidget {
 
 class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
   Future<List<TransactionModel>> _getTransaction() async {
+    final userId = context.watch<MemFormState>().userId;
     try {
       // final prefs = await sharedPrefs;
       // final id = prefs.getInt('id') ?? 0;
-      return await GetTransactionResponse.getTransactions();
+      return await GetTransactionResponse.getTransactions(userId: userId);
     } on Exception catch (e) {
       print(e);
       throw Exception(e);
@@ -24,7 +27,8 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
   }
 
   String formatDate(String dbDate) {
-    String correctedDate = dbDate.replaceFirst('-', 'T', dbDate.lastIndexOf('-'));
+    String correctedDate =
+        dbDate.replaceFirst('-', 'T', dbDate.lastIndexOf('-'));
     DateTime paymentDate = DateTime.parse(correctedDate);
 
     final now = DateTime.now();
@@ -39,11 +43,11 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
         now.day == paymentDate.day;
     if (isToday) {
       return 'Today • ${DateFormat.jm().format(paymentDate)}';
-    }else if(isYesterday){
+    } else if (isYesterday) {
       return 'Yesterday • ${DateFormat.jm().format(paymentDate)}';
-    } else if(paymentDate.year == now.year) {
+    } else if (paymentDate.year == now.year) {
       return DateFormat('EEE, MMM d • h:mm a ').format(paymentDate);
-    }else{
+    } else {
       return DateFormat('EEE, MMM d, yyyy • h:mm a').format(paymentDate);
     }
   }
@@ -75,13 +79,22 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
               }
 
               if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(
-                  child: Text(
-                    'No transactions found',
-                    style: TextStyle(
-                      fontSize: 15,
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/no-data.png',
+                      scale :4,
                     ),
-                  ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'No transactions found',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
                 );
               }
 
@@ -125,7 +138,7 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10) 
+                      const SizedBox(height: 10)
                     ],
                   );
                 },

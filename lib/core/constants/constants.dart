@@ -1,6 +1,8 @@
+import 'package:church_clique/core/about/about_screen.dart';
 import 'package:church_clique/core/base/main/main_page_provider.dart';
 import 'package:church_clique/core/base/main/mainscreen.dart';
 import 'package:church_clique/core/constants/palette.dart';
+import 'package:church_clique/core/contact/contact_screen.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/providers/change_password_provider.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
@@ -77,6 +79,8 @@ SystemUiOverlayStyle mainSystemUiOverlayStyle(BuildContext context) {
   final darkMode =
       Provider.of<ThemeProvider>(context, listen: false).isDarkMode;
   return SystemUiOverlayStyle(
+    
+    statusBarIconBrightness: darkMode || darkTheme ? Brightness.light : Brightness.dark,
       systemNavigationBarColor:
           darkMode || darkTheme ? Colors.black.withOpacity(0.85) : Colors.white,
       systemNavigationBarIconBrightness:
@@ -96,7 +100,9 @@ Map<String, Widget Function(BuildContext)> routes = {
   'fourth_form': (context) => const FourthFormScreen(),
   'form_screen': (context) => const FormScreen(),
   'password': (context) => const ChangePasswordScreen(),
-  'email': (context) => const EmailScreen()
+  'email': (context) => const EmailScreen(),
+  'about': (context) => const AboutScreen(),
+  'contact': (context) => const ContactScreen(),
 };
 
 List<Widget> kOnboardPage = [

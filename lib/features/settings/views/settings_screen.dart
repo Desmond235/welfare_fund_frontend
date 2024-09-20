@@ -26,12 +26,13 @@ class _SettingsScreenState extends State<SettingsScreen>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  String ? imagePath;
+  String ? 
+  imagePath;
 
   Future<void> _loadImagePath() async{
     final prefs = await sharedPrefs;
     setState(() {
-      imagePath =  prefs.getString('imagePath') ?? "";
+      imagePath =  prefs.getString('imagePath') ?? 'http://10.0.2.2/3000/images/de1724059544206close-up-of-a-group-of-happy-multiracial-people-holding-money-banknotes-and-celebrating-isolated-over-white-background-MY0HTD.jpg';
     });
   }
 
@@ -128,64 +129,11 @@ class _SettingsScreenState extends State<SettingsScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Align(
+                      const Align(
                         alignment: Alignment.center,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              clipBehavior: Clip.hardEdge,
-                              decoration:const ShapeDecoration(shape: CircleBorder()),
-                              child: imagePath != null || imagePath != "" ?
-                              CachedNetworkImage(
-                                height: 130,
-                                width: 100,
-                                imageUrl: imagePath ?? '',
-                                
-                                placeholder: (context, url) => const CircleAvatar(
-                                  backgroundColor: Colors.amber,
-                                  radius: 50,
-                                ),
-                                // imageBuilder: (context, image) => CircleAvatar(
-                                //   backgroundImage: _userImage != null
-                                //     ? FileImage(_userImage!)
-                                //     : const AssetImage(
-                                //         'assets/images/user-icon.png',
-                                //       ),
-                                //   radius: 50,
-                                // ),
-                              ) : Image.asset('assets/images/user-icon.png'),
-                            ),
-
-                            // CircleAvatar(
-                            //   backgroundColor: Provider.of<ThemeProvider>(
-                            //                   context,
-                            //                   listen: false)
-                            //               .isDarkMode ||
-                            //           Provider.of<ThemeProvider>(context,
-                            //                   listen: false)
-                            //               .isDarkTheme
-                            //       ? const Color.fromARGB(31, 17, 17, 17)
-                            //           .withOpacity(0.03)
-                            //       : Colors.grey.shade200.withOpacity(0.4),
-                            //   radius: 50,
-                            //   backgroundImage: _userImage != null
-                            //       ? FileImage(_userImage!)
-                            //       : const AssetImage(
-                            //           'assets/images/user-icon.png',
-                            //         ),
-                            // ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              'Desmond Adabe',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              'adabedesmond@gmail.com',
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary),
-                            )
                           ],
                         ),
                       ),
@@ -193,10 +141,10 @@ class _SettingsScreenState extends State<SettingsScreen>
                       SettingsCard(
                         label: 'General',
                         children: [
-                          const SettingsListItem(
-                            icon: MaterialCommunityIcons.account,
-                            label: 'Account',
-                          ),
+                          // const SettingsListItem(
+                          //   icon: MaterialCommunityIcons.account,
+                          //   label: 'Account',
+                          // ),
                           SettingsListItem(
                             label: 'Theme',
                             toggle: true,
@@ -222,14 +170,20 @@ class _SettingsScreenState extends State<SettingsScreen>
                         ],
                       ),
                       const SizedBox(height: 15),
-                      const SettingsCard(
+                       SettingsCard(
                         label: 'About',
                         children: [
                           SettingsListItem(
+                            onTap:(){
+                              Navigator.of(context).pushNamed('about');
+                            } ,
                             icon: MaterialCommunityIcons.information_outline,
                             label: 'About us',
                           ),
                           SettingsListItem(
+                            onTap: (){
+                              Navigator.of(context).pushNamed('contact');
+                            },
                             icon: MaterialCommunityIcons.email_outline,
                             label: 'Contact us',
                           ),
@@ -248,16 +202,6 @@ class _SettingsScreenState extends State<SettingsScreen>
                         ],
                       )
                     ],
-                  ),
-                ),
-                Positioned(
-                  left: MediaQuery.of(context).size.width * 0.5,
-                  top: 65,
-                  child: ProfileImageButton(
-                    onTap: () {
-                        print(imagePath);
-                      savedImage();
-                      },
                   ),
                 ),
               ],

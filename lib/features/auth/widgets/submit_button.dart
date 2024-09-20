@@ -18,7 +18,7 @@ class SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: isSignupScreen ? 690 : 430,
+      top: isSignupScreen ? 525 : 440,
       right: 0,
       left: 0,
       child: Center(

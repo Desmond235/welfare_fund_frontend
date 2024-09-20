@@ -1,13 +1,16 @@
 import 'dart:convert';
 
 import 'package:church_clique/core/service/http_service.dart';
+import 'package:church_clique/features/auth/providers/change_password_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart ' as http;
+import 'package:provider/provider.dart';
 
 class SendOtpResponse {
   static post(String email, BuildContext context) async {
     try {
       const otpUrl = 'http://10.0.2.2:3000/api/v1/';
+      final provider = context.read<ChangePasswordProvider>();
 
       final data = {"email": email};
 
@@ -25,13 +28,12 @@ class SendOtpResponse {
           snackBar(context, 'Email field cannot be empty');
           return;
         }
-        print('otp sent successfully');
-      }
-      else{
-        print('Could not sent otp');
+        if (provider.isForgetPassword) {
+          Navigator.of(context).pushNamed('password');
+        }
       }
     } on Exception catch (e) {
-      print('An error occurred while sending otp: $e');
+      snackBar(context, 'An error occurred: $e');
     }
   }
 }

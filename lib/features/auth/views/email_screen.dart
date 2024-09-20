@@ -16,6 +16,7 @@ class _EmailScreenState extends State<EmailScreen> {
 
   void sendOtp(){
     SendOtpResponse.post(emailController.text, context);
+    print('otp sent');
   }
 
    @override
