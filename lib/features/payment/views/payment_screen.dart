@@ -3,7 +3,6 @@ import 'package:church_clique/core/components/input_control.dart';
 import 'package:church_clique/core/components/send_button.dart';
 import 'package:church_clique/core/service/payment_service.dart';
 import 'package:church_clique/features/payment/views/main_payment_screen.dart';
-import 'package:church_clique/features/payment/views/make_payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:icons_flutter/icons_flutter.dart';

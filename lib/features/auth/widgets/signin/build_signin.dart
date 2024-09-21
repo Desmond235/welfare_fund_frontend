@@ -1,4 +1,3 @@
-import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/constants/palette.dart';
 import 'package:church_clique/core/controls/obscure_text.dart';
 import 'package:church_clique/features/auth/providers/auth_provider.dart';
@@ -224,7 +223,6 @@ class _SignInWidgetState extends State<SignInWidget> {
                     context
                         .read<ChangePasswordProvider>()
                         .setForgetPassword(true);
-                        print(context.read<ChangePasswordProvider>().isForgetPassword);
                     Navigator.of(context).pushNamed('email');
                   },
                   child: const Text("Forgot Password?",

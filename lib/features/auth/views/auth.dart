@@ -15,7 +15,6 @@ import 'package:church_clique/features/auth/widgets/signin/build_signin.dart';
 import 'package:church_clique/features/auth/widgets/signup/build_signup.dart';
 import 'package:church_clique/features/auth/widgets/submit_button.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
-import 'package:church_clique/features/onboard/provider/onboarding_provider.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

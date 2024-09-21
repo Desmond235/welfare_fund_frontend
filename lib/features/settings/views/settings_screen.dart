@@ -1,10 +1,7 @@
-import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:church_clique/core/components/settings_item.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
-import 'package:church_clique/features/settings/providers/image_provider.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,7 +34,6 @@ class _SettingsScreenState extends State<SettingsScreen>
   }
 
 
-  File? _userImage;
   savedImage() {
     userImage();
   }
@@ -51,9 +47,7 @@ class _SettingsScreenState extends State<SettingsScreen>
     if (pickedUserImage == null) {
       return;
     }
-    setState(() {
-      _userImage = File(pickedUserImage.path);
-    });
+  
   }
 
   @override

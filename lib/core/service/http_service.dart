@@ -1,7 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:church_clique/core/service/upload_image.dart';
-import 'package:church_clique/features/auth/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';

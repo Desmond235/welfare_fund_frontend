@@ -1,6 +1,7 @@
 import 'package:church_clique/core/components/data_row.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/controls/data_column.dart';
+// ignore: unused_import
 import 'package:church_clique/core/service/http_service.dart';
 import 'package:church_clique/core/service/update_members.dart';
 import 'package:church_clique/features/form/models/membership_model.dart';
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late Future<List<MembershipModel>> loadMembership;
   MembershipModel? members;
-  late int _membershipId = 0;
+  // late int _membershipId = 0;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -81,14 +82,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<List<MembershipModel>> loadMembers() async {
     userId = Provider.of<MemFormState>(context, listen: false).userId;
-    final prefs = await sharedPrefs;
-    final id = prefs.getInt('memberId') ?? 0;
+    // final prefs = await sharedPrefs;
+    // final id = prefs.getInt('memberId') ?? 0;
 
-    if (id != 0) {
-      setState(() {
-        _membershipId = id;
-      });
-    }
+    // if (id != 0) {
+    //   setState(() {
+    //     _membershipId = id;
+    //   });
+    // }
     final membership =
         await FormServiceResponse.getMembershipDetails(userId);
     if (membership.isNotEmpty) {
