@@ -4,7 +4,9 @@ import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
 import 'package:church_clique/features/auth/views/chang_password.dart';
 import 'package:church_clique/features/auth/widgets/verify_email.dart';
+import 'package:church_clique/features/form/views/fourth_form_screen.dart';
 import 'package:church_clique/features/onboard/provider/onboarding_provider.dart';
+import 'package:church_clique/features/onboard/views/onboard.dart';
 import 'package:church_clique/features/onboard/views/welcome_screen.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:church_clique/features/theme/dark_theme.dart';
@@ -54,11 +56,12 @@ class MyApp extends StatelessWidget {
               ? ThemeMode.light
               : ThemeMode.system,
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: onboardState.onboarded && !signinPageState.isSignin
-          ? const AuthScreen()
-          : signinPageState.isSignin
-              ? const MainScreen()
-              : const WelcomeScreen(),
+      home: const AuthScreen(),
+      // home: onboardState.onboarded && !signinPageState.isSignin
+      //     ? const AuthScreen()
+      //     : signinPageState.isSignin
+      //         ? const MainScreen()
+      //         : const WelcomeScreen(),
       routes: routes,
     );
   }

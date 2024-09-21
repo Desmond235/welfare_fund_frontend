@@ -2,7 +2,9 @@ import 'package:church_clique/core/base/main/mainscreen.dart';
 import 'package:church_clique/core/components/input_control.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/constants/palette.dart';
+import 'package:church_clique/core/service/send_otp.dart';
 import 'package:church_clique/core/service/verify_otp.dart';
+import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/providers/change_password_provider.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,13 @@ class _VerifyEmailState extends State<VerifyEmail> {
   void dispose() {
     otpController.dispose();
     super.dispose();
+  }
+
+
+  void resendOtp(){
+    final provider = context.read<AuthProvider>();
+    final email = provider.onSaveEmail;
+    SendOtpResponse.post(email, context);
   }
 
 void verifyOtp( TextEditingController emailController){
@@ -130,7 +139,7 @@ void verifyOtp( TextEditingController emailController){
                     ),
                     const SizedBox(width: 3),
                     InkWell(
-                      onTap: () {},
+                      onTap: resendOtp,
                       child: Text(
                         'Resend code',
                         style: TextStyle(

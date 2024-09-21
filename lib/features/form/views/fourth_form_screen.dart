@@ -6,6 +6,7 @@ import 'package:church_clique/core/components/input_text.dart';
 import 'package:church_clique/core/components/next-of-kin_class-leader.dart';
 import 'package:church_clique/core/components/send_button.dart';
 import 'package:church_clique/core/constants/constants.dart';
+import 'package:church_clique/core/service/http_service.dart';
 import 'package:church_clique/core/service/membership_service.dart';
 import 'package:church_clique/features/form/data/data.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
@@ -53,9 +54,11 @@ class _FourthFormScreenState extends State<FourthFormScreen> {
 
     _formKey.currentState!.save();
     var membership = Provider.of<GetData>(context, listen: false);
+    int userId = Provider.of<MemFormState>(context, listen: false).userId;
+    snackBar(context, userId.toString());
     
     if (!mounted) return;
-    int userId = Provider.of<MemFormState>(context, listen: false).userId;
+    
 
     final data = {
       "userId": userId,

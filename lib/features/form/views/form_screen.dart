@@ -161,12 +161,12 @@ class _FormScreenState extends State<FormScreen> {
                               },
                               validator: (value) {
                                 if (initialValue == null) {
-                                  return "choose marital status";
+                                  return "choose Gender";
                                 }
                                 return null;
                               },
                               hint: const Text(
-                                'Choose marital status',
+                                'Choose Gender',
                                 style: TextStyle(color: Palette.textColor1),
                               ),
                               value: initialValue,
@@ -208,6 +208,7 @@ class _FormScreenState extends State<FormScreen> {
                               },
                               hintText: 'Date of Registration',
                             ),
+
                             // BuildTextInput(
                             //   onSaved: (value) {
                             //     data.amountPaid = value!;
@@ -268,6 +269,36 @@ class _FormScreenState extends State<FormScreen> {
                               icon: Icons.phone_android,
                               hintText: 'contact',
                             ),
+                             BuildTextInput(
+                          type: TextInputType.text,
+                          onSaved: (value) {
+                            data.saveHouseNumber(value);
+                          },
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return 'Please enter a correct house number';
+                            }
+                            return null;
+                          },
+                          icon: MaterialCommunityIcons.home_outline,
+                          hintText: 'H/No./Digital Address',
+                        ),
+                        const SizedBox(height: 10),
+                        BuildTextInput(
+                          type: TextInputType.text,
+                          onSaved: (value) {
+                            data.savePlaceOfAbode(value);
+                          },
+                          validator: (value) {
+                            if (value!.trim().isEmpty ||
+                                RegExp(r'\d').hasMatch(value)) {
+                              return 'Please enter place of Abode';
+                            }
+                            return null;
+                          },
+                          icon: Icons.home_outlined,
+                          hintText: 'Place of Abode',
+                        ),
                             const SizedBox(height: 10),
                             sendButton(
                               context: context,

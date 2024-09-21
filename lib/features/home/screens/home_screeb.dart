@@ -1,6 +1,7 @@
 import 'package:church_clique/core/components/data_row.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/controls/data_column.dart';
+import 'package:church_clique/core/service/http_service.dart';
 import 'package:church_clique/core/service/update_members.dart';
 import 'package:church_clique/features/form/models/membership_model.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
@@ -82,7 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
     userId = Provider.of<MemFormState>(context, listen: false).userId;
     final prefs = await sharedPrefs;
     final id = prefs.getInt('memberId') ?? 0;
-    print(id);
 
     if (id != 0) {
       setState(() {

@@ -178,11 +178,11 @@ class _SettingsScreenState extends State<SettingsScreen>
                               Navigator.of(context).pushNamed('about');
                             } ,
                             icon: MaterialCommunityIcons.information_outline,
-                            label: 'About us',
+                            label: 'About the developer',
                           ),
                           SettingsListItem(
                             onTap: (){
-                              Navigator.of(context).pushNamed('contact');
+                              Navigator.of(context).pushNamed('contact developer');
                             },
                             icon: MaterialCommunityIcons.email_outline,
                             label: 'Contact us',

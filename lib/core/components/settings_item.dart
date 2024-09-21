@@ -38,7 +38,7 @@ class SettingsCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 color: ref.isDarkMode || ref.isDarkTheme
-                    ? Colors.grey.shade900
+                    ? Colors.grey.shade800.withOpacity(0.8)
                     : Colors.white,
               ),
               child: Column(
@@ -106,7 +106,7 @@ class _SettingsListItemState extends State<SettingsListItem> {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: ref.isDarkMode || ref.isDarkTheme
-                  ? Colors.grey.shade900
+                  ? Colors.grey.shade900.withOpacity(0.6)
                   : widget.bgColor,
               borderRadius: BorderRadius.circular(10),
             ),

@@ -122,6 +122,8 @@ class _AuthScreenState extends State<AuthScreen> {
         final data = jsonDecode(res.body);
         int userId = data['userId'];
         context.read<MemFormState>().setUserId(userId);
+        int usId = context.read<MemFormState>().userId;
+        snackBar(context, usId.toString());
 
         sendOtp();
          Navigator.of(context).pushNamed('otp');

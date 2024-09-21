@@ -43,36 +43,7 @@ class _SecondFormState extends State<SecondForm> {
                   builder: (_, data, __) {
                     return Column(
                       children: [
-                        BuildTextInput(
-                          type: TextInputType.text,
-                          onSaved: (value) {
-                            data.saveHouseNumber(value);
-                          },
-                          validator: (value) {
-                            if (value!.trim().isEmpty) {
-                              return 'Please enter a correct house number';
-                            }
-                            return null;
-                          },
-                          icon: MaterialCommunityIcons.home_outline,
-                          hintText: 'H/No./Digital Address',
-                        ),
-                        const SizedBox(height: 10),
-                        BuildTextInput(
-                          type: TextInputType.text,
-                          onSaved: (value) {
-                            data.savePlaceOfAbode(value);
-                          },
-                          validator: (value) {
-                            if (value!.trim().isEmpty ||
-                                RegExp(r'\d').hasMatch(value)) {
-                              return 'Please enter place of Abode';
-                            }
-                            return null;
-                          },
-                          icon: Icons.home_outlined,
-                          hintText: 'Place of Abode',
-                        ),
+                       
                         const SizedBox(height: 10),
                         BuildTextInput(
                           type: TextInputType.text,
