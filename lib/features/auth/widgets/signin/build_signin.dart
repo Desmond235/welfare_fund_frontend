@@ -31,7 +31,7 @@ class SignInWidget extends StatefulWidget {
 }
 
 class _SignInWidgetState extends State<SignInWidget> {
-  bool showPassword = true;
+  bool showPassword = false;
   final obscureTextController = ObscuringTextEditingController();
 
   @override

@@ -18,7 +18,9 @@ Future<VerifyPaymentResponse> verifyPayment(
     final Map<String, dynamic> responseData = jsonDecode(response.body);
     final jsonList = responseData.cast<String, dynamic>().values.toList();
     final List<TransactionModel> transactions =
-        jsonList.map((json) => TransactionModel.fromJson(json)).toList();
+        jsonList.whereType<Map<String, dynamic >>()
+        . map((json) => TransactionModel.fromJson(json))
+        .toList();
     final id = responseData['id'];
 
     final prefs = await sharedPrefs;

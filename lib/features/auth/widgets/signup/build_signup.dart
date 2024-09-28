@@ -25,7 +25,7 @@ class SignUpWidget extends StatefulWidget {
 }
 
 class _SignUpWidgetState extends State<SignUpWidget> {
-  bool showPassword = true;
+  bool showPassword = false;
   final passwordController = TextEditingController();
   final obscureTextController = ObscuringTextEditingController();
 

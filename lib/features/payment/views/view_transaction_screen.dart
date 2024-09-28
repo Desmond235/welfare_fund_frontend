@@ -28,7 +28,7 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
     final String? savedTransactions = prefs.getString('transactions');
     if (savedTransactions == null || savedTransactions.isEmpty) {
       // Fetch data from API only if Shared Preferences is empty
-      final userId = context.watch<MemFormState>().userId;
+      final userId = context.read<MemFormState>().userId;
       final transactions =
           await GetTransactionResponse.getTransactions(userId: userId);
       final transactionList =
