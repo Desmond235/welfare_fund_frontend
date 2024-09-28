@@ -14,13 +14,11 @@ class GetTransactionResponse {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData= jsonDecode(response.body);
-        final List<dynamic> getMembers = responseData['data'];
+        final List<dynamic> getTransactions = responseData['data'];
 
-        final List<TransactionModel> getMembersData =
-            getMembers.map((json) =>  TransactionModel.fromJson(json)).toList();
-
-            print(getMembers);
-        return getMembersData;
+        final List<TransactionModel> getAllTransactions =
+            getTransactions.map((json) =>  TransactionModel.fromJson(json)).toList();
+        return getAllTransactions;
       }
       // else if(response.statusCode == 404){
       //   return [];

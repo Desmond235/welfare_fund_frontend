@@ -10,4 +10,11 @@ class VerifyPaymentResponse {
       data: json['data'] ?? {},
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'status': status,
+      'data': data,
+    };
+  }
 }

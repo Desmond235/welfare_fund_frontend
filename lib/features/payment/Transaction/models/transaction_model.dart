@@ -10,6 +10,15 @@ class TransactionModel {
     required this.email,
     required this.date,
   });
+ 
+ Map<String, dynamic> toJson(){
+  return {
+    "id": id,
+    "amount": amount,
+    "email": email,
+     "date": date,
+  };
+ }
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
