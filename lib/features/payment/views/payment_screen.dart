@@ -44,6 +44,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return KeyboardDismissOnTap(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
+        appBar: AppBar(title: const Text('Send Contribution'),),
         body: Padding(
           padding: const EdgeInsets.all(20),
           child: Form(

@@ -39,11 +39,6 @@ class _MainScreenState extends State<MainScreen> {
             value: mainSystemUiOverlayStyle(context),
             child: Scaffold(
               appBar: AppBar(
-                title: Text(pageState.currentPage == 0
-                    ? "Home"
-                    : pageState.currentPage == 1
-                        ? 'Make Payment'
-                        : 'Transactions'),
                 leading: IconButton(
                   onPressed: _handleMenuButtonPressed,
                   icon: ValueListenableBuilder<AdvancedDrawerValue>(

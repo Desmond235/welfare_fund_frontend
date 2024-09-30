@@ -16,6 +16,8 @@ class ViewTransactionScreen extends StatefulWidget {
 }
 
 class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
+  List<TransactionModel> selectedTransactions = [];
+  bool isSelectionMode = false;
   @override
   void initState() {
     super.initState();
@@ -49,15 +51,35 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
     }
   }
 
+  // delete selectedTransaction
+  Future<void> _deleteSelectedTransactions(
+      List<TransactionModel> transactionsToDelete) async {
+    final prefs = await sharedPrefs;
+    final String? transactionData = prefs.getString('transactions');
+
+    if (transactionData != null) {
+      List<dynamic> transactionList = jsonDecode(transactionData);
+      transactionList.removeWhere((transaction) =>
+          transactionsToDelete.any((t) => t.id == transaction['id']));
+      await prefs.setString('transactions', jsonEncode(transactionList));
+
+      setState(() {
+        selectedTransactions.clear();
+        isSelectionMode = false;
+      });
+    }
+  }
+
   // Delete a transaction by its index and update Shared Preferences
-  Future<void> _deleteTransaction(int index) async {
+  Future<void> _deleteTransaction(TransactionModel transaction) async {
     final prefs = await SharedPreferences.getInstance();
     final String? transactionData = prefs.getString('transactions');
+    
     if (transactionData != null) {
       List<dynamic> transactionList = jsonDecode(transactionData);
 
       // Remove the transaction at the given index
-      transactionList.removeAt(index);
+      transactionList.removeWhere((t) => t['id'] == transaction.id);
 
       // Save the updated transaction list back into Shared Preferences
       await prefs.setString('transactions', jsonEncode(transactionList));
@@ -68,13 +90,16 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
   }
 
   // show dialog
-  Future<void> _showDialog(int index) {
+  Future<void> _showDeleteDialog({TransactionModel? singleTransaction}) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Transaction'),
-        content:
-            const Text('Are you sure you want to delete this transaction permanently?'),
+        title: Text(singleTransaction != null
+            ? 'Delete Transaction'
+            : 'Delete Transactions'),
+        content: Text(singleTransaction != null
+            ? 'Are you sure you want to delete this transaction permanently?'
+            : 'Are you sure you want to delete ${selectedTransactions.length} transactions permanently?'),
         actions: <Widget>[
           OutlinedButton(
             style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(15)),
@@ -83,19 +108,41 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.all(15),
-              backgroundColor: priCol(context),
-              foregroundColor: Colors.white
-            ),
+                padding: const EdgeInsets.all(15),
+                backgroundColor: priCol(context),
+                foregroundColor: Colors.white),
             child: const Text('Delete'),
-            onPressed: (){
-              _deleteTransaction(index);
+            onPressed: () {
+              if (singleTransaction != null) {
+                _deleteTransaction(singleTransaction);
+              } else {
+                _deleteSelectedTransactions(selectedTransactions);
+              }
               Navigator.pop(context);
             },
           ),
         ],
       ),
     );
+  }
+
+  void toggleSelection(TransactionModel transaction) {
+    if (selectedTransactions.contains(transaction)) {
+      selectedTransactions.remove(transaction);
+    } else {
+      selectedTransactions.add(transaction);
+    }
+
+    setState(() {
+      isSelectionMode = selectedTransactions.isNotEmpty;
+    });
+  }
+
+  void cancelSelection() {
+    setState(() {
+      selectedTransactions.clear();
+      isSelectionMode = false;
+    });
   }
 
   // Format the date
@@ -128,6 +175,23 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: isSelectionMode
+          ? AppBar(
+              leading: IconButton(
+                onPressed: cancelSelection,
+                icon: const Icon(Icons.close),
+              ),
+              title: Text('${selectedTransactions.length} selected'),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () => _showDeleteDialog(),
+                )
+              ],
+            )
+          : AppBar(
+              title: const Text('Transactions'),
+            ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -177,6 +241,8 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
                 itemBuilder: (context, index) {
                   final transaction = snapshot.data![index];
                   final date = transaction.date;
+                  final isSelected =
+                      selectedTransactions.contains(transaction);
                   return Column(
                     children: [
                       Text(
@@ -186,8 +252,20 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
                         ),
                       ),
                       ListTile(
+                        onTap: () => toggleSelection(transaction),
+                        onLongPress: () {
+                          if (!isSelectionMode) {
+                            toggleSelection(transaction);
+                          }
+                        },
                         leading: CircleAvatar(
-                          child: Image.asset('assets/logo.png'),
+                          child: isSelectionMode
+                              ? Icon(
+                                  isSelected
+                                      ? Icons.check_box
+                                      : Icons.check_box_outline_blank,
+                                )
+                              : Image.asset('assets/logo.png'),
                         ),
                         subtitle: ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 200),
@@ -207,10 +285,14 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
                             ),
                           ),
                         ),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () => _showDialog(index), // Delete transaction on click
-                        ),
+                        trailing: isSelectionMode
+                            ? null
+                            : IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () => _showDeleteDialog(
+                                    singleTransaction:
+                                        transaction), // Delete transaction on click
+                              ),
                       ),
                       const SizedBox(height: 10)
                     ],

@@ -104,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
+      appBar: AppBar(title: const Text('Home'),),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Center(
