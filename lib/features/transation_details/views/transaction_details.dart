@@ -10,7 +10,7 @@ class TransactionDetailsScreen extends StatefulWidget {
   const TransactionDetailsScreen({super.key});
 
   @override
-  _TransactionDetailsScreen createState() => _TransactionDetailsScreen();
+  State<TransactionDetailsScreen> createState() => _TransactionDetailsScreen();
 }
 
 class _TransactionDetailsScreen extends State<TransactionDetailsScreen> {
@@ -27,9 +27,6 @@ class _TransactionDetailsScreen extends State<TransactionDetailsScreen> {
      final newReference = provider.reference;
      if(reference != newReference && newReference.isNotEmpty) {
        reference = newReference;
-
-       print(reference);
-       print(newReference);
 
       //  fetch new data when the reference changes
        futureVerifyPayment = verifyPayment(reference!, userId); 
