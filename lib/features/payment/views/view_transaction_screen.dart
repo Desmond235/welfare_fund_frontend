@@ -30,6 +30,7 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
     final String? savedTransactions = prefs.getString('transactions');
     if (savedTransactions == null || savedTransactions.isEmpty) {
       // Fetch data from API only if Shared Preferences is empty
+      if(!mounted) return;
       final userId = context.read<MemFormState>().userId;
       final transactions =
           await GetTransactionResponse.getTransactions(userId: userId);
@@ -97,9 +98,11 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
         title: Text(singleTransaction != null
             ? 'Delete Transaction'
             : 'Delete Transactions'),
-        content: Text(singleTransaction != null
-            ? 'Are you sure you want to delete this transaction permanently?'
-            : 'Are you sure you want to delete ${selectedTransactions.length} transactions permanently?'),
+        content: Text(
+          singleTransaction != null
+              ? 'Are you sure you want to delete this transaction permanently?'
+              : 'Are you sure you want to delete ${selectedTransactions.length} transactions permanently?',
+        ),
         actions: <Widget>[
           OutlinedButton(
             style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(15)),
@@ -196,8 +199,7 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: FutureBuilder<List<TransactionModel>>(
-            future:
-                _loadTransactionsFromPrefs(), // Load transactions from Shared Preferences
+            future: _loadTransactionsFromPrefs(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return const Center(

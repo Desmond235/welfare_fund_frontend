@@ -1,6 +1,6 @@
 {
     "workbench.sideBar.location": "left",
-    "editor.minimap.enabled":false,
+    "editor.minimap.enabled":true,
     "files.autoSave": "afterDelay",
     "editor.fontLigatures": true,
     "editor.fontFamily": "Consolas, 'Courier New', monospace",
