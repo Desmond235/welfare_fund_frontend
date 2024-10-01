@@ -74,7 +74,7 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
   Future<void> _deleteTransaction(TransactionModel transaction) async {
     final prefs = await SharedPreferences.getInstance();
     final String? transactionData = prefs.getString('transactions');
-    
+
     if (transactionData != null) {
       List<dynamic> transactionList = jsonDecode(transactionData);
 
@@ -241,8 +241,7 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
                 itemBuilder: (context, index) {
                   final transaction = snapshot.data![index];
                   final date = transaction.date;
-                  final isSelected =
-                      selectedTransactions.contains(transaction);
+                  final isSelected = selectedTransactions.contains(transaction);
                   return Column(
                     children: [
                       Text(
@@ -290,8 +289,8 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
                             : IconButton(
                                 icon: const Icon(Icons.delete),
                                 onPressed: () => _showDeleteDialog(
-                                    singleTransaction:
-                                        transaction), // Delete transaction on click
+                                  singleTransaction: transaction,
+                                ), // Delete transaction on click
                               ),
                       ),
                       const SizedBox(height: 10)
