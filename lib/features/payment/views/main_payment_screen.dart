@@ -47,7 +47,6 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
             });
           },
           onPageFinished: (url) async{
-            print(url);
              if(url.contains('facebook.com') && !_hasVerifiedPayment) {
               await verifyPayment(_reference!, userId);
               // print(payment.data);
@@ -90,13 +89,11 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
 
     if (_reference != reference && reference.isNotEmpty) {
       _reference = reference;
-      print(reference);
     }
 
     // Load the URL only if it has changed
     if (_url != newUrl && newUrl.isNotEmpty) {
       _url = newUrl;
-      print(newUrl);
       _webViewController.loadRequest(Uri.parse(_url!));
     }
   }
