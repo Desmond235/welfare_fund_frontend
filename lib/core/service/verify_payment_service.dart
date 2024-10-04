@@ -17,17 +17,34 @@ Future<VerifyPaymentResponse> verifyPayment(
   if (response.statusCode == 200) {
     final Map<String, dynamic> responseData = jsonDecode(response.body);
     final jsonList = responseData.cast<String, dynamic>().values.toList();
-    final List<TransactionModel> transactions =
-        jsonList.whereType<Map<String, dynamic >>()
-        . map((json) => TransactionModel.fromJson(json))
+    final List<TransactionModel> newTransactions = jsonList
+        .whereType<Map<String, dynamic>>()
+        .map((json) => TransactionModel.fromJson(json))
         .toList();
     final id = responseData['id'];
 
     final prefs = await sharedPrefs;
-    prefs.setString('transactions', jsonEncode(transactions));
+
+    // Get existing transactions
+    final String? existingTransactionsJson = prefs.getString('transactions');
+    List<TransactionModel> existingTransactions = [];
+    if (existingTransactionsJson != null) {
+      final List<dynamic> decodedList = jsonDecode(existingTransactionsJson);
+      existingTransactions = decodedList
+          .whereType<Map<String, dynamic>>()
+          .map((item) => TransactionModel.fromJson(item))
+          .toList();
+    }
+
+    // Combine existing and new transactions
+    existingTransactions.addAll(newTransactions);
+
+    // Save the updated list of transactions
+    await prefs.setString('transactions', jsonEncode(existingTransactions));
 
     // Store the id in shared preferences
-    prefs.setInt('id', id);
+    await prefs.setInt('id', id);
+
     return VerifyPaymentResponse.fromJson(responseData);
   } else {
     throw Exception('Failed to verify payment${response.statusCode}');

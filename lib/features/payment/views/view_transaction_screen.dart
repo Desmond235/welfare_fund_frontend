@@ -1,8 +1,10 @@
+import 'package:church_clique/core/components/menu_item.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/service/get_transactions.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:church_clique/features/payment/transaction/models/transaction_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,6 +19,7 @@ class ViewTransactionScreen extends StatefulWidget {
 
 class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
   List<TransactionModel> selectedTransactions = [];
+  final AdvancedDrawerController _drawerController = AdvancedDrawerController();
   bool isSelectionMode = false;
   @override
   void initState() {
@@ -177,130 +180,131 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: isSelectionMode
-          ? AppBar(
-              leading: IconButton(
-                onPressed: cancelSelection,
-                icon: const Icon(Icons.close),
-              ),
-              title: Text('${selectedTransactions.length} selected'),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () => _showDeleteDialog(),
-                )
-              ],
-            )
-          : AppBar(
-              title: const Text('Transactions'),
-            ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: FutureBuilder<List<TransactionModel>>(
-            future: _loadTransactionsFromPrefs(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return const Center(
-                  child: Text(
-                    'An error occurred while fetching transactions',
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                );
-              }
-
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
-              if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/no-data.png',
-                      scale: 4,
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'No transactions found',
+    return MenuItem(
+      drawerController: _drawerController,
+      child: Scaffold(
+        appBar: isSelectionMode
+            ? AppBar(
+                leading: IconButton(
+                  onPressed: cancelSelection,
+                  icon: const Icon(Icons.close),
+                ),
+                title: Text('${selectedTransactions.length} selected'),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () => _showDeleteDialog(),
+                  )
+                ],
+              )
+            : AppBarScreen(drawerController: _drawerController, title: 'Transactions'),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: FutureBuilder<List<TransactionModel>>(
+              future: _loadTransactionsFromPrefs(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text(
+                      'An error occurred while fetching transactions',
                       style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
                       ),
                     ),
-                  ],
-                );
-              }
-
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  final transaction = snapshot.data![index];
-                  final date = transaction.date;
-                  final isSelected = selectedTransactions.contains(transaction);
+                  );
+                }
+      
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+      
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        formatDate(date),
+                      Image.asset(
+                        'assets/images/no-data.png',
+                        scale: 4,
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'No transactions found',
                         style: TextStyle(
-                          color: Colors.grey[700],
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
-                      ListTile(
-                        onTap: () => toggleSelection(transaction),
-                        onLongPress: () {
-                          if (!isSelectionMode) {
-                            toggleSelection(transaction);
-                          }
-                        },
-                        leading: CircleAvatar(
-                          child: isSelectionMode
-                              ? Icon(
-                                  isSelected
-                                      ? Icons.check_box
-                                      : Icons.check_box_outline_blank,
-                                )
-                              : Image.asset('assets/logo.png'),
+                    ],
+                  );
+                }
+      
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final transaction = snapshot.data![index];
+                    final date = transaction.date;
+                    final isSelected = selectedTransactions.contains(transaction);
+                    return Column(
+                      children: [
+                        Text(
+                          formatDate(date),
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                          ),
                         ),
-                        subtitle: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 200),
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: priCol(context),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Text(
-                              'Payment of GH₵ ${transaction.amount} for Welfare dues made to admin',
-                              softWrap: true,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
+                        ListTile(
+                          onTap: () => toggleSelection(transaction),
+                          onLongPress: () {
+                            if (!isSelectionMode) {
+                              toggleSelection(transaction);
+                            }
+                          },
+                          leading: CircleAvatar(
+                            child: isSelectionMode
+                                ? Icon(
+                                    isSelectionMode
+                                        ? Icons.check_box
+                                        : Icons.check_box_outline_blank,
+                                  )
+                                : Image.asset('assets/logo.png'),
+                          ),
+                          subtitle: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 200),
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: priCol(context),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Text(
+                                'Payment of GH₵ ${transaction.amount} for Welfare dues made to admin',
+                                softWrap: true,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
                               ),
                             ),
                           ),
+                          trailing: isSelectionMode
+                              ? null
+                              : IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () => _showDeleteDialog(
+                                    singleTransaction: transaction,
+                                  ), // Delete transaction on click
+                                ),
                         ),
-                        trailing: isSelectionMode
-                            ? null
-                            : IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () => _showDeleteDialog(
-                                  singleTransaction: transaction,
-                                ), // Delete transaction on click
-                              ),
-                      ),
-                      const SizedBox(height: 10)
-                    ],
-                  );
-                },
-              );
-            },
+                        const SizedBox(height: 10)
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),

@@ -38,23 +38,23 @@ class _MainScreenState extends State<MainScreen> {
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: mainSystemUiOverlayStyle(context),
             child: Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  onPressed: _handleMenuButtonPressed,
-                  icon: ValueListenableBuilder<AdvancedDrawerValue>(
-                    valueListenable: _drawerController,
-                    builder: (_, value, __) {
-                      return AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 250),
-                        child: Icon(
-                          value.visible ? Icons.clear : Icons.menu,
-                          key: ValueKey<bool>(value.visible),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
+              // appBar: AppBar(
+              //   leading: IconButton(
+              //     onPressed: _handleMenuButtonPressed,
+              //     icon: ValueListenableBuilder<AdvancedDrawerValue>(
+              //       valueListenable: _drawerController,
+              //       builder: (_, value, __) {
+              //         return AnimatedSwitcher(
+              //           duration: const Duration(milliseconds: 250),
+              //           child: Icon(
+              //             value.visible ? Icons.clear : Icons.menu,
+              //             key: ValueKey<bool>(value.visible),
+              //           ),
+              //         );
+              //       },
+              //     ),
+              //   ),
+              // ),
               body: PopScope(
                 canPop: false,
                 onPopInvokedWithResult: (didPop, result){
