@@ -20,6 +20,8 @@ class _TransactionDetailsScreen extends State<TransactionDetailsScreen> {
 
 
   @override
+
+
   void didChangeDependencies() {
     final provider = Provider.of<AuthorizationUrl>(context);
     final userId = context.watch<MemFormState>().userId;
