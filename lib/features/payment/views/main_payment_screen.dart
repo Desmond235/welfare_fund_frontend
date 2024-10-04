@@ -49,10 +49,7 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
           onPageFinished: (url) async{
              if(url.contains('facebook.com') && !_hasVerifiedPayment) {
               await verifyPayment(_reference!, userId);
-              // print(payment.data);
-              // print(_reference);
-              // print('authorization url: ${url.toString()}');
-
+      
               setState(() {
                 _hasVerifiedPayment = true;
               });
