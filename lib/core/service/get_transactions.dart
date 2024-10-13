@@ -16,6 +16,8 @@ class GetTransactionResponse {
         final Map<String, dynamic> responseData= jsonDecode(response.body);
         final List<dynamic> getTransactions = responseData['data'];
 
+        print(responseData);
+
         final List<TransactionModel> getAllTransactions =
             getTransactions.map((json) =>  TransactionModel.fromJson(json)).toList();
         return getAllTransactions;

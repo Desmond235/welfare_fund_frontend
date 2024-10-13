@@ -1,101 +1,106 @@
 import 'package:church_clique/core/components/menu_item.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/service/get_transactions.dart';
+import 'package:church_clique/core/service/verify_payment_service.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
+import 'package:church_clique/features/payment/transaction/db/local_db.dart';
 import 'package:church_clique/features/payment/transaction/models/transaction_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert'; // For encoding and decoding JSON
+import 'package:sqflite/sqflite.dart';
 
-class ViewTransactionScreen extends StatefulWidget {
-  const ViewTransactionScreen({super.key});
+class ViewSentContributionScreen extends StatefulWidget {
+  const ViewSentContributionScreen({super.key});
 
   @override
-  State<ViewTransactionScreen> createState() => _ViewTransactionScreenState();
+  State<ViewSentContributionScreen> createState() =>
+      _ViewSentContributionScreenState();
 }
 
-class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
+class _ViewSentContributionScreenState
+    extends State<ViewSentContributionScreen> {
+  int? userId;
   List<TransactionModel> selectedTransactions = [];
-  final AdvancedDrawerController _drawerController = AdvancedDrawerController();
   bool isSelectionMode = false;
+  final AdvancedDrawerController _drawerController = AdvancedDrawerController();
+
   @override
   void initState() {
     super.initState();
-    _fetchAndSaveTransactionsIfNeeded(); // Check if data needs to be fetched from the API
+    userId = context.read<MemFormState>().userId;
   }
 
-  // Fetch transactions from API only if not present in Shared Preferences
-  Future<void> _fetchAndSaveTransactionsIfNeeded() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? savedTransactions = prefs.getString('transactions');
-    
-      // Fetch data from API only if Shared Preferences is empty
-      
-      final userId = context.read<MemFormState>().userId;
-      final transactions =
-          await GetTransactionResponse.getTransactions(userId: userId);
-          print(transactions);
-      final transactionList =
-          transactions.map((transaction) => transaction.toJson()).toList();
-      await prefs.setString('transactions', jsonEncode(transactionList));
-    
+  Future<List<TransactionModel>>_loadTransactions(int userId) async {
+   return await DatabaseHelper.instance.getTransactionsById(userId);
   }
 
-  // Load transactions from Shared Preferences
-  Future<List<TransactionModel>> _loadTransactionsFromPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? transactionData = prefs.getString('transactions');
-    print(transactionData);
-    if (transactionData != null) {
-      final List<dynamic> jsonData = jsonDecode(transactionData);
-      return jsonData.map((json) => TransactionModel.fromJson(json)).toList();
-    } else {
-      return [];
-    }
+  Future<void> _deleteTransaction(TransactionModel transaction) async {
+    await DatabaseHelper.instance.deleteTransaction(transaction);
   }
 
-  // delete selectedTransaction
   Future<void> _deleteSelectedTransactions(
       List<TransactionModel> transactionsToDelete) async {
-    final prefs = await sharedPrefs;
-    final String? transactionData = prefs.getString('transactions');
+    await DatabaseHelper.instance.deleteSelectedTransactions(
+      transactionsToDelete,
+      selectedTransactions,
+      isSelectionMode,
+    );
+    setState(() {
+      selectedTransactions.clear();
+      isSelectionMode = false;
+    });
+  }
 
-    if (transactionData != null) {
-      List<dynamic> transactionList = jsonDecode(transactionData);
-      transactionList.removeWhere((transaction) =>
-          transactionsToDelete.any((t) => t.id == transaction['id']));
-      await prefs.setString('transactions', jsonEncode(transactionList));
+  
+  // Format the date
+  String formatDate(String dbDate) {
+    String correctedDate =
+        dbDate.replaceFirst('-', 'T', dbDate.lastIndexOf('-'));
+    DateTime paymentDate = DateTime.parse(correctedDate);
+    final now = DateTime.now();
+    final yesterday = now.subtract(const Duration(days: 1));
 
-      setState(() {
-        selectedTransactions.clear();
-        isSelectionMode = false;
-      });
+    bool isYesterday = now.year == yesterday.year &&
+        now.month == yesterday.month &&
+        now.day == yesterday.day;
+
+    bool isToday = now.year == paymentDate.year &&
+        now.month == paymentDate.month &&
+        now.day == paymentDate.day;
+
+    if (isToday) {
+      return 'Today • ${DateFormat.jm().format(paymentDate)}';
+    } else if (isYesterday) {
+      return 'Yesterday • ${DateFormat.jm().format(paymentDate)}';
+    } else if (paymentDate.year == now.year) {
+      return DateFormat('EEE, MMM d • h:mm a ').format(paymentDate);
+    } else {
+      return DateFormat('EEE, MMM d, yyyy • h:mm a').format(paymentDate);
     }
   }
 
-  // Delete a transaction by its index and update Shared Preferences
-  Future<void> _deleteTransaction(TransactionModel transaction) async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? transactionData = prefs.getString('transactions');
-
-    if (transactionData != null) {
-      List<dynamic> transactionList = jsonDecode(transactionData);
-
-      // Remove the transaction at the given index
-      transactionList.removeWhere((t) => t['id'] == transaction.id);
-
-      // Save the updated transaction list back into Shared Preferences
-      await prefs.setString('transactions', jsonEncode(transactionList));
-
-      // Update the UI
-      setState(() {});
+  void toggleSelection(TransactionModel transaction) {
+    if (selectedTransactions.contains(transaction)) {
+      selectedTransactions.remove(transaction);
+    } else {
+      selectedTransactions.add(transaction);
     }
+
+    setState(() {
+      isSelectionMode = selectedTransactions.isNotEmpty;
+    });
   }
 
-  // show dialog
+  void cancelSelection() {
+    setState(() {
+      selectedTransactions.clear();
+      isSelectionMode = false;
+    });
+  }
+
   Future<void> _showDeleteDialog({TransactionModel? singleTransaction}) {
     return showDialog(
       context: context,
@@ -134,52 +139,6 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
     );
   }
 
-  void toggleSelection(TransactionModel transaction) {
-    if (selectedTransactions.contains(transaction)) {
-      selectedTransactions.remove(transaction);
-    } else {
-      selectedTransactions.add(transaction);
-    }
-
-    setState(() {
-      isSelectionMode = selectedTransactions.isNotEmpty;
-    });
-  }
-
-  void cancelSelection() {
-    setState(() {
-      selectedTransactions.clear();
-      isSelectionMode = false;
-    });
-  }
-
-  // Format the date
-  String formatDate(String dbDate) {
-    String correctedDate =
-        dbDate.replaceFirst('-', 'T', dbDate.lastIndexOf('-'));
-    DateTime paymentDate = DateTime.parse(correctedDate);
-    final now = DateTime.now();
-    final yesterday = now.subtract(const Duration(days: 1));
-
-    bool isYesterday = now.year == yesterday.year &&
-        now.month == yesterday.month &&
-        now.day == yesterday.day;
-
-    bool isToday = now.year == paymentDate.year &&
-        now.month == paymentDate.month &&
-        now.day == paymentDate.day;
-
-    if (isToday) {
-      return 'Today • ${DateFormat.jm().format(paymentDate)}';
-    } else if (isYesterday) {
-      return 'Yesterday • ${DateFormat.jm().format(paymentDate)}';
-    } else if (paymentDate.year == now.year) {
-      return DateFormat('EEE, MMM d • h:mm a ').format(paymentDate);
-    } else {
-      return DateFormat('EEE, MMM d, yyyy • h:mm a').format(paymentDate);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return MenuItem(
@@ -194,8 +153,8 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
                 title: Text('${selectedTransactions.length} selected'),
                 actions: [
                   IconButton(
+                    onPressed: _showDeleteDialog,
                     icon: const Icon(Icons.delete),
-                    onPressed: () => _showDeleteDialog(),
                   )
                 ],
               )
@@ -203,9 +162,11 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
                 drawerController: _drawerController, title: 'Transactions'),
         body: Center(
           child: Padding(
-            padding:isSelectionMode ? const EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0) : const EdgeInsets.all(10),
-            child: FutureBuilder<List<TransactionModel>>(
-              future: _loadTransactionsFromPrefs(),
+            padding: isSelectionMode
+                ? const EdgeInsets.fromLTRB(0, 10, 0, 0)
+                : const EdgeInsets.all(10),
+            child: FutureBuilder(
+              future: _loadTransactions(userId!),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return const Center(
@@ -237,9 +198,9 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
                         'No transactions found',
                         style: TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ),
+                      )
                     ],
                   );
                 }

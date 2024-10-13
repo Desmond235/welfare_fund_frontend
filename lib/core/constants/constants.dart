@@ -22,6 +22,7 @@ import 'package:church_clique/features/onboard/provider/onboarding_provider.dart
 import 'package:church_clique/features/onboard/views/onboard.dart';
 import 'package:church_clique/features/payment/data/data.dart';
 import 'package:church_clique/features/payment/views/payment_screen.dart';
+import 'package:church_clique/features/payment/views/view_sent_contribution_screen.dart';
 import 'package:church_clique/features/payment/views/view_transaction_screen.dart';
 import 'package:church_clique/features/settings/providers/image_provider.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
@@ -36,7 +37,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 final KMainPages = [
   const HomeScreen(),
   const PaymentScreen(),
-  const ViewTransactionScreen(),
+  const ViewSentContributionScreen(),
 ];
 
 Color priCol(BuildContext context) {

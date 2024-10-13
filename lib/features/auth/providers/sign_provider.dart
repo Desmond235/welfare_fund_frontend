@@ -4,8 +4,15 @@ import 'package:flutter/material.dart';
 class SignInProvider extends ChangeNotifier {
   String username = '';
  String password = '';
+int? _userId;
  bool _isSignin = false;
  bool get isSignin => _isSignin;
+ int get userId => _userId ?? 0;
+
+ void setUserId(int value){
+  _userId = value;
+  notifyListeners();
+ }
 
  void setSignIn(bool value){
    _isSignin = value;

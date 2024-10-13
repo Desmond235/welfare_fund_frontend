@@ -25,6 +25,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final uuid = const Uuid();
   final _drawerController = AdvancedDrawerController();
 
+  @override
+
+  void dispose(){
+    _drawerController.dispose();
+    super.dispose();
+  }
+
   void makePayment() {
     if (!_formKey.currentState!.validate()) {
       return;

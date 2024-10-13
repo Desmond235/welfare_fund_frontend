@@ -40,11 +40,11 @@ class _AppBarScreenState extends State<AppBarScreen> {
     widget.drawerController.showDrawer();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    widget.drawerController.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   widget.drawerController.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

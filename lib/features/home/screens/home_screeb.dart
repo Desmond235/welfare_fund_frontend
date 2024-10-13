@@ -33,6 +33,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late int userId;
 
+  final drawerController = AdvancedDrawerController();
+
+  @override
+  void dispose(){
+    drawerController.dispose();
+    super.dispose();
+  }
+
   void updateMembers(int id) async{
     _formKey.currentState!.save();
 
@@ -104,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final drawerController = AdvancedDrawerController();
+    
 
     return MenuItem(
       drawerController: drawerController,

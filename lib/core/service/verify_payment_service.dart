@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:church_clique/core/config/environ.dart';
 import 'package:church_clique/core/constants/constants.dart';
-import 'package:church_clique/features/payment/transaction/models/transaction_model.dart';
+import 'package:church_clique/features/payment/transaction/db/local_db.dart';
 import 'package:church_clique/features/payment/transaction/models/verify_payment.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 Future<VerifyPaymentResponse> verifyPayment(
     String reference, int userId) async {
@@ -16,37 +18,49 @@ Future<VerifyPaymentResponse> verifyPayment(
 
   if (response.statusCode == 200) {
     final Map<String, dynamic> responseData = jsonDecode(response.body);
-    final jsonList = responseData.cast<String, dynamic>().values.toList();
-    final List<TransactionModel> newTransactions = jsonList
-        .whereType<Map<String, dynamic>>()
-        .map((json) => TransactionModel.fromJson(json))
-        .toList();
+    // final jsonList = responseData.cast<String, dynamic>().values.toList();
+    // final List<TransactionModel> transactions =
+    //     jsonList.whereType<Map<String, dynamic >>()
+    //     . map((json) => TransactionModel.fromJson(json))
+    //     .toList();
     final id = responseData['id'];
+    final userId = responseData['userId'];
+    final amount = responseData['data']['amount'];
+    final date = responseData['data']['date'];
 
     final prefs = await sharedPrefs;
-
-    // Get existing transactions
-    final String? existingTransactionsJson = prefs.getString('transactions');
-    List<TransactionModel> existingTransactions = [];
-    if (existingTransactionsJson != null) {
-      final List<dynamic> decodedList = jsonDecode(existingTransactionsJson);
-      existingTransactions = decodedList
-          .whereType<Map<String, dynamic>>()
-          .map((item) => TransactionModel.fromJson(item))
-          .toList();
-    }
-
-    // Combine existing and new transactions
-    existingTransactions.addAll(newTransactions);
-
-    // Save the updated list of transactions
-    await prefs.setString('transactions', jsonEncode(existingTransactions));
+    // prefs.setString('transactions', jsonEncode(transactions));
 
     // Store the id in shared preferences
-    await prefs.setInt('id', id);
+    prefs.setInt('id', id);
 
+    
+
+    await DatabaseHelper.instance.insertTransaction({
+      'id': id,
+      'userId': userId,
+      'amount': amount,
+      'date': date,
+    });
     return VerifyPaymentResponse.fromJson(responseData);
   } else {
     throw Exception('Failed to verify payment${response.statusCode}');
   }
+}
+
+Future<Database> initDatabase({Database? database}) async {
+  final dbPath = await getDatabasesPath();
+
+  if(database !=null){
+    database = await openDatabase(
+      join(dbPath, 'transactions.db'),
+    );
+  }
+  return await openDatabase(
+    join(dbPath, 'transactions.db'),
+    onCreate: (db, version) => db.execute(
+      "CREATE TABLE transactions (id INTEGER PRIMARY KEY,userId INTEGER, amount REAL, date TEXT)",
+    ),
+    version: 1,
+  );
 }

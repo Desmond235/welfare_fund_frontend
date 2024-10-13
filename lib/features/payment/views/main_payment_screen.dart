@@ -4,6 +4,7 @@ import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:church_clique/features/payment/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class MainPaymentScreen extends StatefulWidget {
@@ -26,6 +27,7 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
     final reference = Provider.of<AuthorizationUrl>(context, listen: false);
     final userId = Provider.of<MemFormState>(context, listen: false).userId;
     _reference = reference.reference;
+     initDatabase();
     super.initState();
     _webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -42,9 +44,9 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
             );
           },
           onPageStarted: (url) {
-              setState(() {
-              _hasError = false;
-            });
+            //   setState(() {
+            //   _hasError = false;
+            // });
           },
           onPageFinished: (url) async{
              if(url.contains('facebook.com') && !_hasVerifiedPayment) {
