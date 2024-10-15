@@ -19,9 +19,6 @@ class _MainScreenState extends State<MainScreen> {
   final _drawerController = AdvancedDrawerController();
   bool canPop = true;
 
-  void _handleMenuButtonPressed() {
-    _drawerController.showDrawer();
-  }
 
   @override
   void dispose() {

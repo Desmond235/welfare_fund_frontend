@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:church_clique/core/service/get_transactions.dart';
 import 'package:church_clique/features/payment/transaction/models/transaction_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';

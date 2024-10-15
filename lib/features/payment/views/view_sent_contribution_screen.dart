@@ -1,16 +1,12 @@
 import 'package:church_clique/core/components/menu_item.dart';
 import 'package:church_clique/core/constants/constants.dart';
-import 'package:church_clique/core/service/get_transactions.dart';
-import 'package:church_clique/core/service/verify_payment_service.dart';
-import 'package:church_clique/features/form/provider/form_state.dart';
+import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/payment/transaction/db/local_db.dart';
 import 'package:church_clique/features/payment/transaction/models/transaction_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
-import 'package:sqflite/sqflite.dart';
 
 class ViewSentContributionScreen extends StatefulWidget {
   const ViewSentContributionScreen({super.key});
@@ -30,7 +26,7 @@ class _ViewSentContributionScreenState
   @override
   void initState() {
     super.initState();
-    userId = context.read<MemFormState>().userId;
+    userId = context.read<SignInProvider>().userId;
   }
 
   Future<List<TransactionModel>>_loadTransactions(int userId) async {

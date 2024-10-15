@@ -30,7 +30,7 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
   // Fetch transactions from API only if not present in Shared Preferences
   Future<void> _fetchAndSaveTransactionsIfNeeded() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? savedTransactions = prefs.getString('transactions');
+    prefs.getString('transactions');
     
       // Fetch data from API only if Shared Preferences is empty
       
@@ -48,7 +48,6 @@ class _ViewTransactionScreenState extends State<ViewTransactionScreen> {
   Future<List<TransactionModel>> _loadTransactionsFromPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     final String? transactionData = prefs.getString('transactions');
-    print(transactionData);
     if (transactionData != null) {
       final List<dynamic> jsonData = jsonDecode(transactionData);
       return jsonData.map((json) => TransactionModel.fromJson(json)).toList();

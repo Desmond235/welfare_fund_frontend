@@ -49,10 +49,6 @@ class _AuthScreenState extends State<AuthScreen> {
     super.dispose();
     passwordController.dispose();
   }
-// this function allows users to pick an image
-// and enter the enter their registration credentials
-// if the user does not pick an image, he or she will be prompted to pick an image
-// if the user enters a wrong or does or does not enter any information, the user will be prompted to do so
 
   void sendOtp() async {
     final provider = Provider.of<AuthProvider>(context, listen: false);

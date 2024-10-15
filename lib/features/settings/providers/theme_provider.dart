@@ -25,7 +25,6 @@ class ThemeProvider extends ChangeNotifier{
     final prefs = await sharedPrefs;
     prefs.remove('isDarkTheme');
   }
-
   
   set setTheme(bool value){
     isDarkTheme = value;
