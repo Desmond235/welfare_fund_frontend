@@ -11,6 +11,7 @@ int? _userId;
 
  void setUserId(int value){
   _userId = value;
+  print(userId);
   notifyListeners();
  }
 

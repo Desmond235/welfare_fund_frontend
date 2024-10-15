@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:church_clique/core/service/http_service.dart';
+import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -44,6 +45,7 @@ class SigninService {
         final userId= decodedToken["id"];
 
         Provider.of<MemFormState>(context, listen: false).setUserId(userId);
+        context.read<SignInProvider>().setUserId(userId);
       }    else {
         throw Exception('Invalid response');
       }
