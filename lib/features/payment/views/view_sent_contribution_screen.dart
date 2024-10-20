@@ -27,10 +27,18 @@ class _ViewSentContributionScreenState
   void initState() {
     super.initState();
     userId = context.read<SignInProvider>().userId;
+    print(userId);
   }
 
   Future<List<TransactionModel>>_loadTransactions(int userId) async {
-   return await DatabaseHelper.instance.getTransactionsById(userId);
+    // final prefs = await sharedPrefs;
+    // final id = prefs.getInt('userId');
+    // print(id);
+    final signInProvider = context.read<SignInProvider>();
+    signInProvider.getUserId();
+    int id = signInProvider.userId;
+
+   return await DatabaseHelper.instance.getTransactionsById(id);
   }
 
   Future<void> _deleteTransaction(TransactionModel transaction) async {

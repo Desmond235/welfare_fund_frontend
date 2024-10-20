@@ -5,6 +5,7 @@ import 'package:church_clique/core/controls/data_column.dart';
 // ignore: unused_import
 import 'package:church_clique/core/service/http_service.dart';
 import 'package:church_clique/core/service/update_members.dart';
+import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/form/models/membership_model.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:church_clique/features/form/service/form_service.dart';
@@ -100,8 +101,11 @@ class _HomeScreenState extends State<HomeScreen> {
     //     _membershipId = id;
     //   });
     // }
+    final signInProvider = context.read<SignInProvider>();
+    signInProvider.getUserId();
+    int id = signInProvider.userId;
     final membership =
-        await FormServiceResponse.getMembershipDetails(userId);
+        await FormServiceResponse.getMembershipDetails(id);
     if (membership.isNotEmpty) {
       members = membership.first;
       return membership;

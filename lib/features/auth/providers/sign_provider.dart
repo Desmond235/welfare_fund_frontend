@@ -9,12 +9,18 @@ int? _userId;
  bool get isSignin => _isSignin;
  int get userId => _userId ?? 0;
 
- void setUserId(int value){
+ void setUserId(int value) async{
   _userId = value;
-  print(userId);
+  final prefs = await sharedPrefs;
+  prefs.setInt('userId', _userId!);
   notifyListeners();
  }
 
+void getUserId() async{
+  final prefs =await sharedPrefs;
+  _userId = prefs.getInt('userId');
+  notifyListeners();
+}
  void setSignIn(bool value){
    _isSignin = value;
    saveSigninSate();

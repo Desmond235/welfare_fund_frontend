@@ -12,9 +12,20 @@ class MemFormState extends ChangeNotifier{
 
   void setUserId(int value){
     _userId = value;
+    
     notifyListeners();
   }
 
+  void saveUserId() async{
+    final prefs = await sharedPrefs;
+    prefs.setInt('userId', _userId!);
+  }
+
+void getUserId() async{
+  final prefs =await sharedPrefs;
+  _userId = prefs.getInt('userId');
+  notifyListeners();
+}
   void setFormState (bool value){
     _isFillMemForm = value;
     saveFormState();

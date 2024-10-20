@@ -1,7 +1,9 @@
+import 'package:church_clique/core/base/main/mainscreen.dart';
 import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/auth/views/auth.dart';
 import 'package:church_clique/features/onboard/provider/onboarding_provider.dart';
+import 'package:church_clique/features/onboard/views/welcome_screen.dart';
 import 'package:church_clique/features/settings/providers/theme_provider.dart';
 import 'package:church_clique/features/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
@@ -50,12 +52,12 @@ class MyApp extends StatelessWidget {
               ? ThemeMode.light
               : ThemeMode.system,
       theme: Provider.of<ThemeProvider>(context).themeData,
-      home: const AuthScreen(),
-      // home: onboardState.onboarded && !signinPageState.isSignin
-      //     ? const AuthScreen()
-      //     : signinPageState.isSignin
-      //         ? const MainScreen()
-      //         : const WelcomeScreen(),
+      // home: const AuthScreen(),
+      home: onboardState.onboarded && !signinPageState.isSignin
+          ? const AuthScreen()
+          : signinPageState.isSignin
+              ? const MainScreen()
+              : const WelcomeScreen(),
       routes: routes,
     );
   }

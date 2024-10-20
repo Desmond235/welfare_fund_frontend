@@ -38,9 +38,9 @@ class _MainPaymentScreenState extends State<MainPaymentScreen> {
             setState(() {
               _hasError = true;
             });
-            const Center(
-              child: Text('An error occurred'),
-            );
+            // const Center(
+            //   child: Text('An error occurred'),
+            // );
           },
           onPageStarted: (url) {
             //   setState(() {
