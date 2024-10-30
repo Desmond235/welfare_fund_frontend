@@ -91,7 +91,6 @@ class _AuthScreenState extends State<AuthScreen> {
     });
 
     // Provider.of<OnboardingPage>(context,listen: false).removeOnboardingState();
-    Provider.of<SignInProvider>(context, listen: false).setSignIn(true);
   }
 
   void addCredentials() {
@@ -289,7 +288,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 addCredentials();
                               } else {
                                 signIn();
-                                 Provider.of<SignInProvider>(context, listen: false).setSignIn(true);
+                                //  Provider.of<SignInProvider>(context, listen: false).setSignIn(true);
                               }
                             },
                             isSignupScreen: isSignupScreen,

@@ -44,6 +44,7 @@ class SigninService {
         final decodedToken = JwtDecoder.decode(token);
         final userId= decodedToken["id"];
 
+         Provider.of<SignInProvider>(context, listen: false).setSignIn(true);
         Provider.of<MemFormState>(context, listen: false).setUserId(userId);
         context.read<SignInProvider>().setUserId(userId);
       }    else {
