@@ -1,8 +1,8 @@
 
 import 'package:church_clique/core/constants/constants.dart';
+import 'package:church_clique/core/service/http_service.dart';
 import 'package:church_clique/core/service/send_otp.dart';
 import 'package:church_clique/core/service/verify_otp.dart';
-import 'package:church_clique/features/auth/providers/auth_provider.dart';
 import 'package:church_clique/features/auth/providers/change_password_provider.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +20,17 @@ class _VerifyEmailState extends State<VerifyEmail> {
   final otpController = TextEditingController();
   late ChangePasswordProvider isChangePassword ;
 
+  void resentOtp() async{
+    final prefs = await sharedPrefs;
+    final email = prefs.getString('email');
+    if(!mounted) return ;
+    if(email != null){
+      SendOtpResponse.post(email, context);
+    }else{
+      snackBar(context, 'Email not found');
+    }
+  }
+
   @override
   void initState() {
   isChangePassword = context.read<ChangePasswordProvider>();
@@ -32,12 +43,11 @@ class _VerifyEmailState extends State<VerifyEmail> {
     super.dispose();
   }
 
-
-  void resendOtp(){
-    final provider = context.read<AuthProvider>();
-    final email = provider.onSaveEmail;
-    SendOtpResponse.post(email, context);
-  }
+  // void resendOtp(){
+  //   final provider = context.read<AuthProvider>();
+  //   final email = provider.onSaveEmail;
+  //   SendOtpResponse.post(email, context);
+  // }
 
 void verifyOtp( TextEditingController emailController){
   final isFillForm = context.read<MemFormState>().isFillMemFrom;
@@ -47,7 +57,6 @@ void verifyOtp( TextEditingController emailController){
   //   Navigator.of(context).pushReplacementNamed('auth');
   // }
   
-  print(isFillForm);
   if(isChangePassword.isChangedPassword ){
     Navigator.of(context).pushReplacementNamed('password');
   } else{
@@ -137,7 +146,7 @@ void verifyOtp( TextEditingController emailController){
                     ),
                     const SizedBox(width: 3),
                     InkWell(
-                      onTap: resendOtp,
+                      onTap: resentOtp,
                       child: Text(
                         'Resend code',
                         style: TextStyle(

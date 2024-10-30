@@ -14,9 +14,11 @@ class EmailScreen extends StatefulWidget {
 class _EmailScreenState extends State<EmailScreen> {
   final emailController = TextEditingController();
 
-  void sendOtp(){
-    SendOtpResponse.post(emailController.text, context);
-    print('otp sent');
+  void sendOtp() async{
+    final prefs = await sharedPrefs;
+    prefs.setString('email', emailController.text.trim());
+    if(!mounted) return;
+    SendOtpResponse.post(emailController.text.trim(), context);
   }
 
    @override
