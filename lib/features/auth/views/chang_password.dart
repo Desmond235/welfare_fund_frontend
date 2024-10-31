@@ -99,11 +99,11 @@ class _ChangPasswordScreenState extends State<ChangePasswordScreen> {
                       style: TextStyle(fontSize: 17),
                     ),
                     const SizedBox(height: 20),
-                      BuildTextInput(
-                      hintText: 'Enter username',
-                      icon: Icons.lock,
-                      controller: usernameController,
-                    ),
+                    //   BuildTextInput(
+                    //   hintText: 'Enter username',
+                    //   icon: Icons.lock,
+                    //   controller: usernameController,
+                    // ),
                     const SizedBox(height: 10),
                     TextFormField(
                       style: const TextStyle(color: Colors.black),

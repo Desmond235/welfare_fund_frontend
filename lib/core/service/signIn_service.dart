@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:church_clique/core/constants/constants.dart';
 import 'package:church_clique/core/service/http_service.dart';
 import 'package:church_clique/features/auth/providers/sign_provider.dart';
 import 'package:church_clique/features/form/provider/form_state.dart';
@@ -36,13 +37,19 @@ class SigninService {
 
       var data = jsonDecode(response.body);
 
-      if (!context.mounted) return;
+   
 
       if (response.statusCode == 200) {
         final  token = data["token"];
         // /DateTime expirationData = JwtDecoder.getExpirationDate(token);
         final decodedToken = JwtDecoder.decode(token);
         final userId= decodedToken["id"];
+        print(userId);
+
+        final prefs = await sharedPrefs;
+        prefs.setInt('signinId', userId);
+
+           if (!context.mounted) return;
 
          Provider.of<SignInProvider>(context, listen: false).setSignIn(true);
         Provider.of<MemFormState>(context, listen: false).setUserId(userId);

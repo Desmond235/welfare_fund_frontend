@@ -57,15 +57,15 @@ void verifyOtp( TextEditingController emailController){
   //   Navigator.of(context).pushReplacementNamed('auth');
   // }
   
-  if(isChangePassword.isChangedPassword ){
-    Navigator.of(context).pushReplacementNamed('password');
-  } else{
-    if(isFillForm == true){
-      Navigator.of(context).pushReplacementNamed('onboard');
-    }else{
-      Navigator.of(context).pushNamed('auth');
-    }
-  }
+  // if(isChangePassword.isChangedPassword ){
+  //   Navigator.of(context).pushReplacementNamed('password');
+  // } else{
+  //   if(isFillForm == true){
+  //     Navigator.of(context).pushReplacementNamed('onboard');
+  //   }else{
+  //     Navigator.of(context).pushNamed('auth');
+  //   }
+  // }
 }
   
   @override

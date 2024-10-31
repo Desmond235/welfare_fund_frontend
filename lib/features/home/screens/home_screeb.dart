@@ -122,90 +122,93 @@ class _HomeScreenState extends State<HomeScreen> {
       drawerController: drawerController,
       child: Scaffold(
         appBar: AppBarScreen(drawerController: drawerController, title: 'Your details'),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Center(
-            // Ensures the DataTable is centered
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FutureBuilder<List<MembershipModel>>(
-                future: loadMembership,
-                builder: (context, snapshot) {
-                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Text('No data available');
-                  }
-                  if(snapshot.connectionState == ConnectionState.waiting){
-                    return const Center(child: CircularProgressIndicator(),);
-                  }
-                  if (snapshot.hasData) {
-                  final members = snapshot.data!;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Theme(
-                        data: theme.copyWith(
-                          iconTheme:
-                              theme.iconTheme.copyWith(color: Colors.white),
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 20),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
+        body: RefreshIndicator(
+          onRefresh: loadMembers,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Center(
+              // Ensures the DataTable is centered
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder<List<MembershipModel>>(
+                  future: loadMembership,
+                  builder: (context, snapshot) {
+                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Text('No data available');
+                    }
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return const Center(child: CircularProgressIndicator(),);
+                    }
+                    if (snapshot.hasData) {
+                    final members = snapshot.data!;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Theme(
+                          data: theme.copyWith(
+                            iconTheme:
+                                theme.iconTheme.copyWith(color: Colors.white),
+                          ),
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 20),
                             child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Form(
-                                key: _formKey,
-                                child: DataTable(
-                                  showBottomBorder: true,
-                                  headingRowColor:
-                                      WidgetStateProperty.resolveWith(
-                                          (states) => priCol(context)),
-                                  showCheckboxColumn: true,
-                                  sortColumnIndex: _currentSortIndex,
-                                  sortAscending: _isSortAsc,
-                                  columns: getDataColumns(members),
-                                  rows: [
-                                    for (var item in members) getRows(item),
-                                  ],
+                              scrollDirection: Axis.vertical,
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Form(
+                                  key: _formKey,
+                                  child: DataTable(
+                                    showBottomBorder: true,
+                                    headingRowColor:
+                                        WidgetStateProperty.resolveWith(
+                                            (states) => priCol(context)),
+                                    showCheckboxColumn: true,
+                                    sortColumnIndex: _currentSortIndex,
+                                    sortAscending: _isSortAsc,
+                                    columns: getDataColumns(members),
+                                    rows: [
+                                      for (var item in members) getRows(item),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10, left: 20),
-                            child: _switchField(),
-                          ),
-                          // ElevatedButton(
-                          //   style: ElevatedButton.styleFrom(
-                          //     backgroundColor: priCol(context),
-                          //   ),
-                          //   onPressed: () {
-                          //     setState(() {
-                          //       loadMembership = loadMembers();
-                          //     });
-                          //   },
-                          //   child: const Padding(
-                          //     padding: EdgeInsets.only(right: 20),
-                          //     child: Text(
-                          //       'Refresh',
-                          //       style: TextStyle(color: Colors.white),
-                          //     ),
-                          //   ),
-                          // ),
-                        ],
-                      ),
-                    ],
-                  );
-                  }
-                  return const CircularProgressIndicator();
-                },
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10, left: 20),
+                              child: _switchField(),
+                            ),
+                            // ElevatedButton(
+                            //   style: ElevatedButton.styleFrom(
+                            //     backgroundColor: priCol(context),
+                            //   ),
+                            //   onPressed: () {
+                            //     setState(() {
+                            //       loadMembership = loadMembers();
+                            //     });
+                            //   },
+                            //   child: const Padding(
+                            //     padding: EdgeInsets.only(right: 20),
+                            //     child: Text(
+                            //       'Refresh',
+                            //       style: TextStyle(color: Colors.white),
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ],
+                    );
+                    }
+                    return const CircularProgressIndicator();
+                  },
+                ),
               ),
             ),
           ),

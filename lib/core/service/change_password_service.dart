@@ -13,7 +13,7 @@ class ChangePasswordService {
       Uri.parse(url),
 
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({"username": username, "password": password})
+      body: jsonEncode({"password": password})
     );
      
     if (response.statusCode == 200) {

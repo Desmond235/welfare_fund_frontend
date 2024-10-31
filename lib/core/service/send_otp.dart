@@ -29,7 +29,7 @@ class SendOtpResponse {
           return;
         }
         if (provider.isForgetPassword) {
-          Navigator.of(context).pushNamed('password');
+          Navigator.of(context).pushNamed('otp');
         }
       }
     } on Exception catch (e) {

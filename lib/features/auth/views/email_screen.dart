@@ -1,8 +1,8 @@
 import 'package:church_clique/core/components/input_control.dart';
 import 'package:church_clique/core/constants/constants.dart';
+import 'package:church_clique/core/service/check_email_service.dart';
 import 'package:church_clique/core/service/send_otp.dart';
 import 'package:flutter/material.dart';
-
 
 class EmailScreen extends StatefulWidget {
   const EmailScreen({super.key});
@@ -14,18 +14,25 @@ class EmailScreen extends StatefulWidget {
 class _EmailScreenState extends State<EmailScreen> {
   final emailController = TextEditingController();
 
-  void sendOtp() async{
+  void checkEmail() async {
     final prefs = await sharedPrefs;
-    prefs.setString('email', emailController.text.trim());
-    if(!mounted) return;
-    SendOtpResponse.post(emailController.text.trim(), context);
+    final id = prefs.getInt('signinId') ?? 0;
+    print(id);
+
+  
+    CheckEmailService.post(
+      emailController.text.trim(),
+      id,
+      context,
+    );
   }
 
-   @override
-    void dispose() {
-      super.dispose();
-        emailController.dispose();
-    }
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +41,10 @@ class _EmailScreenState extends State<EmailScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              const Text('Enter Email', style: TextStyle(fontSize: 18, color: Colors.grey),),
+              const Text(
+                'Enter Email',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
               const SizedBox(height: 20),
               BuildTextInput(
                 controller: emailController,
@@ -53,31 +63,31 @@ class _EmailScreenState extends State<EmailScreen> {
               ),
               const SizedBox(height: 30),
               InkWell(
-                  onTap: sendOtp,
-                  borderRadius: BorderRadius.circular(35),
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(35),
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                            priCol(context).withOpacity(0.6),
-                            priCol(context)
-                          ],
-                        )),
-                    child: const Text(
-                      'Continue',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
+                onTap: checkEmail,
+                borderRadius: BorderRadius.circular(35),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(35),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          priCol(context).withOpacity(0.6),
+                          priCol(context)
+                        ],
+                      )),
+                  child: const Text(
+                    'Continue',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
                     ),
                   ),
-                )
+                ),
+              )
             ],
           ),
         ),
